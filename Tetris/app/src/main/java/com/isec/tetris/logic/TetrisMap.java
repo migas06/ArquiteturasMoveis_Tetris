@@ -14,7 +14,6 @@ public class TetrisMap {
     boolean map[][] = new boolean[22][10];
 
     public TetrisMap(){
-
     }
 
     public void update(Tetromino tetromino){
