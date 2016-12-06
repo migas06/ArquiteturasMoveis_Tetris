@@ -35,6 +35,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
     boolean running = false;
     boolean pause   = true;
+    boolean gameOver = false;
 
     ///USED TO "draw()"
     Canvas canvas;
@@ -83,7 +84,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(200);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -95,8 +96,20 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         tetrisMap.print();
         if (!tetrisMap.update()) {
             randomTetromino();
+
         }else{
             pastTetrominos.get(pastTetrominos.size()-1).update(fps);
+        }
+
+        if(tetrisMap.isGameOver()){
+            try {
+                gameOver=true;
+                draw();
+                gameThread.join();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+
         }
     }
 
@@ -109,11 +122,13 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
             ///BACKGROUND COLOR
             canvas.drawColor(Color.argb(255, 26, 128, 182));
-
             //Draw the tetromino
+
+
             paint.setColor(pastTetrominos.get(pastTetrominos.size()-1).getColor());
             canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect(), paint);
 
+            //THE RECTF WHO HAVE MORE THAN 1 RECT
             if(!(pastTetrominos.get(pastTetrominos.size()-1) instanceof Block_I || pastTetrominos.get(pastTetrominos.size()-1) instanceof Block_O))
                 canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect2(), paint);
 
@@ -128,6 +143,15 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                     canvas.drawRect(pastTetrominos.get(i).getRect(), paint);
                 }
             }
+
+
+            if (gameOver){
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(128);
+                paint.setStrokeMiter(25);
+                canvas.drawText("GAME OVER", screenX/5, screenY/2, paint);
+            }
+
             ///DRAW EVERYTHING ON SCREEN
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -160,8 +184,38 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         tetrisMap.setNext(tetromino);
         tetrisMap.setTetromino(tetromino);
         tetrisMap.setY(0);
-        tetrisMap.setX(3);
+        tetrisMap.setX(5);
 
+    }
+
+    //I CHOOSE USE ::onTouchEvent FROM SURFACEVIEW INSTEAD OF
+    //GESTURELISTENER FROM THE CLASSES DUE TO EXTENSION OF CODE
+    //AND UNECESSARY OVERRIDE METHODS
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            //PLAYER TOUCH SCREEN
+            case MotionEvent.ACTION_DOWN:
+                pause = false;
+                //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
+                //'2' REPRESENTS RIGHT ON CLASS
+                if(event.getX() > screenX/2) {
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
+                    tetrisMap.setX(tetrisMap.getX()+1, tetrisMap);
+                    //IF THE USER PRESS LEFT SIDE OF THE SCREEN
+                    //'1' REPRESENTS LEFT ON CLASS
+                }else {
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1, tetrisMap);
+                }
+                break;
+
+            //PLAYER REMOVE THE FINGER FROM SCREEN
+            case MotionEvent.ACTION_UP:
+                pastTetrominos.get(pastTetrominos.size()-1).setMovement(0);
+                break;
+        }
+        return true;
     }
 
     ///ON PAUSE WE CLOSE THE THREAD
@@ -179,36 +233,6 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         running = true;
         gameThread = new Thread(this);
         gameThread.start();
-    }
-
-    //I CHOOSE USE ::onTouchEvent FROM SURFACEVIEW INSTEAD OF
-    //GESTURELISTENER FROM THE CLASSES DUE TO EXTENSION OF CODE
-    //AND UNECESSARY OVERRIDE METHODS
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            //PLAYER TOUCH SCREEN
-            case MotionEvent.ACTION_DOWN:
-                pause = false;
-                //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
-                //'2' REPRESENTS RIGHT ON CLASS
-                if(event.getX() > screenX/2) {
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
-                    //IF THE USER PRESS LEFT SIDE OF THE SCREEN
-                    //'1' REPRESENTS LEFT ON CLASS
-                }else {
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
-                        tetrisMap.setX(tetrisMap.getX()-1);
-                }
-                break;
-
-            //PLAYER REMOVE THE FINGER FROM SCREEN
-            case MotionEvent.ACTION_UP:
-                pastTetrominos.get(pastTetrominos.size()-1).setMovement(0);
-                break;
-        }
-        return true;
     }
 
 }

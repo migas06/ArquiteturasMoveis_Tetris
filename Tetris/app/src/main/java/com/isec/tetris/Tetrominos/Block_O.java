@@ -47,8 +47,8 @@ public class Block_O extends Tetromino{
 
     private void startLogic() {
         logic = new int[][]{
-                {0, myId, myId, 0},
-                {0, myId, myId, 0}};
+                {0,0, myId, myId},
+                {0,0, myId, myId}};
     }
 
     public void setMovement(int move){

@@ -54,6 +54,7 @@ public class Block_L extends Tetromino {
 
     private void startLogic() {
         logic = new int[][]{
+
                 {0, 0, myId,    0},
                 {0, 0, myId,    0},
                 {0, 0, myId, myId}};

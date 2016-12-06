@@ -39,7 +39,7 @@ public class Block_T extends Tetromino {
 
         top = 0;
         bot = 64;
-        left = screenX/2;
+        left = (screenX/2)-64;
         right = left+192;
 
         rect1 = new RectF(left, top, right, bot);
@@ -55,8 +55,8 @@ public class Block_T extends Tetromino {
 
     private void startLogic() {
         logic = new int[][]{
-                { myId, myId, myId,0},
-                { 0,     myId,0,  0}};
+                {0, myId, myId, myId},
+                {0,0,    myId, 0}};
     }
 
     public void setMovement(int move){
