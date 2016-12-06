@@ -11,6 +11,8 @@ import com.isec.tetris.Tetromino;
 
 public class Block_O extends Tetromino{
 
+    int myId;
+
     //ORANGE
     int color = Color.argb(255,  249, 129, 0);
 
@@ -26,7 +28,9 @@ public class Block_O extends Tetromino{
     float screenX, screenY;
     float top, left, right, bot;
 
-    public Block_O(float screenX, float screenY){
+    int [][] logic;
+
+    public Block_O(float screenX, float screenY, int myId){
         super(screenX, screenY);
 
         this.screenX = screenX;
@@ -36,6 +40,15 @@ public class Block_O extends Tetromino{
         top = 0;
         right = screenX/2 + 128;
         rect = new RectF(left, top, right, bot);
+
+        this.myId = myId;
+        startLogic();
+    }
+
+    private void startLogic() {
+        logic = new int[][]{
+                {0, myId, myId, 0},
+                {0, myId, myId, 0}};
     }
 
     public void setMovement(int move){
@@ -75,4 +88,10 @@ public class Block_O extends Tetromino{
 
     @Override
     public RectF getRect(){return rect;}
+
+    @Override
+    public int[][] getLogic(){return logic;}
+
+    @Override
+    public int getId(){return myId;}
 }

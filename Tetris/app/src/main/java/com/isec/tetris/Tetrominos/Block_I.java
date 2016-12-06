@@ -6,6 +6,8 @@ import android.graphics.RectF;
 
 import com.isec.tetris.Tetromino;
 
+import java.util.Arrays;
+
 /**
  * Created by Miguel on 14-11-2016.
  */
@@ -13,7 +15,7 @@ import com.isec.tetris.Tetromino;
 public class Block_I extends Tetromino {
 
     RectF rect;
-
+    int myId;
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
@@ -26,7 +28,9 @@ public class Block_I extends Tetromino {
     //RED
     int color = Color.argb(255, 224, 35, 64);
 
-    public Block_I(float screenX, float screenY) {
+    int [][] logic;
+
+    public Block_I(float screenX, float screenY, int myId) {
         super(screenX, screenY);
         this.screenX = screenX;
         this.screenY = screenY;
@@ -35,6 +39,17 @@ public class Block_I extends Tetromino {
         top = 0;
         right = screenX/2+64;
         rect = new RectF(left, top, right, bot);
+
+        this.myId = myId;
+        startLogic();
+    }
+
+    private void startLogic() {
+        logic = new int[][]{
+                {0, 0, myId, 0},
+                {0, 0, myId, 0},
+                {0, 0, myId, 0},
+                {0, 0, myId, 0}};
     }
 
     public void setMovement(int move){
@@ -53,6 +68,7 @@ public class Block_I extends Tetromino {
             if(tetrominoMove == LEFT){
                 left  = left  - 64;
                 right = right - 64;
+
             }
 
             //IFSTATE IS RIGHT
@@ -74,4 +90,10 @@ public class Block_I extends Tetromino {
 
     @Override
     public RectF getRect(){return rect;}
+
+    @Override
+    public int[][] getLogic(){return logic;}
+
+    @Override
+    public int getId(){return myId;}
 }

@@ -15,6 +15,8 @@ public class Block_Z extends Tetromino {
     RectF rect1;
     RectF rect2;
 
+    int myId;
+
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
@@ -28,7 +30,9 @@ public class Block_Z extends Tetromino {
 
     float bot2, right2, left2, top2;
 
-    public Block_Z(float screenX, float screenY) {
+    int [][] logic;
+
+    public Block_Z(float screenX, float screenY, int myId) {
         super(screenX, screenY);
         this.screenX = screenX;
         this.screenY = screenY;
@@ -46,6 +50,15 @@ public class Block_Z extends Tetromino {
         top2 = top + 64;
 
         rect2 = new RectF(left2, top2, right2, bot2);
+
+        this.myId = myId;
+        startLogic();
+    }
+
+    private void startLogic() {
+        logic = new int[][]{
+                {myId, myId, 0,0},
+                {0,    myId, myId,0}};
     }
 
     public void setMovement(int move){
@@ -95,4 +108,10 @@ public class Block_Z extends Tetromino {
 
     @Override
     public RectF getRect2(){return rect2;}
+
+    @Override
+    public int[][] getLogic(){return logic;}
+
+    @Override
+    public int getId(){return myId;}
 }

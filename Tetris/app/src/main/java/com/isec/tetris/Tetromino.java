@@ -15,6 +15,8 @@ public class Tetromino {
 
     float screenX, screenY;
 
+    int myId;
+
     //MOVEMENTS
     public final int STOP  = 0;
     public final int LEFT  = 1;
@@ -72,4 +74,9 @@ public class Tetromino {
     public void setX(float x) {this.x = x;    }
     public void setY(float y) {this.y = y;    }
 
+    public int[][] getLogic() {
+        return new int[0][];
+    }
+
+    public int getId(){ return myId;}
 }

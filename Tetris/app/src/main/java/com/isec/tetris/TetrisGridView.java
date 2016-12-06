@@ -15,6 +15,7 @@ import com.isec.tetris.Tetrominos.Block_O;
 import com.isec.tetris.Tetrominos.Block_S;
 import com.isec.tetris.Tetrominos.Block_T;
 import com.isec.tetris.Tetrominos.Block_Z;
+import com.isec.tetris.logic.TetrisMap;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,6 +43,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     ///FPS FOR ANIMATIONS
     long fps;
 
+    TetrisMap tetrisMap;
+
+    int playNr;
+
     ArrayList<Tetromino> pastTetrominos = new ArrayList<>();
 
     //constructor
@@ -54,6 +59,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         this.screenX = screenX;
         this.screenY = screenY;
 
+        tetrisMap = new TetrisMap();
+        playNr=0;
         randomTetromino();
     }
 
@@ -84,8 +91,12 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        if (!pastTetrominos.get(pastTetrominos.size()-1).update(fps)) {
+
+        tetrisMap.print();
+        if (!tetrisMap.update()) {
             randomTetromino();
+        }else{
+            pastTetrominos.get(pastTetrominos.size()-1).update(fps);
         }
     }
 
@@ -124,25 +135,33 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
     //METHOD THAT RANDOMS THE TETROMINO
     public void randomTetromino(){
-
+        playNr++;
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
+        Tetromino tetromino = null;
         if(idBlock==0) {
-            pastTetrominos.add( new Block_I(screenX, screenY));
+            tetromino= new Block_I(screenX, screenY, playNr);
         }if(idBlock==1) {
-            pastTetrominos.add( new Block_O(screenX, screenY));
+            tetromino= new Block_O(screenX, screenY, playNr);
         }if(idBlock==2) {
-            pastTetrominos.add( new Block_L(screenX, screenY));
+            tetromino= new Block_L(screenX, screenY, playNr);
         }if(idBlock==3) {
-            pastTetrominos.add( new Block_J(screenX, screenY));
+            tetromino= new Block_J(screenX, screenY, playNr);
         }if(idBlock==4) {
-            pastTetrominos.add( new Block_T(screenX, screenY));
+            tetromino= new Block_T(screenX, screenY, playNr);
         }if(idBlock==5) {
-            pastTetrominos.add( new Block_S(screenX, screenY));
+            tetromino= new Block_S(screenX, screenY, playNr);
         }if(idBlock==6) {
-            pastTetrominos.add( new Block_Z(screenX, screenY));
+            tetromino= new Block_Z(screenX, screenY, playNr);
         }
+
+        pastTetrominos.add(tetromino);
+        tetrisMap.setNext(tetromino);
+        tetrisMap.setTetromino(tetromino);
+        tetrisMap.setY(0);
+        tetrisMap.setX(3);
+
     }
 
     ///ON PAUSE WE CLOSE THE THREAD
@@ -167,19 +186,21 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     //AND UNECESSARY OVERRIDE METHODS
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             //PLAYER TOUCH SCREEN
             case MotionEvent.ACTION_DOWN:
                 pause = false;
                 //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
                 //'2' REPRESENTS RIGHT ON CLASS
-                if(event.getX() > screenX/2)
-                    pastTetrominos.get(pastTetrominos.size()-1).setMovement(2);
-                //IF THE USER PRESS LEFT SIDE OF THE SCREEN
-                //'1' REPRESENTS LEFT ON CLASS
-                else
-                    pastTetrominos.get(pastTetrominos.size()-1).setMovement(1);
-
+                if(event.getX() > screenX/2) {
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
+                    //IF THE USER PRESS LEFT SIDE OF THE SCREEN
+                    //'1' REPRESENTS LEFT ON CLASS
+                }else {
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+                        tetrisMap.setX(tetrisMap.getX()-1);
+                }
                 break;
 
             //PLAYER REMOVE THE FINGER FROM SCREEN
