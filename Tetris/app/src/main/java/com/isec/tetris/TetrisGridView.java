@@ -84,7 +84,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -98,7 +98,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             randomTetromino();
 
         }else{
-            pastTetrominos.get(pastTetrominos.size()-1).update(fps);
+            pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
         }
 
         if(tetrisMap.isGameOver()){
@@ -184,7 +184,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         tetrisMap.setNext(tetromino);
         tetrisMap.setTetromino(tetromino);
         tetrisMap.setY(0);
-        tetrisMap.setX(5);
+        tetrisMap.setX(6);
 
     }
 
@@ -202,11 +202,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                 //'2' REPRESENTS RIGHT ON CLASS
                 if(event.getX() > screenX/2) {
                     pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
-                    tetrisMap.setX(tetrisMap.getX()+1, tetrisMap);
                     //IF THE USER PRESS LEFT SIDE OF THE SCREEN
                     //'1' REPRESENTS LEFT ON CLASS
                 }else {
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1, tetrisMap);
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
                 }
                 break;
 

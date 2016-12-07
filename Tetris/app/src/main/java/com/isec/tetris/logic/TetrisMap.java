@@ -19,10 +19,11 @@ import java.util.ArrayList;
 public class TetrisMap {
 
     int x=0, y=0;
-    int map[][] = new int [22][14];
+    int map[][] = new int [22][16];
 
     int[][] next;
     int yVar;
+    int xVar;
 
     Tetromino tetromino;
 
@@ -30,9 +31,9 @@ public class TetrisMap {
 
     public TetrisMap() {
         for(int i = 0; i<22; i++){
-            for(int j = 0; j<14; j++){
+            for(int j = 0; j<16; j++){
 
-                if(j==0 || j==1 || j==12 || j==13)
+                if(j==0 || j==1 || j==2 || j==13 || j==14 || j==15)
                     map[i][j]=-1;
             }
         }
@@ -53,6 +54,17 @@ public class TetrisMap {
             yVar=4;
     }
 
+    public void setXVar(){
+
+        if(tetromino instanceof Block_J || tetromino instanceof Block_L || tetromino instanceof Block_O)
+            xVar = 2;
+        else if(tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_Z)
+            xVar = 3;
+        else
+            xVar = 1;
+    }
+
+
     public void setNext(Tetromino tetromino){next = tetromino.getLogic();}
 
     public void setTetromino(Tetromino tetromino) {this.tetromino = tetromino;}
@@ -62,11 +74,10 @@ public class TetrisMap {
         int countI = 0;
         int countJ = 0;
         setYVar();
+        setXVar();
 
         for(int i=y; i<y+yVar; i++){
-            for(int j=x; j<x+4; j++) {
-
-                System.out.println("coords: "+ i + " e "+ j);
+            for(int j=x; j<x+xVar; j++) {
 
                 try{
                     if(map[i][j] != 0 && getNext(countI, countJ) == tetromino.getId()){
@@ -89,7 +100,7 @@ public class TetrisMap {
         countJ = 0;
 
         for(int i=y; i<y+yVar; i++) {
-            for (int j = x; j < x + 4; j++) {
+            for (int j = x; j < x + xVar; j++) {
                 if(getNext(countI, countJ) == tetromino.getId())
                     map[i][j] = getNext(countI, countJ);
                 countJ++;
@@ -98,23 +109,13 @@ public class TetrisMap {
             countJ=0;
             countI++;
         }
-
         y++;
         return true;
     }
 
     private void clearTrail() {
         for(int i=y-1; i<(y-1)+yVar; i++){
-            for (int j=x; j<x+4; j++){
-                map[i][j] = 0;
-            }
-        }
-    }
-
-    public void clearPast(int x) {
-
-        for(int i=x; i<x+4; i++){
-            for(int j=y; j<y+yVar; j++){
+            for (int j=x; j<x+xVar; j++){
                 map[i][j] = 0;
             }
         }
@@ -130,7 +131,7 @@ public class TetrisMap {
                 System.out.print("0");
             System.out.print(i+ "| ");
 
-            for(int j=0; j<14; j++){
+            for(int j=0; j<16; j++){
                 System.out.print(map[i][j] + " ");
             }
             System.out.println("");
@@ -144,7 +145,7 @@ public class TetrisMap {
         System.out.println(x+" "+y+" ");
         int count=0;
 
-        for(int i=x; i<x+4;i++){
+        for(int i=x; i<x+xVar;i++){
             if(map[1][i]!=0 && getNext(0, count)==tetromino.getId()) {
                 if(map[1][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
                     return true;
@@ -162,37 +163,44 @@ public class TetrisMap {
         return x;
     }
 
-    public void setX(int x) {
-        int wannabe = x;
+    public boolean setX(int position) {
+        int wannabe = position;
         int countI=0, countJ=0;
 
-        for(int i = y; i<yVar+4; i++){
-            for(int j = wannabe; j<wannabe+4; j++){
+        for(int i = y; i<y+yVar; i++){
+            for(int j = wannabe; j<wannabe+xVar; j++){
                 try {
-                    if (map[i][j] != 0 && getNext(countI, countJ) != 0) {
-                        if (map[i][j] != tetromino.getId() && getNext(countI, countJ) !=0)
+                    if (map[i][j] != 0 && getNext(countI, countJ) == tetromino.getId()) {
+                        if (map[i][j] != tetromino.getId() && getNext(countI, countJ) == tetromino.getId()){
                             System.out.println("returned");
-                            return;
+                            return false;
+                        }
                     }
                     countJ++;
                 }catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("returned");
-                    return;
+                    return false;
                 }
             }
             countI++;
             countJ=0;
         }
 
+        for(int i=y-1; i<y+yVar; i++){
+            for (int j=getX(); j<getX()+xVar; j++){
+                try{
+                    map[i][j] = 0;
+                }catch (ArrayIndexOutOfBoundsException e){
+                    continue;}
+            }
+        }
+
         this.x = wannabe;
+        return true;
     }
 
     public void setY(int y) {
         this.y = y;
     }
-
-    public void setGameOver(boolean gameOver){this.gameOver = gameOver;}
-
-    public boolean getGameOver(){return  gameOver;}
 
 }

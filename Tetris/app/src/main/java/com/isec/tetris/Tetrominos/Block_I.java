@@ -5,6 +5,7 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 
 import com.isec.tetris.Tetromino;
+import com.isec.tetris.logic.TetrisMap;
 
 import java.util.Arrays;
 
@@ -46,10 +47,10 @@ public class Block_I extends Tetromino {
 
     private void startLogic() {
         logic = new int[][]{
-                {0, 0, myId, 0},
-                {0, 0, myId, 0},
-                {0, 0, myId, 0},
-                {0, 0, myId, 0}};
+                {myId},
+                {myId},
+                {myId},
+                {myId}};
     }
 
     public void setMovement(int move){
@@ -57,7 +58,7 @@ public class Block_I extends Tetromino {
     }
 
     @Override
-    public boolean update(long fps) {
+    public boolean update(long fps, TetrisMap tetrisMap) {
         if(!(bot>=screenY-50.0)) {
 
             //GENERAL FALL
@@ -66,15 +67,19 @@ public class Block_I extends Tetromino {
 
             //IFSTATE IS LEFT
             if(tetrominoMove == LEFT){
-                left  = left  - 64;
-                right = right - 64;
+                if(tetrisMap.setX(tetrisMap.getX()-1)) {
+                    left = left - 64;
+                    right = right - 64;
+                }
 
             }
 
             //IFSTATE IS RIGHT
             if(tetrominoMove == RIGHT){
-                left  = left  + 64;
-                right = right + 64;
+                if(tetrisMap.setX(tetrisMap.getX()+1)) {
+                    left = left + 64;
+                    right = right + 64;
+                }
             }
 
             rect.set(left, top, right, bot);

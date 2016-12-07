@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 
 import com.isec.tetris.Tetromino;
+import com.isec.tetris.logic.TetrisMap;
 
 /**
  * Created by Miguel on 15-11-2016.
@@ -39,7 +40,7 @@ public class Block_T extends Tetromino {
 
         top = 0;
         bot = 64;
-        left = (screenX/2)-64;
+        left = (screenX/2);
         right = left+192;
 
         rect1 = new RectF(left, top, right, bot);
@@ -55,8 +56,8 @@ public class Block_T extends Tetromino {
 
     private void startLogic() {
         logic = new int[][]{
-                {0, myId, myId, myId},
-                {0,0,    myId, 0}};
+                {myId, myId, myId},
+                {0,    myId, 0}};
     }
 
     public void setMovement(int move){
@@ -64,7 +65,7 @@ public class Block_T extends Tetromino {
     }
 
     @Override
-    public boolean update(long fps) {
+    public boolean update(long fps, TetrisMap tetrisMap) {
         if(!(bot2>=screenY-50.0)) {
 
             //GENERAL FALL
@@ -73,19 +74,23 @@ public class Block_T extends Tetromino {
             bot2 += 64;
 
             //IFSTATE IS LEFT
-            if(tetrominoMove == LEFT){
-                left  = left  - 64;
-                right = right - 64;
-                right2 = right2 -64;
-                left2 = left2 -64;
+            if(tetrominoMove == LEFT) {
+                if(tetrisMap.setX(tetrisMap.getX()-1)){
+                    left = left - 64;
+                    right = right - 64;
+                    right2 = right2 - 64;
+                    left2 = left2 - 64;
+                }
             }
 
             //IFSTATE IS RIGHT
-            if(tetrominoMove == RIGHT){
-                left  = left  + 64;
-                right = right + 64;
-                right2 = right2 +64;
-                left2 = left2 +64;
+            if(tetrominoMove == RIGHT) {
+                if(tetrisMap.setX(tetrisMap.getX()+1)){
+                    left = left + 64;
+                    right = right + 64;
+                    right2 = right2 + 64;
+                    left2 = left2 + 64;
+                }
             }
 
             rect1.set(left, top, right, bot);

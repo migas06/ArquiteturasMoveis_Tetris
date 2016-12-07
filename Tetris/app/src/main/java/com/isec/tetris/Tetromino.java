@@ -2,6 +2,8 @@ package com.isec.tetris;
 
 import android.graphics.RectF;
 
+import com.isec.tetris.logic.TetrisMap;
+
 /**
  * Created by Miguel on 14-11-2016.
  */
@@ -45,7 +47,7 @@ public class Tetromino {
 
     public RectF getRect2(){ return new RectF(0,0,0,0);}
 
-    public boolean update(long fps){
+    public boolean update(long fps, TetrisMap tetrisMap){
 
         if(!(y > screenY-100.0 || y > y + tetrominoSpeed / fps)) {
 
