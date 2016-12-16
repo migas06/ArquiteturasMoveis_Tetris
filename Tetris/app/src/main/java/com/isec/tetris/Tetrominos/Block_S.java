@@ -39,18 +39,19 @@ public class Block_S extends Tetromino {
         super(screenX, screenY, unit);
         this.screenX = screenX;
         this.screenY = screenY;
+        this.unit = unit;
 
         top = 0;
-        bot = 64;
-        left = (screenX/2)+64;
-        right = left+128;
+        bot = unit;
+        left = (screenX/4)+unit;
+        right = left+(unit*2);
 
         rect1 = new RectF(left, top, right, bot);
 
-        bot2 = bot + 64;
-        right2 = right - 64;
-        left2 = left - 64;
-        top2 = top + 64;
+        bot2 = bot + unit;
+        right2 = right - unit;
+        left2 = left - unit;
+        top2 = top + unit;
         rect2 = new RectF(left2, top2, right2, bot2);
 
         this.myId = myId;
@@ -72,28 +73,28 @@ public class Block_S extends Tetromino {
         if(!(bot2>=screenY-50.0)) {
 
             //GENERAL FALL
-            top += 64;
-            bot += 64;
-            bot2 += 64;
-            top2 += 64;
+            top += unit;
+            bot += unit;
+            bot2 += unit;
+            top2 += unit;
 
             //IFSTATE IS LEFT
             if(tetrominoMove == LEFT){
                 if(tetrisMap.setX(tetrisMap.getX()-1)) {
-                    left = left - 64;
-                    right = right - 64;
-                    right2 = right2 - 64;
-                    left2 = left2 - 64;
+                    left = left - unit;
+                    right = right - unit;
+                    right2 = right2 - unit;
+                    left2 = left2 - unit;
                 }
             }
 
             //IFSTATE IS RIGHT
             if(tetrominoMove == RIGHT) {
                 if(tetrisMap.setX(tetrisMap.getX()+1)){
-                    left = left + 64;
-                    right = right + 64;
-                    right2 = right2 + 64;
-                    left2 = left2 + 64;
+                    left = left + unit;
+                    right = right + unit;
+                    right2 = right2 + unit;
+                    left2 = left2 + unit;
                 }
             }
 

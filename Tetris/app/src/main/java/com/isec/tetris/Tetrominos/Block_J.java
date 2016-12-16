@@ -41,14 +41,14 @@ public class Block_J extends Tetromino {
         this.unit = unit;
 
         top = 0;
-        bot = 192;
-        left = (screenX/2)+64;
-        right = left+64;
+        bot = (unit*3);
+        left = (screenX/4)+unit;
+        right = left+unit;
 
         rect1 = new RectF(left, top, right, bot);
 
-        top2 = top + 128;
-        right2 = right - 128;
+        top2 = top + (unit*2);
+        right2 = right - (unit*2);
         rect2 = new RectF(left, top2, right2, bot);
 
         this.myId = myId;
@@ -71,25 +71,25 @@ public class Block_J extends Tetromino {
         if(!(bot>=screenY-50.0)) {
 
             //GENERAL FALL
-            top += 64;
-            bot += 64;
-            top2 += 64;
+            top += unit;
+            bot += unit;
+            top2 += unit;
 
             //IFSTATE IS LEFT
             if(tetrominoMove == LEFT){
                 if(tetrisMap.setX(tetrisMap.getX()-1)) {
-                    left = left - 64;
-                    right = right - 64;
-                    right2 = right2 - 64;
+                    left = left - unit;
+                    right = right - unit;
+                    right2 = right2 - unit;
                 }
             }
 
             //IFSTATE IS RIGHT
             if(tetrominoMove == RIGHT){
                 if(tetrisMap.setX(tetrisMap.getX()+1)) {
-                    left = left + 64;
-                    right = right + 64;
-                    right2 = right2 + 64;
+                    left = left + unit;
+                    right = right + unit;
+                    right2 = right2 + unit;
                 }
             }
 

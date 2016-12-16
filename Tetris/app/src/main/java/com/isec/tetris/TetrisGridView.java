@@ -61,7 +61,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         this.screenX = screenX;
         this.screenY = screenY;
-        this.unit = screenX/25;
+        this.unit = screenX/15;
 
         tetrisMap = new TetrisMap();
         playNr=0;
@@ -97,11 +97,12 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     private void update() {
 
         tetrisMap.print();
+
+        pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
+
         if (!tetrisMap.update()) {
             randomTetromino();
 
-        }else{
-            pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
         }
 
         if(tetrisMap.isGameOver()){
@@ -165,6 +166,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         playNr++;
         Random random = new Random();
         int idBlock = random.nextInt(7);
+
+        idBlock=0;
 
         Tetromino tetromino = null;
         if(idBlock==0) {
