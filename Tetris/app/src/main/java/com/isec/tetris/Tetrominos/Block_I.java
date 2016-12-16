@@ -17,6 +17,8 @@ public class Block_I extends Tetromino {
 
     RectF rect;
     int myId;
+    float unit;
+
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
@@ -31,10 +33,12 @@ public class Block_I extends Tetromino {
 
     int [][] logic;
 
-    public Block_I(float screenX, float screenY, int myId) {
-        super(screenX, screenY);
+    public Block_I(float screenX, float screenY, int myId, float unit) {
+        super(screenX, screenY, unit);
         this.screenX = screenX;
         this.screenY = screenY;
+        this.unit = unit;
+
         left = screenX/2;
         bot = 256;
         top = 0;

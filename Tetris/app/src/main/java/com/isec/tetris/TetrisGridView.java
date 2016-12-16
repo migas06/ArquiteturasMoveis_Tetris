@@ -32,6 +32,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     SurfaceHolder surfaceHolder;
 
     float screenX, screenY;
+    float unit;
+
 
     boolean running = false;
     boolean pause   = true;
@@ -59,6 +61,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         this.screenX = screenX;
         this.screenY = screenY;
+        this.unit = screenX/25;
 
         tetrisMap = new TetrisMap();
         playNr=0;
@@ -165,19 +168,19 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         Tetromino tetromino = null;
         if(idBlock==0) {
-            tetromino= new Block_I(screenX, screenY, playNr);
+            tetromino= new Block_I(screenX, screenY, playNr, unit);
         }if(idBlock==1) {
-            tetromino= new Block_O(screenX, screenY, playNr);
+            tetromino= new Block_O(screenX, screenY, playNr, unit);
         }if(idBlock==2) {
-            tetromino= new Block_L(screenX, screenY, playNr);
+            tetromino= new Block_L(screenX, screenY, playNr, unit);
         }if(idBlock==3) {
-            tetromino= new Block_J(screenX, screenY, playNr);
+            tetromino= new Block_J(screenX, screenY, playNr, unit);
         }if(idBlock==4) {
-            tetromino= new Block_T(screenX, screenY, playNr);
+            tetromino= new Block_T(screenX, screenY, playNr, unit);
         }if(idBlock==5) {
-            tetromino= new Block_S(screenX, screenY, playNr);
+            tetromino= new Block_S(screenX, screenY, playNr, unit);
         }if(idBlock==6) {
-            tetromino= new Block_Z(screenX, screenY, playNr);
+            tetromino= new Block_Z(screenX, screenY, playNr, unit);
         }
 
         pastTetrominos.add(tetromino);

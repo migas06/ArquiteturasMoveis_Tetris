@@ -18,6 +18,8 @@ public class Block_S extends Tetromino {
 
     int myId;
 
+    float unit;
+
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
@@ -33,8 +35,8 @@ public class Block_S extends Tetromino {
 
     int [][] logic;
 
-    public Block_S(float screenX, float screenY, int myId) {
-        super(screenX, screenY);
+    public Block_S(float screenX, float screenY, int myId, float unit) {
+        super(screenX, screenY, unit);
         this.screenX = screenX;
         this.screenY = screenY;
 

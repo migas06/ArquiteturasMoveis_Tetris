@@ -12,6 +12,7 @@ public class Tetromino {
     //COORDINATES
     private float x;
     private float y;
+    private float unit;
 
     private float tetrominoSpeed;
 
@@ -26,11 +27,13 @@ public class Tetromino {
 
     int tetrominoMove = STOP;
 
-    public Tetromino(float screenX, float screenY){
+    public Tetromino(float screenX, float screenY, float unit){
         this.x = screenX/2;
         this.y = 0;
         this.screenX = screenX;
         this.screenY = screenY;
+
+        this.unit = unit;
 
         ///to do CHANGEBLE VALUE/
         tetrominoSpeed = 1000;

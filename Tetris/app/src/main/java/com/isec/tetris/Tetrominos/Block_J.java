@@ -13,6 +13,7 @@ import com.isec.tetris.logic.TetrisMap;
 public class Block_J extends Tetromino {
 
     int myId;
+    float unit;
 
     //IN L BLOCK WE HAVE TO DRAW AND JOIN 2 BLOCKS
     RectF rect1;
@@ -33,10 +34,11 @@ public class Block_J extends Tetromino {
 
     int [][] logic;
 
-    public Block_J(float screenX, float screenY, int myId) {
-        super(screenX, screenY);
+    public Block_J(float screenX, float screenY, int myId, float unit) {
+        super(screenX, screenY, unit);
         this.screenX = screenX;
         this.screenY = screenY;
+        this.unit = unit;
 
         top = 0;
         bot = 192;

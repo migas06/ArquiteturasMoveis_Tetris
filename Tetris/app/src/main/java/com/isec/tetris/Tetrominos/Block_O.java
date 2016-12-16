@@ -13,7 +13,7 @@ import com.isec.tetris.logic.TetrisMap;
 public class Block_O extends Tetromino{
 
     int myId;
-
+    float unit;
     //ORANGE
     int color = Color.argb(255,  249, 129, 0);
 
@@ -31,9 +31,10 @@ public class Block_O extends Tetromino{
 
     int [][] logic;
 
-    public Block_O(float screenX, float screenY, int myId){
-        super(screenX, screenY);
+    public Block_O(float screenX, float screenY, int myId, float unit){
+        super(screenX, screenY, unit);
 
+        this.unit = unit;
         this.screenX = screenX;
         this.screenY = screenY;
         left = screenX/2;
