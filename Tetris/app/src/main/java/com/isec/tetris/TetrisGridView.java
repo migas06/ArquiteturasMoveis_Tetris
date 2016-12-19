@@ -88,7 +88,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(100);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

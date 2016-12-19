@@ -19,18 +19,20 @@ public class Block_J extends Tetromino {
     RectF rect1;
     RectF rect2;
 
-    public final int STOP  = 0;
-    public final int LEFT  = 1;
-    public final int RIGHT = 2;
+    public final int STOP   = 0;
+    public final int LEFT   = 1;
+    public final int RIGHT  = 2;
+    public final int ROTATE = 3;
 
     int color = Color.argb(255, 235, 131, 209);
 
     int tetrominoMove;
+    int nrRotation = 0;
 
     float screenX, screenY;
     float top, left, right, bot;
 
-    float right2, top2;
+    float right2, top2, bot2, left2;
 
     int [][] logic;
 
@@ -47,6 +49,8 @@ public class Block_J extends Tetromino {
 
         rect1 = new RectF(left, top, right, bot);
 
+        left2 = left;
+        bot2 = bot;
         top2 = top + (unit*2);
         right2 = right - (unit*2);
         rect2 = new RectF(left, top2, right2, bot);
@@ -74,11 +78,17 @@ public class Block_J extends Tetromino {
             top += unit;
             bot += unit;
             top2 += unit;
+            bot2 +=unit;
+
+            if(tetrominoMove == ROTATE){
+                rotate();
+            }
 
             //IFSTATE IS LEFT
             if(tetrominoMove == LEFT){
                 if(tetrisMap.setX(tetrisMap.getX()-1)) {
                     left = left - unit;
+                    left2 = left2 - unit;
                     right = right - unit;
                     right2 = right2 - unit;
                 }
@@ -88,18 +98,59 @@ public class Block_J extends Tetromino {
             if(tetrominoMove == RIGHT){
                 if(tetrisMap.setX(tetrisMap.getX()+1)) {
                     left = left + unit;
+                    left2 = left2 + unit;
                     right = right + unit;
                     right2 = right2 + unit;
                 }
             }
 
             rect1.set(left, top, right, bot);
-            rect2.set(left, top2, right2, bot);
+            rect2.set(left2, top2, right2, bot2);
             return true;
         }
 
         bot=screenY-50;
         return false;
+    }
+
+    private void rotate() {
+        nrRotation++;
+
+        if(nrRotation % 2 == 0) {
+            right = left + unit;
+            bot = bot + 2*unit;
+
+            if(nrRotation == 2){
+                left2+=unit;
+                right2+=unit;
+                top2+=unit;
+                bot2+=unit;
+            }
+            if(nrRotation == 4){
+                left2-=3*unit;
+                right2-=3*unit;
+                top2+=unit;
+                bot2+=unit;
+
+                nrRotation=0;
+            }
+        }else {
+            right = left + (3 * unit);
+            bot = bot - (2 * unit);
+
+            if(nrRotation == 1){
+                left2+=unit;
+                right2+=unit;
+                top2=top2-3*unit;
+                bot2=bot2-3*unit;
+            }
+            if(nrRotation == 3){
+                top2=top2+unit;
+                bot2=bot2+unit;
+                left2+=unit;
+                right2+=unit;
+            }
+        }
     }
 
     @Override
@@ -116,4 +167,8 @@ public class Block_J extends Tetromino {
 
     @Override
     public int getId(){return myId;}
+
+    public boolean pressRect(float x, float y){
+        return getRect().contains(x, y);
+    }
 }
