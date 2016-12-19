@@ -19,11 +19,13 @@ public class Block_I extends Tetromino {
     int myId;
     float unit;
 
-    public final int STOP  = 0;
-    public final int LEFT  = 1;
-    public final int RIGHT = 2;
+    public final int STOP   = 0;
+    public final int LEFT   = 1;
+    public final int RIGHT  = 2;
+    public final int ROTATE = 3;
 
     int tetrominoMove;
+    int nrRotation = 0;
 
     float screenX, screenY;
     float top, left, right, bot;
@@ -69,6 +71,19 @@ public class Block_I extends Tetromino {
             top += unit;
             bot += unit;
 
+
+            if(tetrominoMove == ROTATE){
+
+                nrRotation++;
+                if(nrRotation % 2 == 0) {
+                    right = left + (1 * unit);
+                    bot = bot + (3 * unit);
+                }else {
+                    right = left + (4 * unit);
+                    bot = bot - (3 * unit);
+                }
+            }
+
             //IFSTATE IS LEFT
             if(tetrominoMove == LEFT){
                 if(tetrisMap.setX(tetrisMap.getX()-1)) {
@@ -105,4 +120,8 @@ public class Block_I extends Tetromino {
 
     @Override
     public int getId(){return myId;}
+
+    public boolean pressRect(float x, float y){
+        return getRect().contains(x, y);
+    }
 }

@@ -3,6 +3,7 @@ package com.isec.tetris.logic;
 import android.util.Log;
 
 import com.isec.tetris.Tetromino;
+import com.isec.tetris.Tetrominos.Block_I;
 import com.isec.tetris.Tetrominos.Block_J;
 import com.isec.tetris.Tetrominos.Block_L;
 import com.isec.tetris.Tetrominos.Block_O;
@@ -146,6 +147,12 @@ public class TetrisMap {
         int count=0;
 
         for(int i=x; i<x+xVar;i++){
+            if(tetromino instanceof Block_I){
+                if(map[2][i]!=0 && getNext(0, count)==tetromino.getId()) {
+                    if(map[2][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
+                        return true;
+                }
+            }
             if(map[1][i]!=0 && getNext(0, count)==tetromino.getId()) {
                 if(map[1][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
                     return true;

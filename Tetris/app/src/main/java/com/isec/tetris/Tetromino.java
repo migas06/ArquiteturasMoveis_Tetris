@@ -41,47 +41,28 @@ public class Tetromino {
 
 
     public int getColor(){return 0;}
-
     public void setMovement(int move){
         tetrominoMove = move;
     }
-
     public RectF getRect(){return null;}
-
     public RectF getRect2(){ return new RectF(0,0,0,0);}
 
     public boolean update(long fps, TetrisMap tetrisMap){
-
-        if(!(y > screenY-100.0 || y > y + tetrominoSpeed / fps)) {
-
-            if (tetrominoMove == LEFT)
-                x = x - tetrominoSpeed / fps;
-            if (tetrominoMove == RIGHT)
-                x = x + tetrominoSpeed / fps;
-
-            if (y <= screenY - 100.0)
-                y = y + tetrominoSpeed / fps;
-
-            return true;
-        }
-
-        y = screenY - 100;
         return false;
     }
 
     /*
     * GETTER & SETTER
     * */
-
     public float getX() {return x;    }
     public float getY() {return y;    }
-
-    public void setX(float x) {this.x = x;    }
-    public void setY(float y) {this.y = y;    }
 
     public int[][] getLogic() {
         return new int[0][];
     }
-
     public int getId(){ return myId;}
+    public void drawRotate(){return;}
+    public boolean pressRect(float x, float y) {
+        return true;
+    }
 }

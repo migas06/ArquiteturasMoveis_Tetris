@@ -1,6 +1,7 @@
 package com.isec.tetris;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -34,10 +35,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     float screenX, screenY;
     float unit;
 
-
     boolean running = false;
     boolean pause   = true;
     boolean gameOver = false;
+    boolean rotate = false;
 
     ///USED TO "draw()"
     Canvas canvas;
@@ -96,7 +97,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
     private void update() {
 
-        tetrisMap.print();
+        //tetrisMap.print();
 
         pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
 
@@ -133,12 +134,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect(), paint);
 
             //THE RECTF WHO HAVE MORE THAN 1 RECT
-            if(!(pastTetrominos.get(pastTetrominos.size()-1) instanceof Block_I || pastTetrominos.get(pastTetrominos.size()-1) instanceof Block_O))
-                canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect2(), paint);
-
+            if (!(pastTetrominos.get(pastTetrominos.size() - 1) instanceof Block_I || pastTetrominos.get(pastTetrominos.size() - 1) instanceof Block_O))
+                canvas.drawRect(pastTetrominos.get(pastTetrominos.size() - 1).getRect2(), paint);
 
             if(pastTetrominos.size()>0) {
-
 
                 //DRAW PASSED TETROMINOS
                 for(int i=0; i<pastTetrominos.size(); i++){
@@ -167,7 +166,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
-        idBlock=0;
+        idBlock=3;
 
         Tetromino tetromino = null;
         if(idBlock==0) {
@@ -195,7 +194,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     }
 
     //I CHOOSE USE ::onTouchEvent FROM SURFACEVIEW INSTEAD OF
-    //GESTURELISTENER FROM THE CLASSES DUE TO EXTENSION OF CODE
+    //GESTURELISTENER FROM THE CLASSES DUE TO EXTENSION OF THE CODE
     //AND UNECESSARY OVERRIDE METHODS
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -204,9 +203,14 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             //PLAYER TOUCH SCREEN
             case MotionEvent.ACTION_DOWN:
                 pause = false;
+
+                //IF THE USER PRESS TETROMINO
+                if(pastTetrominos.get(pastTetrominos.size() - 1).pressRect(event.getX(), event.getY())){
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+                }
                 //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
                 //'2' REPRESENTS RIGHT ON CLASS
-                if(event.getX() > screenX/2) {
+                else if(event.getX() > screenX/2) {
                     pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
                     //IF THE USER PRESS LEFT SIDE OF THE SCREEN
                     //'1' REPRESENTS LEFT ON CLASS
