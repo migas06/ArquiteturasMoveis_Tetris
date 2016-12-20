@@ -117,38 +117,34 @@ public class Block_J extends Tetromino {
         nrRotation++;
 
         if(nrRotation % 2 == 0) {
-            right = left + unit;
-            bot = bot + 2*unit;
+            left+=unit;
+            right-=unit;
+            bot+=unit;
+            top-=unit;
+            if(nrRotation==2){
+                left2+=2*unit;
+                right2+=2*unit;
 
-            if(nrRotation == 2){
-                left2+=unit;
-                right2+=unit;
-                top2+=unit;
-                bot2+=unit;
-            }
-            if(nrRotation == 4){
-                left2-=3*unit;
-                right2-=3*unit;
-                top2+=unit;
-                bot2+=unit;
-
+            }if(nrRotation ==4){
                 nrRotation=0;
+
+                left2-=2*unit;
+                right2-=2*unit;
             }
+
         }else {
-            right = left + (3 * unit);
-            bot = bot - (2 * unit);
+            left-=unit;
+            right+=unit;
+            bot-=unit;
+            top+=unit;
 
             if(nrRotation == 1){
-                left2+=unit;
-                right2+=unit;
-                top2=top2-3*unit;
-                bot2=bot2-3*unit;
+                bot2-=2*unit;
+                top2-=2*unit;
             }
             if(nrRotation == 3){
-                top2=top2+unit;
-                bot2=bot2+unit;
-                left2+=unit;
-                right2+=unit;
+                bot2+=2*unit;
+                top2+=2*unit;
             }
         }
     }

@@ -23,10 +23,12 @@ public class Block_Z extends Tetromino {
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
+    public final int ROTATE = 3;
 
     int color = Color.argb(255, 255, 246, 0);
 
     int tetrominoMove;
+    int nrRotation = 0;
 
     float screenX, screenY;
     float top, left, right, bot;
@@ -100,6 +102,10 @@ public class Block_Z extends Tetromino {
                 }
             }
 
+            if(tetrominoMove == ROTATE){
+                rotate();
+            }
+
             rect1.set(left, top, right, bot);
             rect2.set(left2, top2, right2, bot2);
             return true;
@@ -107,6 +113,44 @@ public class Block_Z extends Tetromino {
 
         bot2=screenY-50;
         return false;
+    }
+
+    private void rotate() {
+        nrRotation++;
+        if(nrRotation == 1 ){
+            left+=unit;
+            top-=unit;
+
+            left2-=unit;
+            right2-=2*unit;
+            top2-=unit;
+        }
+        if(nrRotation == 2 ){
+            top+=unit;
+            right+=unit;
+
+            bot2-=2*unit;
+            top2-=unit;
+            right2+=unit;
+        }
+        if(nrRotation == 3 ){
+            right-=unit;
+            bot+=unit;
+
+            left2+=2*unit;
+            right2+=unit;
+            bot2+=unit;
+
+        }if(nrRotation == 4 ){
+            bot-=unit;
+            left-=unit;
+
+            top2+=2*unit;
+            bot2+=unit;
+            left2-=unit;
+
+            nrRotation=0;
+        }
     }
 
     @Override

@@ -132,12 +132,21 @@ public class Block_S extends Tetromino {
             left2+=unit;
         }
         if(nrRotation == 3 ){
-            top-=unit;
             left+=unit;
+            top-=unit;
+
+            left2+=unit;
+            bot2+=2*unit;
+            top2+=unit;
 
 
         }if(nrRotation == 4 ){
+            top+=unit;
+            right+=unit;
 
+            left2-=2*unit;
+            top2+=unit;
+            right2-=unit;
 
             nrRotation=0;
         }

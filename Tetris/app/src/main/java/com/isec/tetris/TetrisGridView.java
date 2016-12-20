@@ -174,7 +174,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
-        idBlock=5;
+        idBlock=0;
 
         Tetromino tetromino = null;
         if(idBlock==0) {

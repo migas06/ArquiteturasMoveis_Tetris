@@ -75,12 +75,30 @@ public class Block_I extends Tetromino {
             if(tetrominoMove == ROTATE){
 
                 nrRotation++;
-                if(nrRotation % 2 == 0) {
-                    right = left + (1 * unit);
-                    bot = bot + (3 * unit);
-                }else {
-                    right = left + (4 * unit);
-                    bot = bot - (3 * unit);
+                if(nrRotation == 1) {
+                    top+=unit;
+                    bot-=2*unit;
+                    right+=unit;
+                    left-=2*unit;
+                }
+                if(nrRotation == 2) {
+                    bot+=unit;
+                    top-=2*unit;
+                    right-=unit;
+                    left+=2*unit;
+                }
+                if(nrRotation == 3) {
+                    left-=unit;
+                    right+=2*unit;
+                    bot-=unit;
+                    top+=2*unit;
+                }
+                if(nrRotation == 4) {
+                    left+=unit;
+                    right-=2*unit;
+                    top-=unit;
+                    bot+=2*unit;
+                    nrRotation=0;
                 }
             }
 

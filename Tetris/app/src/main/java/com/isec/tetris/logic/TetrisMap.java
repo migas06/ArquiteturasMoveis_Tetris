@@ -11,13 +11,14 @@ import com.isec.tetris.Tetrominos.Block_S;
 import com.isec.tetris.Tetrominos.Block_T;
 import com.isec.tetris.Tetrominos.Block_Z;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Miguel on 02-12-2016.
  */
 
-public class TetrisMap {
+public class TetrisMap implements Serializable{
 
     int x=0, y=0;
     int map[][] = new int [22][16];
@@ -143,7 +144,6 @@ public class TetrisMap {
     }
 
     public boolean isGameOver() {
-        System.out.println(x+" "+y+" ");
         int count=0;
 
         for(int i=x; i<x+xVar;i++){
@@ -179,13 +179,11 @@ public class TetrisMap {
                 try {
                     if (map[i][j] != 0 && getNext(countI, countJ) == tetromino.getId()) {
                         if (map[i][j] != tetromino.getId() && getNext(countI, countJ) == tetromino.getId()){
-                            System.out.println("returned");
                             return false;
                         }
                     }
                     countJ++;
                 }catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("returned");
                     return false;
                 }
             }
