@@ -61,8 +61,4 @@ public class Tetromino {
         return new int[0][];
     }
     public int getId(){ return myId;}
-    public void drawRotate(){return;}
-    public boolean pressRect(float x, float y) {
-        return true;
-    }
 }

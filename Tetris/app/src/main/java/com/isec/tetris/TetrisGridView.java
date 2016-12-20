@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,7 +39,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     boolean running = false;
     boolean pause   = true;
     boolean gameOver = false;
-    boolean rotate = false;
+
+    RectF rotate;
 
     ///USED TO "draw()"
     Canvas canvas;
@@ -82,6 +84,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             //Draw the frame
             draw();
             long timeThisFrame = System.currentTimeMillis() - startFrame;
+
             //Calculate the fps
             if(timeThisFrame >=1)
                 fps = 1000 / timeThisFrame;
@@ -125,10 +128,14 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             ///LOCK THE CANVAS TO DRAW
             canvas = surfaceHolder.lockCanvas();
 
-            ///BACKGROUND COLOR
-            canvas.drawColor(Color.argb(255, 26, 128, 182));
             //Draw the tetromino
+            RectF grid = new RectF(25,0,unit*11, unit*24);
+            paint.setColor(Color.argb(255, 26, 128, 182));
+            canvas.drawRect(grid, paint);
 
+            rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
+            paint.setColor(Color.WHITE);
+            canvas.drawRect(rotate, paint);
 
             paint.setColor(pastTetrominos.get(pastTetrominos.size()-1).getColor());
             canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect(), paint);
@@ -149,10 +156,11 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
 
             if (gameOver){
+                canvas.drawColor(Color.argb(100, 0, 0, 0));
                 paint.setColor(Color.WHITE);
-                paint.setTextSize(128);
+                paint.setTextSize(unit*2);
                 paint.setStrokeMiter(25);
-                canvas.drawText("GAME OVER", screenX/5, screenY/2, paint);
+                canvas.drawText("GAME OVER", unit*2, screenY/2, paint);
             }
 
             ///DRAW EVERYTHING ON SCREEN
@@ -166,7 +174,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
-        idBlock=3;
+        idBlock=5;
 
         Tetromino tetromino = null;
         if(idBlock==0) {
@@ -204,8 +212,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_DOWN:
                 pause = false;
 
+                RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
+
                 //IF THE USER PRESS TETROMINO
-                if(pastTetrominos.get(pastTetrominos.size() - 1).pressRect(event.getX(), event.getY())){
+                if(rotate.intersect(rectF)){
                     pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
                 }
                 //IF THE USER PRESS RIGHT SIDE OF THE SCREEN

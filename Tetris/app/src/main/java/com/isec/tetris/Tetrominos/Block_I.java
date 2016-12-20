@@ -120,8 +120,4 @@ public class Block_I extends Tetromino {
 
     @Override
     public int getId(){return myId;}
-
-    public boolean pressRect(float x, float y){
-        return getRect().contains(x, y);
-    }
 }

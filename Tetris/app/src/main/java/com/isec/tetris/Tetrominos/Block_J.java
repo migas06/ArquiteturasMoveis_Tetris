@@ -167,8 +167,4 @@ public class Block_J extends Tetromino {
 
     @Override
     public int getId(){return myId;}
-
-    public boolean pressRect(float x, float y){
-        return getRect().contains(x, y);
-    }
 }
