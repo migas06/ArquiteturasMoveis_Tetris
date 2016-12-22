@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import com.isec.tetris.Tetromino;
 import com.isec.tetris.logic.TetrisMap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -33,6 +34,7 @@ public class Block_I extends Tetromino {
     //RED
     int color = Color.argb(255, 224, 35, 64);
 
+    ArrayList<int[][]> rotations = new ArrayList<>();
     int [][] logic;
 
     public Block_I(float screenX, float screenY, int myId, float unit) {
@@ -57,6 +59,11 @@ public class Block_I extends Tetromino {
                 {myId},
                 {myId},
                 {myId}};
+
+        rotations.add(logic);
+
+        logic = new int[][]{{myId, myId, myId, myId}};
+        rotations.add(logic);
     }
 
     public void setMovement(int move){
@@ -73,33 +80,8 @@ public class Block_I extends Tetromino {
 
 
             if(tetrominoMove == ROTATE){
-
-                nrRotation++;
-                if(nrRotation == 1) {
-                    top+=unit;
-                    bot-=2*unit;
-                    right+=unit;
-                    left-=2*unit;
-                }
-                if(nrRotation == 2) {
-                    bot+=unit;
-                    top-=2*unit;
-                    right-=unit;
-                    left+=2*unit;
-                }
-                if(nrRotation == 3) {
-                    left-=unit;
-                    right+=2*unit;
-                    bot-=unit;
-                    top+=2*unit;
-                }
-                if(nrRotation == 4) {
-                    left+=unit;
-                    right-=2*unit;
-                    top-=unit;
-                    bot+=2*unit;
-                    nrRotation=0;
-                }
+                tetrisMap.setRotation1stForm(true);
+                rotation();
             }
 
             //IFSTATE IS LEFT
@@ -108,7 +90,6 @@ public class Block_I extends Tetromino {
                     left = left - unit;
                     right = right - unit;
                 }
-
             }
 
             //IFSTATE IS RIGHT
@@ -127,6 +108,36 @@ public class Block_I extends Tetromino {
         return false;
     }
 
+    //VISUAL ROTATION
+    private void rotation() {
+        nrRotation++;
+        if(nrRotation == 1) {
+            top+=unit;
+            bot-=2*unit;
+            right+=unit;
+            left-=2*unit;
+        }
+        if(nrRotation == 2) {
+            bot+=unit;
+            top-=2*unit;
+            right-=unit;
+            left+=2*unit;
+        }
+        if(nrRotation == 3) {
+            left-=unit;
+            right+=2*unit;
+            bot-=unit;
+            top+=2*unit;
+        }
+        if(nrRotation == 4) {
+            left+=unit;
+            right-=2*unit;
+            top-=unit;
+            bot+=2*unit;
+            nrRotation=0;
+        }
+    }
+
     @Override
     public int getColor(){return color;}
 
@@ -134,7 +145,12 @@ public class Block_I extends Tetromino {
     public RectF getRect(){return rect;}
 
     @Override
-    public int[][] getLogic(){return logic;}
+    public int[][] getLogic(){
+        if (nrRotation % 2 == 0)
+            return rotations.get(0);
+        else
+            return rotations.get(1);
+    }
 
     @Override
     public int getId(){return myId;}

@@ -26,11 +26,19 @@ public class TetrisMap implements Serializable{
     int[][] next;
     int yVar;
     int xVar;
+    int yVarOld;
+    int xVarOld;
 
     Tetromino tetromino;
 
+    boolean rotation = false;
+    boolean rotation1stForm = false;
     boolean gameOver = false;
 
+    //CREATE MAP
+    //0  - DEFINE THE EMPTY ZONE
+    //-1 - DEFINES THE SPACE SORROUNDING THE EMPTY SPACE
+    //     TETROMINOES CANNOT PASS THAT ZONE
     public TetrisMap() {
         for(int i = 0; i<22; i++){
             for(int j = 0; j<16; j++){
@@ -42,30 +50,41 @@ public class TetrisMap implements Serializable{
 
     }
 
-    /*
-    * METHODS
-    * */
+    //EVERY TETROMINO HAVE A DIFERENTE SIZE OF BOOLEAN THEN
+    //WE GET THEIR BIDIMENSIONAL SIZE WITH setYVar and setXVar
 
     public void setYVar(){
-
-        if(tetromino instanceof Block_Z || tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_O)
-            yVar=2;
-        else if(tetromino instanceof Block_J || tetromino instanceof Block_L)
-            yVar=3;
-        else
-            yVar=4;
+        yVarOld = yVar;
+        if(!rotation1stForm) {
+            if (tetromino instanceof Block_Z || tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_O) {
+                yVar = 2;
+            } else if (tetromino instanceof Block_J || tetromino instanceof Block_L) {
+                yVar = 3;
+            } else {
+                yVar = 4;
+            }
+        }else{
+            yVar =1;
+        }
     }
 
     public void setXVar(){
-
-        if(tetromino instanceof Block_J || tetromino instanceof Block_L || tetromino instanceof Block_O)
-            xVar = 2;
-        else if(tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_Z)
-            xVar = 3;
-        else
-            xVar = 1;
+        xVarOld = xVar;
+        if(!rotation1stForm) {
+            if(tetromino instanceof Block_J || tetromino instanceof Block_L || tetromino instanceof Block_O)
+                xVar = 2;
+            else if(tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_Z)
+                xVar = 3;
+            else
+                xVar = 1;
+        }else {
+            xVar = 4;
+        }
     }
 
+    /*
+    * METHODS
+    * */
 
     public void setNext(Tetromino tetromino){next = tetromino.getLogic();}
 
@@ -78,9 +97,9 @@ public class TetrisMap implements Serializable{
         setYVar();
         setXVar();
 
+        //WILL SEE IF ITS POSSIBLE THE NEXT POSITION OTHERWISE IT RETURN NULL
         for(int i=y; i<y+yVar; i++){
             for(int j=x; j<x+xVar; j++) {
-
                 try{
                     if(map[i][j] != 0 && getNext(countI, countJ) == tetromino.getId()){
                         if(map[i][j] != tetromino.getId() && getNext(countI, countJ) == tetromino.getId())
@@ -94,13 +113,20 @@ public class TetrisMap implements Serializable{
             countJ=0;
             countI++;
         }
+
+        //IF IT GETS THIS POINT, YEAH ITS POSSIBLE TETROMINO BE THERE SO
+        //LETS CLEAN OUR TRAIL
         try {
-            clearTrail();
-        }catch (ArrayIndexOutOfBoundsException e){}
+            if (!rotation)
+                clearTrail();
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("aqui!");
+        }
 
         countI = 0;
         countJ = 0;
 
+        //CREATE THE NEW TETROMINO ON THIS NEW POSITION
         for(int i=y; i<y+yVar; i++) {
             for (int j = x; j < x + xVar; j++) {
                 if(getNext(countI, countJ) == tetromino.getId())
@@ -115,6 +141,14 @@ public class TetrisMap implements Serializable{
         return true;
     }
 
+    //CLEAR TRAIL
+    private void clearTrailOld() {
+        for(int i=y-1; i<(y-1)+yVarOld; i++){
+            for (int j=x; j<x+xVarOld; j++){
+                map[i][j] = 0;
+            }
+        }
+    }
     private void clearTrail() {
         for(int i=y-1; i<(y-1)+yVar; i++){
             for (int j=x; j<x+xVar; j++){
@@ -124,25 +158,11 @@ public class TetrisMap implements Serializable{
     }
 
     public int getNext(int y, int x){
-        return next[y][x];
+        return tetromino.getLogic()[y][x];
     }
 
-    public void print(){
-        for(int i=0; i<22; i++){
-            if(i<10)
-                System.out.print("0");
-            System.out.print(i+ "| ");
 
-            for(int j=0; j<16; j++){
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println("");
-        }
-
-        System.out.println("------------------------");
-
-    }
-
+    //VERIFIES IF THE THE LINE IS FULLFILLED AND THEN PUTS A GAME OVER
     public boolean isGameOver() {
         int count=0;
 
@@ -208,4 +228,26 @@ public class TetrisMap implements Serializable{
         this.y = y;
     }
 
+    public void setRotation1stForm(boolean rotation1stForm) {
+        this.rotation1stForm = rotation1stForm;
+    }
+
+    public void setRotation(boolean rotation) {this.rotation = rotation;}
+
+    //LOG PRINT
+    public void print(){
+        for(int i=0; i<22; i++){
+            if(i<10)
+                System.out.print("0");
+            System.out.print(i+ "| ");
+
+            for(int j=0; j<16; j++){
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println("");
+        }
+
+        System.out.println("------------------------");
+
+    }
 }
