@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Ingame-->
+    <string name="game_over">Fim do Jogo</string>
+    <string name="restart">Reiniciar</string>
+
+
+    <!-- main activity-->
+    <string name="credits">Créditos</string>
+    <string name="play">Jogar</string>
+    <string name="multiplayer">Multijogador</string>
+    <string name="settings">Opções</string>
+    <string name="scores">Scores</string>
+    <string name="how_to_play">Aprender</string>
+
+    <!-- YES/NO resources -->
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+</resources>

@@ -9,6 +9,124 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.isec.tetris.MainActivity"
+    android:background="@drawable/background_app"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_weight="5"
+        android:layout_height="0dp"
+        android:src="@drawable/logo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/play"
+            android:id="@+id/button_play"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_dark"
+            >
+
+        </Button>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </LinearLayout>
+
+        <Button
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/multiplayer"
+            android:textColor="@android:color/white"
+            android:id="@+id/button_multiplayer"
+            android:background="@android:color/holo_orange_dark"
+            >
+
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="25dp"
+        android:paddingTop="10dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#ffffff"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/settings"
+            android:id="@+id/button_settings"
+            android:textColor="@android:color/white"
+            android:drawableTop="@drawable/settings">
+
+        </Button>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+        </LinearLayout>
+        <Button
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/scores"
+            android:drawableTop="@drawable/scores"
+            android:layout_width="match_parent"
+            android:id="@+id/button_scores"
+            android:textColor="@android:color/white">
+
+        </Button>
+        <Button
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/credits"
+            android:drawableTop="@drawable/credits"
+            android:layout_width="match_parent"
+            android:id="@+id/button_credits"
+            android:textColor="@android:color/white">
+
+        </Button>
+        <Button
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/how_to_play"
+            android:drawableTop="@drawable/learn"
+            android:layout_width="match_parent"
+            android:id="@+id/button_learning"
+            android:textColor="@android:color/white">
+
+        </Button>
+
+    </LinearLayout>
 </LinearLayout>
