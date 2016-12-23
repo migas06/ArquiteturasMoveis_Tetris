@@ -31,6 +31,7 @@
             android:text="@string/play"
             android:id="@+id/button_play"
             android:textColor="@android:color/white"
+            android:typeface="monospace"
             android:background="@android:color/holo_blue_dark"
             >
 
@@ -50,6 +51,7 @@
             android:text="@string/multiplayer"
             android:textColor="@android:color/white"
             android:id="@+id/button_multiplayer"
+            android:typeface="monospace"
             android:background="@android:color/holo_orange_dark"
             >
 
@@ -84,6 +86,8 @@
             android:background="@android:color/transparent"
             android:text="@string/settings"
             android:id="@+id/button_settings"
+            android:typeface="monospace"
+            android:textSize="15dp"
             android:textColor="@android:color/white"
             android:drawableTop="@drawable/settings">
 
@@ -102,6 +106,8 @@
             android:drawableTop="@drawable/scores"
             android:layout_width="match_parent"
             android:id="@+id/button_scores"
+            android:typeface="monospace"
+            android:textSize="15dp"
             android:textColor="@android:color/white">
 
         </Button>
@@ -113,6 +119,8 @@
             android:drawableTop="@drawable/credits"
             android:layout_width="match_parent"
             android:id="@+id/button_credits"
+            android:typeface="monospace"
+            android:textSize="15dp"
             android:textColor="@android:color/white">
 
         </Button>
@@ -124,6 +132,8 @@
             android:drawableTop="@drawable/learn"
             android:layout_width="match_parent"
             android:id="@+id/button_learning"
+            android:typeface="monospace"
+            android:textSize="15dp"
             android:textColor="@android:color/white">
 
         </Button>

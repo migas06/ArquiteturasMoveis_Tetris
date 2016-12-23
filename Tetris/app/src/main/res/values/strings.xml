@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Tetris</string>
+    <string name="shared_preference">userInfo</string>
 
     <!--Ingame-->
     <string name="game_over">Game Over</string>
@@ -16,11 +17,23 @@
 
     <!--Credits-->
     <string name="presents">Presents:</string>
-    <string name="student">the stuuuuuuuuuudent:</string>
+    <string name="amov">Arquiteturas Móveis 2016/17</string>
 
     <!-- YES/NO resources -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="difficulty">Difficulty</string>
+    <string name="control_type">Control</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="saved">Saved</string>
+    <string name="easy">for Babies like you</string>
+    <string name="medium">Well well well</string>
+    <string name="hard">I dare you</string>
+    <string name="ninja">Are you a f*cking ninja?</string>
+    <string name="asian">Are you a Asian God?</string>
 
 
 

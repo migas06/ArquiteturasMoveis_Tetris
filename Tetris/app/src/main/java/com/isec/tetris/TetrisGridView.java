@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
@@ -63,6 +64,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     ArrayList<Tetromino> pastTetrominos = new ArrayList<>();
 
     Bitmap bitmapRotate;
+    Bitmap bitmapBackground;
 
     //constructor
     public TetrisGridView(Context context, int screenX, int screenY) {
@@ -70,6 +72,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         this.context = context;
         surfaceHolder = getHolder();
+
         paint = new Paint();
 
         this.screenX = screenX;
@@ -81,6 +84,10 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         randomTetromino();
 
         bitmapRotate = BitmapFactory.decodeResource(context.getResources(), R.drawable.rotate);
+        bitmapBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_app);
+        createBit();
+
+        rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
     }
 
 
@@ -126,6 +133,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                 gameOver=true;
                 draw();
                 gameThread.join();
+                context.startActivity(new Intent(context, MainActivity.class));
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
@@ -137,17 +145,19 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         // Make sure our drawing surface is valid or we crash
         if (surfaceHolder.getSurface().isValid()) {
+
+            System.out.println(screenX +" "+ screenY);
             ///LOCK THE CANVAS TO DRAW
             canvas = surfaceHolder.lockCanvas();
+            canvas.drawBitmap(bitmapBackground, 0,0, null);
 
-            //Draw the tetromino
+            //Draw the Grid
             RectF grid = new RectF(25,0,unit*11, unit*24);
-            paint.setColor(Color.argb(255, 26, 128, 182));
+            paint.setColor(Color.argb(200, 26, 128, 182));
             canvas.drawRect(grid, paint);
 
             //rotate
-            canvas.drawBitmap(bitmapRotate, unit*11+unit, unit*22, null);
-            rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
+            canvas.drawBitmap(bitmapRotate, unit*12, unit*22, null);
 
             paint.setColor(pastTetrominos.get(pastTetrominos.size()-1).getColor());
             canvas.drawRect(pastTetrominos.get(pastTetrominos.size()-1).getRect(), paint);
@@ -165,7 +175,6 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                     canvas.drawRect(pastTetrominos.get(i).getRect(), paint);
                 }
             }
-
 
             if (gameOver){
                 canvas.drawColor(Color.argb(100, 0, 0, 0));
@@ -238,6 +247,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                     //'1' REPRESENTS LEFT ON CLASS
                 }else {
                     pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+                    if(gameOver)
+                        onResume();
                 }
                 break;
 
@@ -247,6 +258,14 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                 break;
         }
         return true;
+    }
+
+    public void createBit(){
+        Matrix matrix = new Matrix();
+        matrix.setRectToRect(new RectF(0, 0, bitmapBackground.getWidth(), bitmapBackground.getHeight()),
+                new RectF(0, 0, screenX*2, screenY), Matrix.ScaleToFit.CENTER);
+        bitmapBackground = Bitmap.createBitmap(bitmapBackground, 0, 0, bitmapBackground.getWidth(), bitmapBackground.getHeight(), matrix, true);
+
     }
 
     ///ON PAUSE WE CLOSE THE THREAD

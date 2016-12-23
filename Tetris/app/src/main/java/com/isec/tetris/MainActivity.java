@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.isec.tetris.Tetrominos.SettingsActivity;
+
 public class MainActivity extends Activity {
 
     Button buttonPlay;
@@ -48,5 +50,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(context, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.isec.tetris;
 
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -18,7 +19,10 @@ public class GameActivity extends Activity {
         Point point = new Point();
         display.getSize(point);
 
+
         tetrisGrid = new TetrisGridView(this, point.x, point.y);
+        tetrisGrid.setZOrderOnTop(true);
+        tetrisGrid.getHolder().setFormat(PixelFormat.TRANSPARENT);
         setContentView(tetrisGrid);
     }
 
