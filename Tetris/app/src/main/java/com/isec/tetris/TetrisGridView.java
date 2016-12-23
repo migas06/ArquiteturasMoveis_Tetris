@@ -2,6 +2,7 @@ package com.isec.tetris;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,15 +14,22 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.isec.tetris.Tetrominos.Block_I;
-import com.isec.tetris.Tetrominos.Block_J;
-import com.isec.tetris.Tetrominos.Block_L;
-import com.isec.tetris.Tetrominos.Block_O;
-import com.isec.tetris.Tetrominos.Block_S;
-import com.isec.tetris.Tetrominos.Block_T;
-import com.isec.tetris.Tetrominos.Block_Z;
-import com.isec.tetris.logic.TetrisMap;
+import com.isec.tetris.DataScoresRelated.Score;
+import com.isec.tetris.Tetrominoes.Block_I;
+import com.isec.tetris.Tetrominoes.Block_J;
+import com.isec.tetris.Tetrominoes.Block_L;
+import com.isec.tetris.Tetrominoes.Block_O;
+import com.isec.tetris.Tetrominoes.Block_S;
+import com.isec.tetris.Tetrominoes.Block_T;
+import com.isec.tetris.Tetrominoes.Block_Z;
+import com.isec.tetris.bad_Logic.TetrisMap;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -45,6 +53,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     boolean pause   = true;
     boolean gameOver = false;
 
+    boolean accelerometer;
+
     //TEMP BUTTON FOR ROTATTING
     RectF rotate;
 
@@ -66,6 +76,8 @@ public class TetrisGridView extends SurfaceView implements Runnable {
     Bitmap bitmapRotate;
     Bitmap bitmapBackground;
 
+    int level;
+    Score score;
     //constructor
     public TetrisGridView(Context context, int screenX, int screenY) {
         super(context);
@@ -86,17 +98,18 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         bitmapRotate = BitmapFactory.decodeResource(context.getResources(), R.drawable.rotate);
         bitmapBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_app);
         createBit();
+        sharedPreferenceValues();
 
         rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
     }
 
-
     @Override
     public void run() {
         while(running){
+            if(gameOver == true)
+                break;
 
             long startFrame = System.currentTimeMillis();
-
             //Update the frame
             if(!pause)
                 update();
@@ -111,7 +124,7 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(500);
+                Thread.sleep(level*50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -129,15 +142,11 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         }
 
         if(tetrisMap.isGameOver()){
-            try {
-                gameOver=true;
-                draw();
-                gameThread.join();
-                context.startActivity(new Intent(context, MainActivity.class));
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
-
+            gameOver=true;
+            draw();
+            score = new Score(playNr);
+            writeScoreIntoFile();
+            onPause();
         }
     }
 
@@ -233,23 +242,30 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_DOWN:
                 pause = false;
 
-                RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
+                if(!gameOver) {
 
-                //IF THE USER PRESS TETROMINO
-                if(rotate.intersect(rectF)){
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+                    RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
+
+                    //IF THE USER PRESS TETROMINO
+                    if (rotate.intersect(rectF)) {
+                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+                    }
+                    //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
+                    //'2' REPRESENTS RIGHT ON CLASS
+                    else if (event.getX() > screenX / 2) {
+                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
+                        //IF THE USER PRESS LEFT SIDE OF THE SCREEN
+                        //'1' REPRESENTS LEFT ON CLASS
+                    } else {
+                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+                        if (gameOver)
+                            onResume();
+                    }
                 }
-                //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
-                //'2' REPRESENTS RIGHT ON CLASS
-                else if(event.getX() > screenX/2) {
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
-                    //IF THE USER PRESS LEFT SIDE OF THE SCREEN
-                    //'1' REPRESENTS LEFT ON CLASS
-                }else {
-                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
-                    if(gameOver)
-                        onResume();
-                }
+                else
+                    context.startActivity(new Intent(context, MainActivity.class));
+
+
                 break;
 
             //PLAYER REMOVE THE FINGER FROM SCREEN
@@ -266,6 +282,44 @@ public class TetrisGridView extends SurfaceView implements Runnable {
                 new RectF(0, 0, screenX*2, screenY), Matrix.ScaleToFit.CENTER);
         bitmapBackground = Bitmap.createBitmap(bitmapBackground, 0, 0, bitmapBackground.getWidth(), bitmapBackground.getHeight(), matrix, true);
 
+    }
+
+    private void sharedPreferenceValues() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                getResources().getString(R.string.shared_preference), Context.MODE_PRIVATE);
+
+        accelerometer = sharedPreferences.getBoolean("accelerometer", false);
+        int progress = sharedPreferences.getInt("level", 1);
+
+        int c=1;
+        for(int i=10; i>0; i--){
+            if(c==progress) {
+                c = i;
+                break;
+            }
+        }
+        level = c;
+    }
+
+    private void writeScoreIntoFile() {
+
+        ArrayList<Score> list = new ArrayList<Score>();
+        list = score.readScore();
+
+        try {
+            OutputStream fOutputStream = new FileOutputStream(score.getPath());
+            OutputStream outputStream = new BufferedOutputStream(fOutputStream);
+            ObjectOutput objectOutput = new ObjectOutputStream(outputStream);
+
+            list.add(score);
+
+            objectOutput.writeObject(list);
+            objectOutput.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ERROR! SCORE WILL NOT BE SAVED IN FILE");
+        }
     }
 
     ///ON PAUSE WE CLOSE THE THREAD

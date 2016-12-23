@@ -2,7 +2,7 @@ package com.isec.tetris;
 
 import android.graphics.RectF;
 
-import com.isec.tetris.logic.TetrisMap;
+import com.isec.tetris.bad_Logic.TetrisMap;
 
 /**
  * Created by Miguel on 14-11-2016.

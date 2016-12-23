@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.isec.tetris.Tetrominos.SettingsActivity;
 
 public class MainActivity extends Activity {
 
@@ -17,7 +14,7 @@ public class MainActivity extends Activity {
     Button buttonSettings;
     Button buttonScores;
     Button buttonCredits;
-    Button buttonLearn;
+    //Button buttonLearn;
 
     Intent intent;
     Context context = this;
@@ -32,7 +29,7 @@ public class MainActivity extends Activity {
         buttonSettings    = (Button) findViewById(R.id.button_settings);
         buttonScores      = (Button) findViewById(R.id.button_scores);
         buttonCredits     = (Button) findViewById(R.id.button_credits);
-        buttonLearn       = (Button) findViewById(R.id.button_learning);
+        //buttonLearn       = (Button) findViewById(R.id.button_learning);
 
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +51,14 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(context, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(context, ScoresActivity.class);
                 startActivity(intent);
             }
         });

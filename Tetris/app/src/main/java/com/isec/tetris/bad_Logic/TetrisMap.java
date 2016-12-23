@@ -1,18 +1,15 @@
-package com.isec.tetris.logic;
-
-import android.util.Log;
+package com.isec.tetris.bad_Logic;
 
 import com.isec.tetris.Tetromino;
-import com.isec.tetris.Tetrominos.Block_I;
-import com.isec.tetris.Tetrominos.Block_J;
-import com.isec.tetris.Tetrominos.Block_L;
-import com.isec.tetris.Tetrominos.Block_O;
-import com.isec.tetris.Tetrominos.Block_S;
-import com.isec.tetris.Tetrominos.Block_T;
-import com.isec.tetris.Tetrominos.Block_Z;
+import com.isec.tetris.Tetrominoes.Block_I;
+import com.isec.tetris.Tetrominoes.Block_J;
+import com.isec.tetris.Tetrominoes.Block_L;
+import com.isec.tetris.Tetrominoes.Block_O;
+import com.isec.tetris.Tetrominoes.Block_S;
+import com.isec.tetris.Tetrominoes.Block_T;
+import com.isec.tetris.Tetrominoes.Block_Z;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by Miguel on 02-12-2016.

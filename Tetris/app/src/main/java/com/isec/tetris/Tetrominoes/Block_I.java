@@ -1,14 +1,12 @@
-package com.isec.tetris.Tetrominos;
+package com.isec.tetris.Tetrominoes;
 
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.RectF;
 
 import com.isec.tetris.Tetromino;
-import com.isec.tetris.logic.TetrisMap;
+import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Miguel on 14-11-2016.

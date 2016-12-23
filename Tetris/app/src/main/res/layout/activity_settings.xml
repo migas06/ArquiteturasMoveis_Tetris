@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="64dp"
-    tools:context="com.isec.tetris.Tetrominos.SettingsActivity"
+    tools:context="com.isec.tetris.SettingsActivity"
     android:background="@drawable/background_app"
     android:orientation="vertical">
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:gravity="center"
             android:typeface="monospace"
             android:id="@+id/seek_hint"

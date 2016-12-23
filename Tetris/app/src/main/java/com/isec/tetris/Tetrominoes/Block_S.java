@@ -1,16 +1,16 @@
-package com.isec.tetris.Tetrominos;
+package com.isec.tetris.Tetrominoes;
 
 import android.graphics.Color;
 import android.graphics.RectF;
 
 import com.isec.tetris.Tetromino;
-import com.isec.tetris.logic.TetrisMap;
+import com.isec.tetris.bad_Logic.TetrisMap;
 
 /**
  * Created by Miguel on 15-11-2016.
  */
 
-public class Block_T extends Tetromino {
+public class Block_S extends Tetromino {
 
     //IN L BLOCK WE HAVE TO DRAW AND JOIN 2 BLOCKS
     RectF rect1;
@@ -23,13 +23,12 @@ public class Block_T extends Tetromino {
     public final int STOP  = 0;
     public final int LEFT  = 1;
     public final int RIGHT = 2;
-    public final int ROTATE =3;
+    public final int ROTATE = 3;
 
-
-    int color = Color.argb(255, 255, 255, 255);
+    int color = Color.argb(255, 82, 255, 21);
 
     int tetrominoMove;
-    int nrRotations=0;
+    int nrRotation=0;
 
     float screenX, screenY;
     float top, left, right, bot;
@@ -38,23 +37,23 @@ public class Block_T extends Tetromino {
 
     int [][] logic;
 
-    public Block_T(float screenX, float screenY,int myId,float unit) {
+    public Block_S(float screenX, float screenY, int myId, float unit) {
         super(screenX, screenY, unit);
         this.screenX = screenX;
         this.screenY = screenY;
-
         this.unit = unit;
 
         top = 0;
         bot = unit;
-        left = (screenX/4);
-        right = left+(unit*3);
+        left = (screenX/4)+unit;
+        right = left+(unit*2);
+
         rect1 = new RectF(left, top, right, bot);
 
         bot2 = bot + unit;
-        right2 = left + (unit*2);
-        left2 = left + (unit);
-        top2 = bot;
+        right2 = right - unit;
+        left2 = left - unit;
+        top2 = top + unit;
         rect2 = new RectF(left2, top2, right2, bot2);
 
         this.myId = myId;
@@ -63,8 +62,8 @@ public class Block_T extends Tetromino {
 
     private void startLogic() {
         logic = new int[][]{
-                {myId, myId, myId},
-                {0,    myId, 0}};
+                {0,    myId, myId},
+                {myId, myId, 0}};
     }
 
     public void setMovement(int move){
@@ -77,13 +76,13 @@ public class Block_T extends Tetromino {
 
             //GENERAL FALL
             top += unit;
-            top2 += unit;
             bot += unit;
             bot2 += unit;
+            top2 += unit;
 
             //IFSTATE IS LEFT
-            if(tetrominoMove == LEFT) {
-                if(tetrisMap.setX(tetrisMap.getX()-1)){
+            if(tetrominoMove == LEFT){
+                if(tetrisMap.setX(tetrisMap.getX()-1)) {
                     left = left - unit;
                     right = right - unit;
                     right2 = right2 - unit;
@@ -101,7 +100,7 @@ public class Block_T extends Tetromino {
                 }
             }
 
-            if(tetrominoMove == ROTATE) {
+            if(tetrominoMove == ROTATE){
                 rotate();
             }
 
@@ -115,43 +114,41 @@ public class Block_T extends Tetromino {
     }
 
     private void rotate() {
-        nrRotations++;
+        nrRotation++;
+        if(nrRotation == 1 ){
+            right-=unit;
+            bot  +=unit;
 
-        if(nrRotations%2==0){
-            left-=2*unit;
-            right+=2*unit;
+            right2-=unit;
+            bot2-=unit;
+            top2-=2*unit;
+        }
+        if(nrRotation == 2 ){
             bot-=unit;
-            top+=unit;
+            left-=unit;
 
-            if(nrRotations==2){
-                bot2-=unit;
-                top2-=unit;
-                right2+=unit;
-                left2+=unit;
-            }if(nrRotations==4){
-                bot2+=unit;
-                top2+=unit;
-                right2-=unit;
-                left2-=unit;
-
-                nrRotations=0;
-            }
-        }else{
-            left+=2*unit;
-            right-=2*unit;
-            bot+=unit;
+            bot2-=unit;
+            right2+=2*unit;
+            left2+=unit;
+        }
+        if(nrRotation == 3 ){
+            left+=unit;
             top-=unit;
-            if(nrRotations==1){
-                left2 -=unit;
-                right2-=unit;
-                bot2-=unit;
-                top2-=unit;
-            }if(nrRotations==3){
-                bot2+=unit;
-                top2+=unit;
-                right2+=unit;
-                left2+=unit;
-            }
+
+            left2+=unit;
+            bot2+=2*unit;
+            top2+=unit;
+
+
+        }if(nrRotation == 4 ){
+            top+=unit;
+            right+=unit;
+
+            left2-=2*unit;
+            top2+=unit;
+            right2-=unit;
+
+            nrRotation=0;
         }
     }
 
@@ -167,5 +164,6 @@ public class Block_T extends Tetromino {
     @Override
     public int[][] getLogic(){return logic;}
 
+    @Override
     public int getId(){return myId;}
 }
