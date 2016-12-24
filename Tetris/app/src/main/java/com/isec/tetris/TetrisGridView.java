@@ -9,10 +9,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.RectF;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import com.isec.tetris.DataScoresRelated.Score;
 import com.isec.tetris.Tetrominoes.Block_I;
@@ -37,7 +44,7 @@ import java.util.Random;
  * Created by Miguel on 14-11-2016.
  */
 
-public class TetrisGridView extends SurfaceView implements Runnable {
+public class TetrisGridView extends SurfaceView implements Runnable, SensorEventListener {
 
     Thread gameThread = null;
 
@@ -78,14 +85,25 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
     int level;
     Score score;
+
+    SensorManager sensorManager;
+    Sensor sensor;
+    float sensorX = 0;
+    float sensorY = 0;
+
+
+
     //constructor
-    public TetrisGridView(Context context, int screenX, int screenY) {
+    public TetrisGridView(Context context, int screenX, int screenY, Sensor sensor, SensorManager sensorManager) {
         super(context);
 
         this.context = context;
         surfaceHolder = getHolder();
 
         paint = new Paint();
+
+        this.sensorManager = sensorManager;
+        this.sensor = sensor;
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -100,7 +118,13 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         createBit();
         sharedPreferenceValues();
 
+        this.setZOrderOnTop(true);
+        this.getHolder().setFormat(PixelFormat.TRANSPARENT);
+
         rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
+
+
+        System.out.println(screenX +" "+ screenY);
     }
 
     @Override
@@ -146,7 +170,6 @@ public class TetrisGridView extends SurfaceView implements Runnable {
             draw();
             score = new Score(playNr);
             writeScoreIntoFile();
-            onPause();
         }
     }
 
@@ -154,8 +177,6 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
         // Make sure our drawing surface is valid or we crash
         if (surfaceHolder.getSurface().isValid()) {
-
-            System.out.println(screenX +" "+ screenY);
             ///LOCK THE CANVAS TO DRAW
             canvas = surfaceHolder.lockCanvas();
             canvas.drawBitmap(bitmapBackground, 0,0, null);
@@ -231,49 +252,58 @@ public class TetrisGridView extends SurfaceView implements Runnable {
 
     }
 
-    //I CHOOSE USE ::onTouchEvent FROM SURFACEVIEW INSTEAD OF
+    //I CHOOSE USE ::onTouchEvent FROM VIEW INSTEAD OF
     //GESTURELISTENER FROM THE CLASSES DUE TO EXTENSION OF THE CODE
     //AND UNECESSARY OVERRIDE METHODS
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            //PLAYER TOUCH SCREEN
-            case MotionEvent.ACTION_DOWN:
-                pause = false;
+        if(!accelerometer) {
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                //PLAYER TOUCH SCREEN
+                case MotionEvent.ACTION_DOWN:
+                    pause = false;
 
-                if(!gameOver) {
+                    if (!gameOver) {
 
-                    RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
+                        RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
 
-                    //IF THE USER PRESS TETROMINO
-                    if (rotate.intersect(rectF)) {
-                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
-                    }
-                    //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
-                    //'2' REPRESENTS RIGHT ON CLASS
-                    else if (event.getX() > screenX / 2) {
-                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
-                        //IF THE USER PRESS LEFT SIDE OF THE SCREEN
-                        //'1' REPRESENTS LEFT ON CLASS
+                        //IF THE USER PRESS TETROMINO
+                        if (rotate.intersect(rectF)) {
+                            pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+                        }
+                        //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
+                        //'2' REPRESENTS RIGHT ON CLASS
+                        else if (event.getX() > screenX / 2) {
+                            pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
+                            //IF THE USER PRESS LEFT SIDE OF THE SCREEN
+                            //'1' REPRESENTS LEFT ON CLASS
+                        } else {
+                            pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+                            if (gameOver)
+                                onResume();
+                        }
                     } else {
-                        pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
-                        if (gameOver)
-                            onResume();
+                        try {
+                            context.startActivity(new Intent(context, MainActivity.class));
+                        } catch (Exception e) {
+                            System.out.println("e --->" + e);
+                        }
                     }
-                }
-                else
-                    context.startActivity(new Intent(context, MainActivity.class));
 
+                    break;
 
-                break;
+                //PLAYER REMOVE THE FINGER FROM SCREEN
+                case MotionEvent.ACTION_UP:
+                    pastTetrominos.get(pastTetrominos.size() - 1).setMovement(0);
+                    break;
+            }
 
-            //PLAYER REMOVE THE FINGER FROM SCREEN
-            case MotionEvent.ACTION_UP:
-                pastTetrominos.get(pastTetrominos.size()-1).setMovement(0);
-                break;
         }
-        return true;
+        else
+            Toast.makeText(context, getResources().getString(R.string.control_error), Toast.LENGTH_LONG).show();
+            return true;
+
     }
 
     public void createBit(){
@@ -337,6 +367,41 @@ public class TetrisGridView extends SurfaceView implements Runnable {
         running = true;
         gameThread = new Thread(this);
         gameThread.start();
+        sensorManager.registerListener(this, sensor,SensorManager.SENSOR_STATUS_ACCURACY_LOW);
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if(accelerometer){
+            //IF Y AXIS IS -4
+            //THE USER PUTS THE DEVICE BUTT IN THE AIR
+            if(sensorEvent.values[1]<-0.5){
+                //ROTATE
+                pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+
+            }
+
+            //IF X AXIS IS OR LESS THAN -5
+            //THE USER TILT THE DEVICE FOR IS RIGHT
+            else if(sensorEvent.values[0]<-2.5)
+                pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
+
+            //IF X AXIS IS 5 OR BIGGER
+            //THE USER TILT THE DEVICE FOR IS OTHER RIGHT (LEFT OFC)
+            else if(sensorEvent.values[0]>2.5)
+                pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+
+            //THE USER TILTS THE DEVICE BUTT INTO DOWN
+            else if(sensorEvent.values[1]>2.5)
+                pause = false;
+
+            //REGULAR MOVEMENT
+            else
+                pastTetrominos.get(pastTetrominos.size() - 1).setMovement(0);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
 }

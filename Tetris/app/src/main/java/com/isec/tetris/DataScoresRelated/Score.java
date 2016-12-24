@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 
 
 /**
@@ -30,6 +31,7 @@ public class Score implements Serializable {
         this.today = Calendar.getInstance();
         System.out.println(today);
     }
+
 
     public ArrayList<Score> readScore()  {
 

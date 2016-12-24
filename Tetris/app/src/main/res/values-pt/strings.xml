@@ -6,14 +6,37 @@
 
 
     <!-- main activity-->
-    <string name="credits">Créditos</string>
-    <string name="play">Jogar</string>
+    <string name="credits">créditos</string>
+    <string name="play">JOGAR</string>
     <string name="multiplayer">Multijogador</string>
     <string name="settings">Opções</string>
-    <string name="scores">Scores</string>
-    <string name="how_to_play">Aprender</string>
+    <string name="scores">Pontos</string>
+    <string name="how_to_play">aprender</string>
+
+    <!--Credits-->
+    <string name="presents">Apresenta:</string>
+    <string name="amov">Arquiteturas Móveis 2016/17</string>
+
+    <!-- Scores -->
+    <string name="score">RESULTADO</string>
+    <string name="date">DATA</string>
+    <string name="points">Pontos</string>
 
     <!-- YES/NO resources -->
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+
+
+    <!-- Strings related to Settings -->
+    <string name="title_activity_settings">OPÇÕES</string>
+    <string name="difficulty">Dificuldade</string>
+    <string name="control_type">Controlo</string>
+    <string name="accelerometer">Acelerómetro</string>
+    <string name="saved">Gravado</string>
+    <string name="easy">Para criancinhas</string>
+    <string name="medium">Ora muito bem</string>
+    <string name="hard">Ahah atréve-te</string>
+    <string name="ninja">Mas que... Um ninja?</string>
+    <string name="asian">És o lendário deus asiático?</string>
+    <string name="sensor_error" />
 </resources>
