@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.view.Display;
 import android.widget.Toast;
 
+import com.isec.tetris.Multiplayer.SocketHandler;
+
+import java.net.Socket;
+
 public class GameActivity extends Activity {
 
     TetrisGridView tetrisGrid;

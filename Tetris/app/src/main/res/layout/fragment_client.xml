@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.isec.tetris.FragmentsFromMultiplayer.ClientFragment">
+    tools:context="com.isec.tetris.Multiplayer.ClientFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,11 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:inputType="number"
             android:gravity="center"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:backgroundTint="@android:color/white"
+            android:id="@+id/editTextIpServer"
             android:typeface="monospace"
         />
 

@@ -43,8 +43,10 @@ public class ScoresActivity extends Activity {
         listViewScores = (ListView) findViewById(R.id.scoresListView);
         list = readScore();
 
-        ArrayAdapter<Score> arrayAdapter = new ScoreAdapter(this, list);
-        listViewScores.setAdapter(arrayAdapter);
+        if(list!=null) {
+            ArrayAdapter<Score> arrayAdapter = new ScoreAdapter(this, list);
+            listViewScores.setAdapter(arrayAdapter);
+        }
 
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,12 +6,16 @@ import android.graphics.RectF;
 import com.isec.tetris.Tetromino;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
+import java.io.Serializable;
+
 /**
  * Created by Miguel on 15-11-2016.
  */
 
-public class Block_O extends Tetromino{
+public class Block_O extends Tetromino implements Serializable {
 
+    static final long serialVersionUID = 18L;
+    int finalId = 4;
     int myId;
     float unit;
     //ORANGE
@@ -45,7 +49,7 @@ public class Block_O extends Tetromino{
         right = screenX/4 + (unit*2);
         rect = new RectF(left, top, right, bot);
 
-        this.myId = myId;
+        this.myId = myId+10;
         startLogic();
     }
 
@@ -102,4 +106,7 @@ public class Block_O extends Tetromino{
 
     @Override
     public int getId(){return myId;}
+
+    @Override
+    public int getFId(){return finalId;}
 }

@@ -1,4 +1,4 @@
-package com.isec.tetris.FragmentsFromMultiplayer;
+package com.isec.tetris.Multiplayer;
 
 import android.app.FragmentTransaction;
 import android.content.Context;

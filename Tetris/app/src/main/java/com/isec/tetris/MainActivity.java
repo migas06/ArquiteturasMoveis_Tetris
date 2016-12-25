@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.isec.tetris.Multiplayer.SocketHandler;
+
 public class MainActivity extends Activity {
 
     Button buttonPlay;

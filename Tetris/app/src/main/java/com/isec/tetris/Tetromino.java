@@ -18,6 +18,8 @@ public class Tetromino {
 
     float screenX, screenY;
 
+    public final int finalId = 0;
+
     int myId;
 
     //MOVEMENTS
@@ -61,4 +63,5 @@ public class Tetromino {
         return new int[0][];
     }
     public int getId(){ return myId;}
+    public int getFId(){ return finalId;}
 }

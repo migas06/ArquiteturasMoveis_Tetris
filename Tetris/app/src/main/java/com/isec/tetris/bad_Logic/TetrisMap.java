@@ -17,6 +17,8 @@ import java.io.Serializable;
 
 public class TetrisMap implements Serializable{
 
+    static final long serialVersionUID = 18L;
+
     int x=0, y=0;
     int map[][] = new int [22][16];
 
@@ -99,10 +101,13 @@ public class TetrisMap implements Serializable{
             for(int j=x; j<x+xVar; j++) {
                 try{
                     if(map[i][j] != 0 && getNext(countI, countJ) == tetromino.getId()){
-                        if(map[i][j] != tetromino.getId() && getNext(countI, countJ) == tetromino.getId())
+                        if(map[i][j] != tetromino.getId() && getNext(countI, countJ) == tetromino.getId()) {
+                            finalId();
                             return false;
+                        }
                     }
                 }catch (ArrayIndexOutOfBoundsException e){
+                    finalId();
                     return false;
                 }
                 countJ++;
@@ -138,14 +143,6 @@ public class TetrisMap implements Serializable{
         return true;
     }
 
-    //CLEAR TRAIL
-    private void clearTrailOld() {
-        for(int i=y-1; i<(y-1)+yVarOld; i++){
-            for (int j=x; j<x+xVarOld; j++){
-                map[i][j] = 0;
-            }
-        }
-    }
     private void clearTrail() {
         for(int i=y-1; i<(y-1)+yVar; i++){
             for (int j=x; j<x+xVar; j++){
@@ -221,6 +218,15 @@ public class TetrisMap implements Serializable{
         return true;
     }
 
+    private void finalId() {
+        for(int i=0; i<22; i++){
+            for(int j=0; j<16; j++){
+                if(map[i][j] == tetromino.getId())
+                    map[i][j] = tetromino.getFId();
+            }
+        }
+    }
+
     public void setY(int y) {
         this.y = y;
     }
@@ -246,5 +252,41 @@ public class TetrisMap implements Serializable{
 
         System.out.println("------------------------");
 
+    }
+
+    //VERIFY IF LINES ARE READY TO DELETE
+    public void verifyLines() {
+
+        int countCell=0;
+
+        for(int i=0; i<22;i++){
+            countCell=0;
+            for(int j=0; j<16; j++){
+                if(map[i][j]!=0)
+                    countCell++;
+            }
+            if(countCell==16){
+                deleteLine(i);
+            }
+        }
+    }
+
+    private void deleteLine(int lineNumber) {
+
+        for(int i=lineNumber; i>=0 ;i-- ){
+            for(int j=0; j<16; j++){
+                if(i!=0)
+                    map[i][j] = map[i-1][j];
+                else{
+                    if(j==0 || j==1 || j==2 || j==13 || j==14 || j==15){
+                        map[i][j] = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    public int[][] getMap() {
+        return map;
     }
 }

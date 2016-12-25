@@ -20,7 +20,7 @@ public class CreditsActivity extends Activity {
     Animation animation;
     LinearLayout linearLayout;
 
-    Context context;
+    Context context = this;
 
     MediaPlayer intro;
 

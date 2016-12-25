@@ -16,6 +16,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
+        android:name=".Multiplayer.SocketHandler"
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameActivity"

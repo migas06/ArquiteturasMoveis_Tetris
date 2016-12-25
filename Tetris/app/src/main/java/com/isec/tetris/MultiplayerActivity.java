@@ -6,7 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 
-import com.isec.tetris.FragmentsFromMultiplayer.Chose_Server_or_Client;
+import com.isec.tetris.Multiplayer.Chose_Server_or_Client;
 
 public class MultiplayerActivity extends Activity {
 
