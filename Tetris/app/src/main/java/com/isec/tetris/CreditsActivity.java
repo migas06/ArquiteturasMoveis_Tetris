@@ -1,6 +1,7 @@
 package com.isec.tetris;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,8 @@ public class CreditsActivity extends Activity {
 
     Animation animation;
     LinearLayout linearLayout;
+
+    Context context;
 
     MediaPlayer intro;
 
@@ -37,6 +40,7 @@ public class CreditsActivity extends Activity {
             public void onClick(View view) {
                 intro.stop();
                 intro.release();
+                Toast.makeText(context, getResources().getString(R.string.lets_the_song_ends), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

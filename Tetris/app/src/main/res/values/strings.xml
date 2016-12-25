@@ -18,6 +18,7 @@
     <!--Credits-->
     <string name="presents">Presents:</string>
     <string name="amov">Mobile Architecture 2016/17</string>
+    <string name="lets_the_song_ends">You could have at least, listen all song</string>
 
     <!-- Scores -->
     <string name="score">SCORE</string>
@@ -27,7 +28,6 @@
     <!-- YES/NO resources -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
 
 
     <!-- Strings related to Settings -->
@@ -42,6 +42,15 @@
     <string name="ninja">Are you a f*cking ninja?</string>
     <string name="asian">Are you a Asian God?</string>
     <string name="sensor_error">No accelerometer avaliable</string>
+
+    <!-- MULTIPLAYER -->
+    <string name="server">Host a game</string>
+    <string name="client">Join a game</string>
+    <string name="ip">Ask your friend to join this ip:</string>
+    <string name="hosting">HOSTING...</string>
+    <string name="joining">JOINING...</string>
+    <string name="join">Join</string>
+    <string name="join_message">Insert the ip address:</string>
 
 
 </resources>

@@ -62,5 +62,13 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        buttonMultiplayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(context, MultiplayerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
