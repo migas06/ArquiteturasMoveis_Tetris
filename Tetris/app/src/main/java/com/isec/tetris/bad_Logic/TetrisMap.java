@@ -1,6 +1,6 @@
 package com.isec.tetris.bad_Logic;
 
-import com.isec.tetris.Tetromino;
+import com.isec.tetris.Tetrominoes.Tetromino;
 import com.isec.tetris.Tetrominoes.Block_I;
 import com.isec.tetris.Tetrominoes.Block_J;
 import com.isec.tetris.Tetrominoes.Block_L;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 public class TetrisMap implements Serializable{
 
-    static final long serialVersionUID = 18L;
+    static final long serialVersionUID = 19L;
 
     int x=0, y=0;
     int map[][] = new int [22][16];

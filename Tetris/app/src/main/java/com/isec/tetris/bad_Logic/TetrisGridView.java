@@ -1,4 +1,4 @@
-package com.isec.tetris;
+package com.isec.tetris.bad_Logic;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,10 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.isec.tetris.DataScoresRelated.Score;
+import com.isec.tetris.MainActivity;
 import com.isec.tetris.Multiplayer.SocketHandler;
+import com.isec.tetris.R;
+import com.isec.tetris.Tetrominoes.Tetromino;
 import com.isec.tetris.Tetrominoes.Block_I;
 import com.isec.tetris.Tetrominoes.Block_J;
 import com.isec.tetris.Tetrominoes.Block_L;
@@ -29,7 +32,6 @@ import com.isec.tetris.Tetrominoes.Block_O;
 import com.isec.tetris.Tetrominoes.Block_S;
 import com.isec.tetris.Tetrominoes.Block_T;
 import com.isec.tetris.Tetrominoes.Block_Z;
-import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -38,7 +40,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -104,6 +105,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     int component;
 
     SocketHandler app;
+    String msgSocket = "nothing";
 
     //constructor
     public TetrisGridView(Context context, int screenX, int screenY, Sensor sensor, SensorManager sensorManager) {
@@ -196,6 +198,17 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         }
 
         if(tetrisMap.isGameOver()){
+            if(app.getSocket()!=null){
+                try {
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(app.getSocket().getOutputStream());
+                    objectOutputStream.writeObject(getResources().getString(R.string.win));
+                    objectOutputStream.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                msgSocket = getResources().getString(R.string.lose);
+            }
+
             gameOver=true;
             running=false;
             draw();
@@ -221,14 +234,18 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 drawOponnentGrid(canvas);
 
             //rotate
-            canvas.drawBitmap(bitmapRotate, component, unit*22, null);
+            canvas.drawBitmap(bitmapRotate, component, unit*20, null);
 
             if (gameOver){
                 canvas.drawColor(Color.argb(100, 0, 0, 0));
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(unit*2);
                 paint.setStrokeMiter(25);
-                canvas.drawText(context.getString(R.string.game_over), unit*2, screenY/2, paint);
+
+                if(app.getSocket()==null)
+                    canvas.drawText(context.getString(R.string.game_over), unit*2, screenY/2, paint);
+                else
+                    canvas.drawText(msgSocket, unit*2, screenY/2, paint);
             }
 
             ///DRAW EVERYTHING ON SCREEN
@@ -305,12 +322,18 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 ObjectInputStream objectInputStream = new ObjectInputStream(app.getSocket().getInputStream());
                 Object objectReceived = objectInputStream.readObject();
 
-                oponnentMap = (TetrisMap) objectReceived;
+
+                if(objectReceived instanceof TetrisMap)
+                    oponnentMap = (TetrisMap) objectReceived;
+                else{
+                    msgSocket = (String) objectReceived;
+                    gameOver=true;
+                }
 
             }catch(ClassNotFoundException e) {
                 System.out.println("Exception e: "+e);
             } catch (IOException e) {
-                System.out.println("Exception e: "+e);
+                System.out.println("Receive Map Exception e: " +e);
             }
 
             //WRITE MAP TO SERVER
@@ -342,33 +365,36 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 ObjectInputStream objectInputStream = new ObjectInputStream(app.getSocket().getInputStream());
                 Object objectReceived = objectInputStream.readObject();
 
-                oponnentMap = (TetrisMap) objectReceived;
-
+                if(objectReceived instanceof TetrisMap)
+                    oponnentMap = (TetrisMap) objectReceived;
+                else{
+                    msgSocket = (String) objectReceived;
+                    gameOver=true;
+                }
             }catch(ClassNotFoundException e) {
                 System.out.println("Exception e: "+e);
             } catch (IOException e) {
-                System.out.println("Exception e: "+e);
+                System.out.println("Receive Map Exception e: " +e);
             }
         }
     }
 
-
     private void drawOponnentGrid(Canvas canvas) {
 
-        Bitmap oBitmapGrid = Bitmap.createScaledBitmap(bitmapGrid, (int) unit, (int) unit, true);
-        Bitmap oBitmapOne   = Bitmap.createScaledBitmap(bitmapOne, (int) unit, (int) unit, true);
-        Bitmap oBitmapTwo   = Bitmap.createScaledBitmap(bitmapTwo, (int) unit, (int) unit, true);
-        Bitmap oBitmapThree = Bitmap.createScaledBitmap(bitmapThree, (int) unit, (int) unit, true);
-        Bitmap oBitmapFour  = Bitmap.createScaledBitmap(bitmapFour, (int) unit, (int) unit, true);
-        Bitmap oBitmapFive  = Bitmap.createScaledBitmap(bitmapFive, (int) unit, (int) unit, true);
-        Bitmap oBitmapSix   = Bitmap.createScaledBitmap(bitmapSix, (int) unit, (int) unit, true);
-        Bitmap oBitmapSeven = Bitmap.createScaledBitmap(bitmapSeven, (int) unit, (int) unit, true);
+        Bitmap oBitmapGrid = Bitmap.createScaledBitmap(bitmapGrid, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapOne   = Bitmap.createScaledBitmap(bitmapOne, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapTwo   = Bitmap.createScaledBitmap(bitmapTwo, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapThree = Bitmap.createScaledBitmap(bitmapThree, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapFour  = Bitmap.createScaledBitmap(bitmapFour, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapFive  = Bitmap.createScaledBitmap(bitmapFive, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapSix   = Bitmap.createScaledBitmap(bitmapSix, (int) unit/5, (int) unit/5, true);
+        Bitmap oBitmapSeven = Bitmap.createScaledBitmap(bitmapSeven, (int) unit/5, (int) unit/5, true);
 
         int [][] omap = oponnentMap.getMap();
         int top = 25;
-        int left = (int) (unit*11)+50;
+        int left = component;
 
-        /*for(int i = 0; i<22; i++){
+        for(int i = 0; i<22; i++){
             for(int j=3; j<13; j++){
 
                 if(omap[i][j]==0 || omap[i][j] > 7)
@@ -389,13 +415,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 if (omap[i][j] == 7)
                     canvas.drawBitmap(oBitmapSeven, left, top, null);
 
-                left+=unit;
+                left+=unit/5;
             }
-            left = (int)(unit*11);
-            top+=unit/10;
-        }*/
-
-
+            left = component;
+            top+=unit/5;
+        }
 
     }
 

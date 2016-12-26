@@ -28,10 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreditsActivity" />
+        <activity android:name=".CreditsActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".SettingsActivity" />
+
         <activity android:name=".ScoresActivity" />
-        <activity android:name=".MultiplayerActivity"></activity>
+
+        <activity android:name=".MultiplayerActivity"/>
     </application>
 
 </manifest>

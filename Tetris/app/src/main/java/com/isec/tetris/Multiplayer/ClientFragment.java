@@ -56,7 +56,6 @@ public class ClientFragment extends Fragment {
                             SocketHandler app = (SocketHandler) getActivity().getApplication();
                             app.setSocket(socketGame);
                             app.setUser("Client");
-                            SocketHandler socketHandler = new SocketHandler();
 
                             startActivity(new Intent(context, GameActivity.class));
 

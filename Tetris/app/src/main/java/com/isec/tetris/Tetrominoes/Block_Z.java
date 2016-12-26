@@ -1,9 +1,7 @@
 package com.isec.tetris.Tetrominoes;
 
 import android.graphics.Color;
-import android.graphics.RectF;
 
-import com.isec.tetris.Tetromino;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.Serializable;
@@ -16,8 +14,8 @@ public class Block_Z extends Tetromino implements Serializable {
 
     static final long serialVersionUID = 18L;
     //IN L BLOCK WE HAVE TO DRAW AND JOIN 2 BLOCKS
-    RectF rect1;
-    RectF rect2;
+    /*RectF rect1;
+    RectF rect2;*/
 
     float unit;
     int finalId = 7;
@@ -52,14 +50,14 @@ public class Block_Z extends Tetromino implements Serializable {
         left = (screenX/4);
         right = left+(unit*2);
 
-        rect1 = new RectF(left, top, right, bot);
+        //rect1 = new RectF(left, top, right, bot);
 
         bot2 = bot + unit;
         right2 = right + unit;
         left2 = left + unit;
         top2 = top + unit;
 
-        rect2 = new RectF(left2, top2, right2, bot2);
+        //rect2 = new RectF(left2, top2, right2, bot2);
 
         this.myId = myId+10;
         startLogic();
@@ -109,8 +107,8 @@ public class Block_Z extends Tetromino implements Serializable {
                 rotate();
             }
 
-            rect1.set(left, top, right, bot);
-            rect2.set(left2, top2, right2, bot2);
+            /*rect1.set(left, top, right, bot);
+            rect2.set(left2, top2, right2, bot2);*/
             return true;
         }
 
@@ -159,11 +157,11 @@ public class Block_Z extends Tetromino implements Serializable {
     @Override
     public int getColor(){return color;}
 
-    @Override
+    /*@Override
     public RectF getRect(){return rect1;}
 
     @Override
-    public RectF getRect2(){return rect2;}
+    public RectF getRect2(){return rect2;}*/
 
     @Override
     public int[][] getLogic(){return logic;}

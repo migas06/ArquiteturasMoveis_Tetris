@@ -1,7 +1,6 @@
 package com.isec.tetris;
 
 import android.app.Activity;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -9,9 +8,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.widget.Toast;
 
-import com.isec.tetris.Multiplayer.SocketHandler;
-
-import java.net.Socket;
+import com.isec.tetris.bad_Logic.TetrisGridView;
 
 public class GameActivity extends Activity {
 
@@ -39,6 +36,8 @@ public class GameActivity extends Activity {
 
         tetrisGrid = new TetrisGridView(this, point.x, point.y, sensor, sensorManager);
 
+        //KEEP THE SCREEN ALWAYS ON
+        tetrisGrid.setKeepScreenOn(true);
         setContentView(tetrisGrid);
     }
 

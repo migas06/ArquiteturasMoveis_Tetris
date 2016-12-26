@@ -1,14 +1,18 @@
-package com.isec.tetris;
+package com.isec.tetris.Tetrominoes;
 
 import android.graphics.RectF;
 
 import com.isec.tetris.bad_Logic.TetrisMap;
 
+import java.io.Serializable;
+
 /**
  * Created by Miguel on 14-11-2016.
  */
 
-public class Tetromino {
+public class Tetromino implements Serializable{
+
+    static final long serialVersionUID = 18L;
     //COORDINATES
     private float x;
     private float y;

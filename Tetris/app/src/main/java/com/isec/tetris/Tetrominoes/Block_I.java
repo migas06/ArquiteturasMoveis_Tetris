@@ -1,12 +1,7 @@
 package com.isec.tetris.Tetrominoes;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.RectF;
 
-import com.isec.tetris.R;
-import com.isec.tetris.Tetromino;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.Serializable;
@@ -21,7 +16,6 @@ public class Block_I extends Tetromino implements Serializable{
     static final long serialVersionUID = 18L;
     int finalId = 1;
 
-    RectF rect;
     int myId;
     float unit;
 
@@ -52,7 +46,7 @@ public class Block_I extends Tetromino implements Serializable{
         bot = unit*4;
         top = 0;
         right = screenX/4+unit;
-        rect = new RectF(left, top, right, bot);
+        //rect = new RectF(left, top, right, bot);
 
         this.myId = myId+10;
         startLogic();
@@ -105,7 +99,7 @@ public class Block_I extends Tetromino implements Serializable{
                 }
             }
 
-            rect.set(left, top, right, bot);
+            //rect.set(left, top, right, bot);
             return true;
         }
 
@@ -146,8 +140,8 @@ public class Block_I extends Tetromino implements Serializable{
     @Override
     public int getColor(){return color;}
 
-    @Override
-    public RectF getRect(){return rect;}
+    /*@Override
+    public RectF getRect(){return rect;}*/
 
     @Override
     public int[][] getLogic(){
