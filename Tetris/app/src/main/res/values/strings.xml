@@ -53,6 +53,7 @@
     <string name="join_message">Insert the ip address:</string>
     <string name="win">You Win</string>
     <string name="lose">You Lose</string>
+    <string name="next">Next</string>
 
 
 </resources>

@@ -76,6 +76,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     ///FPS FOR ANIMATIONS
     long fps;
 
+    //NEXT TETROMINO
+    Tetromino next;
+
     //(bad) Logic for the game
     TetrisMap tetrisMap;
     TetrisMap oponnentMap;
@@ -127,7 +130,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         oponnentMap=new TetrisMap();
 
         playNr=0;
+
         randomTetromino();
+
 
         bitmapRotate = BitmapFactory.decodeResource(context.getResources(), R.drawable.rotate);
         bitmapBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_app);
@@ -184,7 +189,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void update() {
 
-        tetrisMap.print();
+        //tetrisMap.print();
         //oponnentMap.print();
         if(app.getSocket()!=null)
             createOpponentGrid();
@@ -193,6 +198,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         if (!tetrisMap.update()) {
             tetrisMap.verifyLines();
+
             randomTetromino();
         }
 
@@ -241,6 +247,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             canvas.drawText(context.getResources().getString(R.string.score)+": ", component-unit, unit*9 , paint);
             paint.setTextSize(unit);
             canvas.drawText(""+(playNr+tetrisMap.getScore()), component-unit, unit*10 , paint);
+
+            //DRAW NEXT PIECE
+            paint.setTextSize(unit);
+            canvas.drawText(context.getResources().getString(R.string.next), component-unit, unit*14 , paint);
+            //drawNext();
 
             //rotate
             canvas.drawBitmap(bitmapRotate, component, unit*21, null);
@@ -323,6 +334,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
 
     }
+
 
     //DEPENDING ON USER _ CLIENT OR SERVER
     //SERVER ALWAYS START SENDING TETRISMAP (FROM LOGIC)
@@ -446,7 +458,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
-        idBlock=0;
         Tetromino tetromino = null;
 
         if(idBlock==0) {
@@ -470,8 +481,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         tetrisMap.setNext(tetromino);
         tetrisMap.setTetromino(tetromino);
         tetrisMap.setY(0);
-        tetrisMap.setX(6);
-
+        tetrisMap.setX(8);
     }
 
     //I CHOOSE USE ::onTouchEvent FROM VIEW INSTEAD OF
@@ -491,7 +501,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         //IF THE USER PRESS TETROMINO
                         if (rectF.intersect(rotate)) {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
-                            System.out.println("ROTATION");
                         }
                         //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
                         //'2' REPRESENTS RIGHT ON CLASS
@@ -502,8 +511,14 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         } else {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
 
-                            if (gameOver)
+                            if (gameOver){
                                 onResume();
+                                try {
+                                    app.getSocket().close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     } else {
                         try {
@@ -586,7 +601,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         }
     }
 
-    ///ON RESUME WE CREATE ANOTHER THREAD
+    ///ON RESUME WE CREATE A THREAD
     public void onResume(){
         running = true;
         gameThread = new Thread(this);
