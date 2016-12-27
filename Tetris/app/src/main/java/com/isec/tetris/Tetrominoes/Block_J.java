@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Miguel on 15-11-2016.
@@ -36,7 +37,9 @@ public class Block_J extends Tetromino implements Serializable {
 
     float right2, top2, bot2, left2;
 
+    ArrayList<int[][]> rotations = new ArrayList<>();
     int [][] logic;
+    ArrayList<PointsTetromino> size = new ArrayList<>();
 
     public Block_J(float screenX, float screenY, int myId, float unit) {
         super(screenX, screenY, unit);
@@ -83,7 +86,7 @@ public class Block_J extends Tetromino implements Serializable {
             bot2 +=unit;
 
             if(tetrominoMove == ROTATE){
-                rotate();
+                tetrisMap.rotate();
             }
 
             //IFSTATE IS LEFT
@@ -115,42 +118,6 @@ public class Block_J extends Tetromino implements Serializable {
         return false;
     }
 
-    private void rotate() {
-        nrRotation++;
-
-        if(nrRotation % 2 == 0) {
-            left+=unit;
-            right-=unit;
-            bot+=unit;
-            top-=unit;
-            if(nrRotation==2){
-                left2+=2*unit;
-                right2+=2*unit;
-
-            }if(nrRotation ==4){
-                nrRotation=0;
-
-                left2-=2*unit;
-                right2-=2*unit;
-            }
-
-        }else {
-            left-=unit;
-            right+=unit;
-            bot-=unit;
-            top+=unit;
-
-            if(nrRotation == 1){
-                bot2-=2*unit;
-                top2-=2*unit;
-            }
-            if(nrRotation == 3){
-                bot2+=2*unit;
-                top2+=2*unit;
-            }
-        }
-    }
-
     @Override
     public int getColor(){return color;}
 
@@ -161,11 +128,17 @@ public class Block_J extends Tetromino implements Serializable {
     public RectF getRect2(){return rect2;}*/
 
     @Override
-    public int[][] getLogic(){return logic;}
+    public ArrayList<int[][]> getLogic(){
+        return rotations;
+    }
 
     @Override
     public int getId(){return myId;}
 
     @Override
     public int getFId(){return finalId;}
+
+    public ArrayList<PointsTetromino> getSize() {
+        return size;
+    }
 }

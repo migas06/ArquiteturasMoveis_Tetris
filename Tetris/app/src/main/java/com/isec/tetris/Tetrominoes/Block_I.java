@@ -35,6 +35,7 @@ public class Block_I extends Tetromino implements Serializable{
 
     ArrayList<int[][]> rotations = new ArrayList<>();
     int [][] logic;
+    ArrayList<PointsTetromino> size = new ArrayList<>();
 
     public Block_I(float screenX, float screenY, int myId, float unit) {
         super(screenX, screenY, unit);
@@ -53,16 +54,22 @@ public class Block_I extends Tetromino implements Serializable{
     }
 
     private void startLogic() {
+
+        PointsTetromino pointsTetromino;
+
         logic = new int[][]{
                 {myId},
                 {myId},
                 {myId},
                 {myId}};
-
         rotations.add(logic);
+        pointsTetromino = new PointsTetromino(1,4);
+        size.add(pointsTetromino);
 
         logic = new int[][]{{myId, myId, myId, myId}};
         rotations.add(logic);
+        pointsTetromino = new PointsTetromino(4,1);
+        size.add(pointsTetromino);
     }
 
     public void setMovement(int move){
@@ -79,8 +86,7 @@ public class Block_I extends Tetromino implements Serializable{
 
 
             if(tetrominoMove == ROTATE){
-                tetrisMap.setRotation1stForm(true);
-                rotation();
+                tetrisMap.rotate();
             }
 
             //IFSTATE IS LEFT
@@ -107,36 +113,6 @@ public class Block_I extends Tetromino implements Serializable{
         return false;
     }
 
-    //VISUAL ROTATION
-    private void rotation() {
-        nrRotation++;
-        if(nrRotation == 1) {
-            top+=unit;
-            bot-=2*unit;
-            right+=unit;
-            left-=2*unit;
-        }
-        if(nrRotation == 2) {
-            bot+=unit;
-            top-=2*unit;
-            right-=unit;
-            left+=2*unit;
-        }
-        if(nrRotation == 3) {
-            left-=unit;
-            right+=2*unit;
-            bot-=unit;
-            top+=2*unit;
-        }
-        if(nrRotation == 4) {
-            left+=unit;
-            right-=2*unit;
-            top-=unit;
-            bot+=2*unit;
-            nrRotation=0;
-        }
-    }
-
     @Override
     public int getColor(){return color;}
 
@@ -144,11 +120,8 @@ public class Block_I extends Tetromino implements Serializable{
     public RectF getRect(){return rect;}*/
 
     @Override
-    public int[][] getLogic(){
-        if (nrRotation % 2 == 0)
-            return rotations.get(0);
-        else
-            return rotations.get(1);
+    public ArrayList<int[][]> getLogic(){
+        return rotations;
     }
 
     @Override
@@ -156,4 +129,8 @@ public class Block_I extends Tetromino implements Serializable{
 
     @Override
     public int getFId(){return finalId;}
+
+    public ArrayList<PointsTetromino> getSize() {
+        return size;
+    }
 }

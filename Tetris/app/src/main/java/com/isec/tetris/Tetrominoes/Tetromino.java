@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Miguel on 14-11-2016.
@@ -21,7 +22,7 @@ public class Tetromino implements Serializable{
     private float tetrominoSpeed;
 
     float screenX, screenY;
-
+    ArrayList<PointsTetromino> size = new ArrayList<>();
     public final int finalId = 0;
 
     int myId;
@@ -63,9 +64,12 @@ public class Tetromino implements Serializable{
     public float getX() {return x;    }
     public float getY() {return y;    }
 
-    public int[][] getLogic() {
-        return new int[0][];
+    public ArrayList<int[][]> getLogic() {
+        return null;
     }
     public int getId(){ return myId;}
     public int getFId(){ return finalId;}
+    public ArrayList<PointsTetromino> getSize() {
+        return size;
+    }
 }

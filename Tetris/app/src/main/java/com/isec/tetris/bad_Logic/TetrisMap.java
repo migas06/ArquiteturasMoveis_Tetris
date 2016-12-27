@@ -25,13 +25,12 @@ public class TetrisMap implements Serializable{
     int[][] next;
     int yVar;
     int xVar;
-    int yVarOld;
-    int xVarOld;
+
+    int score;
+    int rotation;
 
     Tetromino tetromino;
 
-    boolean rotation = false;
-    boolean rotation1stForm = false;
     boolean gameOver = false;
 
     //CREATE MAP
@@ -39,6 +38,8 @@ public class TetrisMap implements Serializable{
     //-1 - DEFINES THE SPACE SORROUNDING THE EMPTY SPACE
     //     TETROMINOES CANNOT PASS THAT ZONE
     public TetrisMap() {
+        this.score = 0;
+
         for(int i = 0; i<22; i++){
             for(int j = 0; j<16; j++){
 
@@ -47,45 +48,25 @@ public class TetrisMap implements Serializable{
             }
         }
 
+        this.rotation = 0;
     }
 
     //EVERY TETROMINO HAVE A DIFERENTE SIZE OF BOOLEAN THEN
     //WE GET THEIR BIDIMENSIONAL SIZE WITH setYVar and setXVar
 
     public void setYVar(){
-        yVarOld = yVar;
-        if(!rotation1stForm) {
-            if (tetromino instanceof Block_Z || tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_O) {
-                yVar = 2;
-            } else if (tetromino instanceof Block_J || tetromino instanceof Block_L) {
-                yVar = 3;
-            } else {
-                yVar = 4;
-            }
-        }else{
-            yVar =1;
-        }
+       yVar = tetromino.getSize().get(rotation).getY();
     }
 
     public void setXVar(){
-        xVarOld = xVar;
-        if(!rotation1stForm) {
-            if(tetromino instanceof Block_J || tetromino instanceof Block_L || tetromino instanceof Block_O)
-                xVar = 2;
-            else if(tetromino instanceof Block_S || tetromino instanceof Block_T || tetromino instanceof Block_Z)
-                xVar = 3;
-            else
-                xVar = 1;
-        }else {
-            xVar = 4;
-        }
+        xVar = tetromino.getSize().get(rotation).getX();
     }
 
     /*
     * METHODS
     * */
 
-    public void setNext(Tetromino tetromino){next = tetromino.getLogic();}
+    public void setNext(Tetromino tetromino){next = tetromino.getLogic().get(rotation);}
 
     public void setTetromino(Tetromino tetromino) {this.tetromino = tetromino;}
 
@@ -95,6 +76,8 @@ public class TetrisMap implements Serializable{
         int countJ = 0;
         setYVar();
         setXVar();
+
+
 
         //WILL SEE IF ITS POSSIBLE THE NEXT POSITION OTHERWISE IT RETURN NULL
         for(int i=y; i<y+yVar; i++){
@@ -119,10 +102,9 @@ public class TetrisMap implements Serializable{
         //IF IT GETS THIS POINT, YEAH ITS POSSIBLE TETROMINO BE THERE SO
         //LETS CLEAN OUR TRAIL
         try {
-            if (!rotation)
-                clearTrail();
+            clearTrail();
         }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("aqui!");
+            System.err.println("CLEARTRAIL");
         }
 
         countI = 0;
@@ -151,8 +133,9 @@ public class TetrisMap implements Serializable{
         }
     }
 
+    //FIRST ROTATION, NORMAL ROTATION
     public int getNext(int y, int x){
-        return tetromino.getLogic()[y][x];
+        return tetromino.getLogic().get(rotation)[y][x];
     }
 
 
@@ -188,6 +171,8 @@ public class TetrisMap implements Serializable{
         int wannabe = position;
         int countI=0, countJ=0;
 
+
+        //CHECKS THE WANNABE TETROMINO
         for(int i = y; i<y+yVar; i++){
             for(int j = wannabe; j<wannabe+xVar; j++){
                 try {
@@ -205,6 +190,7 @@ public class TetrisMap implements Serializable{
             countJ=0;
         }
 
+        //IF HE CAN BE
         for(int i=y-1; i<y+yVar; i++){
             for (int j=getX(); j<getX()+xVar; j++){
                 try{
@@ -231,11 +217,9 @@ public class TetrisMap implements Serializable{
         this.y = y;
     }
 
-    public void setRotation1stForm(boolean rotation1stForm) {
-        this.rotation1stForm = rotation1stForm;
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
     }
-
-    public void setRotation(boolean rotation) {this.rotation = rotation;}
 
     //LOG PRINT
     public void print(){
@@ -256,7 +240,7 @@ public class TetrisMap implements Serializable{
 
     //VERIFY IF LINES ARE READY TO DELETE
     public void verifyLines() {
-
+        int linesDelete = 0;
         int countCell=0;
 
         for(int i=0; i<22;i++){
@@ -266,9 +250,19 @@ public class TetrisMap implements Serializable{
                     countCell++;
             }
             if(countCell==16){
+                linesDelete++;
                 deleteLine(i);
             }
         }
+
+        if(linesDelete==1)
+            score+=100;
+        if(linesDelete==2)
+            score+=300;
+        if(linesDelete==3)
+            score+=500;
+        if(linesDelete==4)
+            score+=800;
     }
 
     private void deleteLine(int lineNumber) {
@@ -288,5 +282,45 @@ public class TetrisMap implements Serializable{
 
     public int[][] getMap() {
         return map;
+    }
+
+    public int getScore() {return score;}
+
+    public void rotate() {
+
+        int wannabe = rotation;
+        try{
+            tetromino.getSize().get(wannabe+1);
+        }catch (IndexOutOfBoundsException e){
+            wannabe = -1;
+        }
+
+
+        //VERIFIES IF HE CAN ROTATE
+        for (int i = 0; i < tetromino.getSize().get(wannabe+1).getY(); i++) {
+            for (int j = 0; j < tetromino.getSize().get(wannabe+1).getX(); j++) {
+                try {
+                    if ((map[y+i][j+x] > 0 && map[y+i][j+x] < 7 && map[y+i][j+x] != -1)) {
+                        return;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return;
+                }
+            }
+        }
+
+        //CLEAN THE OLD ONE
+        System.out.println("vou limpar " + rotation);
+        for (int i = -1; i < tetromino.getSize().get(rotation).getY(); i++) {
+            for (int j = 0; j < tetromino.getSize().get(rotation).getX(); j++) {
+                try {
+                    map[y+i][j+x] = 0;
+                }catch (ArrayIndexOutOfBoundsException e){
+                    return;
+                }
+            }
+        }
+
+        rotation=wannabe+1;
     }
 }

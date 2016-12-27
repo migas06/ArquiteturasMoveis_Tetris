@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.isec.tetris.bad_Logic.TetrisMap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Miguel on 15-11-2016.
@@ -99,8 +100,8 @@ public class Block_O extends Tetromino implements Serializable {
     /*@Override
     public RectF getRect(){return rect;}*/
 
-    @Override
-    public int[][] getLogic(){return logic;}
+    /*@Override
+    public ArrayList<int[][]> getLogic(){return logic;}*/
 
     @Override
     public int getId(){return myId;}

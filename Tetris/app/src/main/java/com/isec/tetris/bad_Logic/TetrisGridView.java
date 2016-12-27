@@ -153,7 +153,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         component =  (int) (((screenX-unit*10)/2) + unit*10);
 
         //RECTANGLES FOR INTERSECT
-        rotate = new RectF(unit*11+10, unit*22, screenX, unit*24);
+        rotate = new RectF(component, unit*21, screenX, unit*22);
     }
 
     @Override
@@ -184,11 +184,10 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void update() {
 
-        //tetrisMap.print();
+        tetrisMap.print();
+        //oponnentMap.print();
         if(app.getSocket()!=null)
             createOpponentGrid();
-
-        oponnentMap.print();
 
         pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
 
@@ -212,8 +211,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             gameOver=true;
             running=false;
             draw();
-            score = new Score(playNr);
-            writeScoreIntoFile();
+            score = new Score(playNr+tetrisMap.getScore());
+            if(app.getSocket()==null)
+                writeScoreIntoFile();
         }
     }
 
@@ -224,8 +224,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             ///LOCK THE CANVAS TO DRAW
 
             canvas = surfaceHolder.lockCanvas();
+
             bitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, (int) screenX, (int) screenY, true);
-            canvas.drawBitmap(bitmapBackground, 0, 0, null);
+            canvas.drawBitmap(bitmapBackground, 0, 0, paint);
 
             //Draw the Grid
             drawGrid(canvas);
@@ -233,9 +234,19 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             if(app.getSocket()!=null)
                 drawOponnentGrid(canvas);
 
-            //rotate
-            canvas.drawBitmap(bitmapRotate, component, unit*20, null);
+            //DRAW SCORE
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(unit/2);
+            paint.setStrokeMiter(25);
+            canvas.drawText(context.getResources().getString(R.string.score)+": ", component-unit, unit*9 , paint);
+            paint.setTextSize(unit);
+            canvas.drawText(""+(playNr+tetrisMap.getScore()), component-unit, unit*10 , paint);
 
+            //rotate
+            canvas.drawBitmap(bitmapRotate, component, unit*21, null);
+
+            //GAME OVER THINGS
+            //CLOSE SOCKET HERE TOO
             if (gameOver){
                 canvas.drawColor(Color.argb(100, 0, 0, 0));
                 paint.setColor(Color.WHITE);
@@ -244,8 +255,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
                 if(app.getSocket()==null)
                     canvas.drawText(context.getString(R.string.game_over), unit*2, screenY/2, paint);
-                else
-                    canvas.drawText(msgSocket, unit*2, screenY/2, paint);
+                else {
+                    canvas.drawText(msgSocket, unit * 2, screenY / 2, paint);
+                }
             }
 
             ///DRAW EVERYTHING ON SCREEN
@@ -312,6 +324,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     }
 
+    //DEPENDING ON USER _ CLIENT OR SERVER
+    //SERVER ALWAYS START SENDING TETRISMAP (FROM LOGIC)
+    //NEXT SERVER AWAITS FOR CLIENT MAP
+    //CLIENT FOR HIS TURN RECEIVE THE MAP, AND AFTER RECEIVE
+    //SENDS HIS OWN
     private void createOpponentGrid() {
 
         if(app.getUser().equals("Client")){
@@ -429,7 +446,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         Random random = new Random();
         int idBlock = random.nextInt(7);
 
+        idBlock=0;
         Tetromino tetromino = null;
+
         if(idBlock==0) {
             tetromino= new Block_I(screenX, screenY, playNr, unit);
         }if(idBlock==1) {
@@ -447,6 +466,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         }
 
         pastTetrominos.add(tetromino);
+        tetrisMap.setRotation(0);
         tetrisMap.setNext(tetromino);
         tetrisMap.setTetromino(tetromino);
         tetrisMap.setY(0);
@@ -467,12 +487,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                     pause = false;
 
                     if (!gameOver) {
-
-                        RectF rectF = new RectF(event.getX(), event.getY(), event.getX(), event.getY());
-
+                        RectF rectF = new RectF(event.getX(), event.getY(), event.getX()+1, event.getY()+1);
                         //IF THE USER PRESS TETROMINO
-                        if (rotate.intersect(rectF)) {
+                        if (rectF.intersect(rotate)) {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
+                            System.out.println("ROTATION");
                         }
                         //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
                         //'2' REPRESENTS RIGHT ON CLASS
@@ -482,6 +501,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                             //'1' REPRESENTS LEFT ON CLASS
                         } else {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(1);
+
                             if (gameOver)
                                 onResume();
                         }
@@ -508,6 +528,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     }
 
+    //CREATE A BACKGROUND IMAGE FOR WITH SCREEN DIMENSIONS
     public void createBit(){
         Matrix matrix = new Matrix();
         matrix.setRectToRect(new RectF(0, 0, bitmapBackground.getWidth(), bitmapBackground.getHeight()),
