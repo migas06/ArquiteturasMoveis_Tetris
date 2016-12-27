@@ -77,8 +77,6 @@ public class TetrisMap implements Serializable{
         setYVar();
         setXVar();
 
-
-
         //WILL SEE IF ITS POSSIBLE THE NEXT POSITION OTHERWISE IT RETURN NULL
         for(int i=y; i<y+yVar; i++){
             for(int j=x; j<x+xVar; j++) {
