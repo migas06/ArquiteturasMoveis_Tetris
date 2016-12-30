@@ -106,7 +106,7 @@ public class TetrisMap implements Serializable{
         try {
             clearTrail();
         }catch (ArrayIndexOutOfBoundsException e){
-            System.err.println("CLEARTRAIL");
+            System.err.println(e);
         }
 
         countI = 0;
@@ -114,12 +114,11 @@ public class TetrisMap implements Serializable{
 
         //CREATE THE NEW TETROMINO ON THIS NEW POSITION
         for(int i=y; i<y+yVar; i++) {
-            for (int j = x; j < x + xVar; j++) {
-                if(getNext(countI, countJ) == tetromino.getId())
+            for (int j = x; j < x+xVar; j++) {
+                if(getNext(countI, countJ) == tetromino.getId() && getNext(countI, countJ) != 0)
                     map[i][j] = getNext(countI, countJ);
                 countJ++;
             }
-
             countJ=0;
             countI++;
         }
@@ -127,10 +126,12 @@ public class TetrisMap implements Serializable{
         return true;
     }
 
+    //Clear last line of tetromono
     private void clearTrail() {
         for(int i=y-1; i<(y-1)+yVar; i++){
             for (int j=x; j<x+xVar; j++){
-                map[i][j] = 0;
+                if(!(map[i][j] >0 && map[i][j]<7))
+                    map[i][j] = 0;
             }
         }
     }
@@ -193,7 +194,7 @@ public class TetrisMap implements Serializable{
         }
 
         //IF HE CAN BE
-        for(int i=y-1; i<y+yVar; i++){
+        for(int i=y-1; i<y-1+yVar; i++){
             for (int j=getX(); j<getX()+xVar; j++){
                 try{
                     map[i][j] = 0;
@@ -303,7 +304,6 @@ public class TetrisMap implements Serializable{
         }
     }
 
-    //TODO: RANGE L & J FORM
     public void rotate() {
 
         int wannabe = rotation;
@@ -313,12 +313,14 @@ public class TetrisMap implements Serializable{
             wannabe = -1;
         }
 
-
         //VERIFIES IF HE CAN ROTATE
         for (int i = 0; i < tetromino.getSize().get(wannabe+1).getY(); i++) {
             for (int j = 0; j < tetromino.getSize().get(wannabe+1).getX(); j++) {
                 try {
                     if ((map[y+i][j+x] > 0 && map[y+i][j+x] < 7 && map[y+i][j+x] != -1)) {
+                        return;
+                    }
+                    if (map[y+i][j+x] == -1) {
                         return;
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
@@ -328,7 +330,6 @@ public class TetrisMap implements Serializable{
         }
 
         //CLEAN THE OLD ONE
-        System.out.println("vou limpar " + rotation);
         for (int i = -1; i < tetromino.getSize().get(rotation).getY(); i++) {
             for (int j = 0; j < tetromino.getSize().get(rotation).getX(); j++) {
                 try {

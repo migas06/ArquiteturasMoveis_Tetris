@@ -192,8 +192,8 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void update() {
 
-        //tetrisMap.print();
-        oponnentMap.print();
+        tetrisMap.print();
+        //oponnentMap.print();
         if(app.getSocket()!=null){
             createOpponentGrid();
         }
@@ -418,6 +418,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         }
     }
 
+    //MULTIPLAYER BOARD DRAW
     private void drawOponnentGrid(Canvas canvas) {
 
         Bitmap oBitmapGrid = Bitmap.createScaledBitmap(bitmapGrid, (int) unit/5, (int) unit/5, true);
