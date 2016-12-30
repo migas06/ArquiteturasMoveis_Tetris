@@ -56,7 +56,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="2"></LinearLayout>
 
         <Button
             android:layout_width="match_parent"
@@ -64,13 +64,14 @@
             android:layout_weight="1"
             android:text="@string/join"
             android:textColor="@android:color/white"
+            android:background="@drawable/button_multiplayer"
             android:typeface="monospace"
             android:id="@+id/joing"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="2"></LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

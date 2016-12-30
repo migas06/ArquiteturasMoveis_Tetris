@@ -32,7 +32,7 @@
             android:id="@+id/button_play"
             android:textColor="@android:color/white"
             android:typeface="monospace"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/button_game"
             >
 
         </Button>
@@ -52,7 +52,7 @@
             android:textColor="@android:color/white"
             android:id="@+id/button_multiplayer"
             android:typeface="monospace"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@drawable/button_multiplayer"
             >
 
         </Button>

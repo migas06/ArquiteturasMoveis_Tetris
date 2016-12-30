@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">TETRISEC</string>
+    <string name="shared_preference">userInfo</string>
+    <string name="control_error">O acelerómetro é o controlo pré-definido</string>
+
     <!--Ingame-->
     <string name="game_over">Fim do Jogo</string>
     <string name="restart">Reiniciar</string>
-
 
     <!-- main activity-->
     <string name="credits">créditos</string>
@@ -16,6 +19,7 @@
     <!--Credits-->
     <string name="presents">Apresenta:</string>
     <string name="amov">Arquiteturas Móveis 2016/17</string>
+    <string name="lets_the_song_ends">Pelo menos ouviamos a música até ao fim...</string>
 
     <!-- Scores -->
     <string name="score">RESULTADO</string>
@@ -38,6 +42,21 @@
     <string name="hard">Ahah atréve-te</string>
     <string name="ninja">Mas que... Um ninja?</string>
     <string name="asian">És o lendário deus asiático?</string>
-    <string name="sensor_error" />
-    <string name="lets_the_song_ends" />
+    <string name="sensor_error">Acelerómetro indisponivel</string>
+    <string name="level">Nivel: </string>
+
+    <!-- MULTIPLAYER -->
+    <string name="server">Criar jogo</string>
+    <string name="client">Juntar-se a um jogo</string>
+    <string name="ip">pede ao outro jogador para colocar este ip:</string>
+    <string name="hosting">A CRIAR JOGO...</string>
+    <string name="joining">ENTRAS EM JOGO...</string>
+    <string name="join">Entrar</string>
+    <string name="join_message">Escreva o endereço</string>
+    <string name="win">Ganhou</string>
+    <string name="lose">Perdeu</string>
+    <string name="next">Próximo</string>
+    <string name="invalid_address">Introduza um endereço válido</string>
+    <string name="lost_connection">Interrumpido</string>
+
 </resources>
