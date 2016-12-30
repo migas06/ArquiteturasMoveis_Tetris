@@ -62,7 +62,6 @@ public class CreditsActivity extends Activity {
     private void stopDance(){
         intro.stop();
         intro.release();
-        Toast.makeText(context, getResources().getString(R.string.lets_the_song_ends), Toast.LENGTH_SHORT).show();
         finish();
     }
 

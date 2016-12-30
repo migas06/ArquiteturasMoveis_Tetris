@@ -10,6 +10,7 @@ import com.isec.tetris.Tetrominoes.Block_T;
 import com.isec.tetris.Tetrominoes.Block_Z;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Created by Miguel on 02-12-2016.
@@ -28,6 +29,9 @@ public class TetrisMap implements Serializable{
 
     int score;
     int rotation;
+
+    int linesDelete;
+    int spacesdelete;
 
     Tetromino tetromino;
 
@@ -238,7 +242,7 @@ public class TetrisMap implements Serializable{
 
     //VERIFY IF LINES ARE READY TO DELETE
     public void verifyLines() {
-        int linesDelete = 0;
+        linesDelete = 0;
         int countCell=0;
 
         for(int i=0; i<22;i++){
@@ -284,6 +288,22 @@ public class TetrisMap implements Serializable{
 
     public int getScore() {return score;}
 
+    public int getLinesDelete() {
+        return linesDelete;
+    }
+
+    public void deleteSpaces(int delete) {
+        Random random = new Random();
+
+        for(int i=0; i< delete; i++){
+            int y = random.nextInt(23);
+            int x = 3 + (int)(Math.random() * 12);
+
+            map[y][x] = 0;
+        }
+    }
+
+    //TODO: RANGE L & J FORM
     public void rotate() {
 
         int wannabe = rotation;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.isec.tetris.GameActivity;
 import com.isec.tetris.R;
@@ -24,6 +25,7 @@ public class ClientFragment extends Fragment {
     Socket socketGame = null;
     private static final int PORT = 10100;
 
+    Toast toast;
     Context context;
 
     @Override
@@ -31,6 +33,7 @@ public class ClientFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_client, container, false);
 
         context = getActivity();
+        createToast();
         join = (Button)  view.findViewById(R.id.joing);
         ip   = (EditText)view.findViewById(R.id.editTextIpServer);
 
@@ -44,28 +47,33 @@ public class ClientFragment extends Fragment {
         return view;
     }
     private void runCli() {
-        Thread t = new Thread
-                (new Runnable()
+        Thread t = new Thread(new Runnable()
+        {
+            @Override
+            public void run() {
+                try
                 {
-                    @Override
-                    public void run() {
-                        try
-                        {
-                            socketGame = new Socket (ip.getText().toString(), PORT);
+                    socketGame = new Socket (ip.getText().toString(), PORT);
+                    socketGame.setSoTimeout(10000);
 
-                            SocketHandler app = (SocketHandler) getActivity().getApplication();
-                            app.setSocket(socketGame);
-                            app.setUser("Client");
+                    SocketHandler app = (SocketHandler) getActivity().getApplication();
+                    app.setSocket(socketGame);
+                    app.setUser("Client");
 
-                            startActivity(new Intent(context, GameActivity.class));
+                    getActivity().finish();
+                    startActivity(new Intent(context, GameActivity.class));
 
-                        } catch
-                                (Exception e) {
-                            socketGame = null;
-                        }
-                    }
-                });
+                } catch (Exception e) {
+                    socketGame = null;
+                    toast.show();
+                }
+            }
+        });
 
         t.start();
+    }
+
+    private void createToast(){
+        this.toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_address), Toast.LENGTH_SHORT);
     }
 }

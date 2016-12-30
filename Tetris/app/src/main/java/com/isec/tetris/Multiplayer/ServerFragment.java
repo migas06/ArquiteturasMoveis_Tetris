@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.isec.tetris.GameActivity;
 import com.isec.tetris.R;
@@ -27,7 +28,6 @@ public class ServerFragment extends Fragment {
     ServerSocket serverSocket= null;
     Socket socketGame = null;
     private static final int PORT = 10100;
-    private static final int PORT_FOR_EMUL = 1011;
 
     Context context;
     TextView textView;
@@ -55,12 +55,13 @@ public class ServerFragment extends Fragment {
                     socketGame = serverSocket.accept();
                     serverSocket.close();
                     serverSocket=null;
+                    socketGame.setSoTimeout(10000);
 
                     SocketHandler app = (SocketHandler) getActivity().getApplication();
                     app.setSocket(socketGame);
                     app.setUser("Server");
 
-
+                    getActivity().finish();
                     startActivity(new Intent(context, GameActivity.class));
 
                 } catch(Exception e) {

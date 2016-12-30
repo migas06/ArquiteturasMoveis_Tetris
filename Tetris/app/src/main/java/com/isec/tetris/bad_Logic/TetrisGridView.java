@@ -36,12 +36,14 @@ import com.isec.tetris.Tetrominoes.Block_Z;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Miguel on 14-11-2016.
@@ -62,6 +64,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     boolean running = false;
     boolean pause   = true;
     boolean gameOver = false;
+    boolean lostConnection = false;
 
     boolean accelerometer;
 
@@ -190,19 +193,24 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     private void update() {
 
         //tetrisMap.print();
-        //oponnentMap.print();
-        if(app.getSocket()!=null)
+        oponnentMap.print();
+        if(app.getSocket()!=null){
             createOpponentGrid();
+        }
 
         pastTetrominos.get(pastTetrominos.size()-1).update(fps, tetrisMap);
 
         if (!tetrisMap.update()) {
-            tetrisMap.verifyLines();
 
+            if(oponnentMap.getLinesDelete()>0){
+                tetrisMap.deleteSpaces(oponnentMap.getLinesDelete());
+            }
+
+            tetrisMap.verifyLines();
             randomTetromino();
         }
 
-        if(tetrisMap.isGameOver()){
+        if(tetrisMap.isGameOver() || lostConnection){
             if(app.getSocket()!=null){
                 try {
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(app.getSocket().getOutputStream());
@@ -211,7 +219,10 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                msgSocket = getResources().getString(R.string.lose);
+                if(!lostConnection)
+                    msgSocket = getResources().getString(R.string.lose);
+                else
+                    msgSocket = getResources().getString(R.string.lost_connection);
             }
 
             gameOver=true;
@@ -356,6 +367,8 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             }catch(ClassNotFoundException e) {
                 System.out.println("Exception e: "+e);
+            } catch (InterruptedIOException e){
+                lostConnection = true;
             } catch (IOException e) {
                 System.out.println("Receive Map Exception e: " +e);
             }
@@ -396,7 +409,9 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                     gameOver=true;
                 }
             }catch(ClassNotFoundException e) {
-                System.out.println("Exception e: "+e);
+                System.out.println("Exception e: " + e);
+            }catch (InterruptedIOException e){
+                    lostConnection = true;
             } catch (IOException e) {
                 System.out.println("Receive Map Exception e: " +e);
             }
@@ -533,7 +548,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         }
         else
-            Toast.makeText(context, getResources().getString(R.string.control_error), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, getResources().getString(R.string.control_error), Toast.LENGTH_SHORT).show();
             return true;
 
     }
