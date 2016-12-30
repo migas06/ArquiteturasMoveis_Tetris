@@ -1,10 +1,14 @@
 package com.isec.tetris;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Display;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ public class GameActivity extends Activity {
         Point point = new Point();
         display.getSize(point);
 
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (sensor == null) {
@@ -34,7 +39,7 @@ public class GameActivity extends Activity {
             return;
         }
 
-        tetrisGrid = new TetrisGridView(this, point.x, point.y, sensor, sensorManager);
+        tetrisGrid = new TetrisGridView(this, point.x, point.y, sensor, sensorManager );
 
         //KEEP THE SCREEN ALWAYS ON
         tetrisGrid.setKeepScreenOn(true);

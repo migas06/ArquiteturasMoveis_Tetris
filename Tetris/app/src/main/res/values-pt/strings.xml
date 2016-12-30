@@ -2,11 +2,12 @@
 <resources>
     <string name="app_name">TETRISEC</string>
     <string name="shared_preference">userInfo</string>
-    <string name="control_error">O acelerómetro é o controlo pré-definido</string>
 
     <!--Ingame-->
     <string name="game_over">Fim do Jogo</string>
     <string name="restart">Reiniciar</string>
+    <string name="request">É necessário para guardar as pontuações...</string>
+    <string name="control_error">O acelerómetro é o controlo pré-definido</string>
 
     <!-- main activity-->
     <string name="credits">créditos</string>

@@ -6,6 +6,7 @@
     <string name="game_over">Game Over</string>
     <string name="restart">Restart</string>
     <string name="control_error">You have accelerometer as default controller</string>
+    <string name="request">It is needed to save your scores</string>
 
     <!-- main activity-->
     <string name="credits">Credits</string>
@@ -57,12 +58,5 @@
     <string name="next">Next</string>
     <string name="invalid_address">Please Enter a valid address</string>
     <string name="lost_connection">Lost Connection</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
-    <!--LEARNING-->
-
 
 </resources>

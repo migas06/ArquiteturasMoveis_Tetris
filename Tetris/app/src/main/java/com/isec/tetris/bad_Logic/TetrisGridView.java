@@ -1,8 +1,11 @@
 package com.isec.tetris.bad_Logic;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,6 +18,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -34,6 +40,7 @@ import com.isec.tetris.Tetrominoes.Block_T;
 import com.isec.tetris.Tetrominoes.Block_Z;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -86,6 +93,8 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     TetrisMap tetrisMap;
     TetrisMap oponnentMap;
     int playNr;
+
+    int MY_PERMISSIONS_REQUEST = 0;
 
     //ALL PAST TETROMINOES
     ArrayList<Tetromino> pastTetrominos = new ArrayList<>();
@@ -192,7 +201,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void update() {
 
-        tetrisMap.print();
+        //tetrisMap.print();
         //oponnentMap.print();
         if(app.getSocket()!=null){
             createOpponentGrid();
@@ -228,7 +237,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             gameOver=true;
             running=false;
             draw();
-            score = new Score(playNr+tetrisMap.getScore());
+            score = new Score((level*playNr)+tetrisMap.getScore());
             if(app.getSocket()==null)
                 writeScoreIntoFile();
         }
@@ -257,7 +266,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             paint.setStrokeMiter(25);
             canvas.drawText(context.getResources().getString(R.string.score)+": ", component-unit, unit*9 , paint);
             paint.setTextSize(unit);
-            canvas.drawText(""+(playNr+tetrisMap.getScore()), component-unit, unit*10 , paint);
+            canvas.drawText(""+((level*playNr)+tetrisMap.getScore()), component-unit, unit*10 , paint);
 
             //rotate
             canvas.drawBitmap(bitmapRotate, component, unit*21, null);
@@ -533,7 +542,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         }
                     } else {
                         try {
-                            context.startActivity(new Intent(context, MainActivity.class));
+                            ((Activity) context).finish();
                         } catch (Exception e) {
                             System.out.println("e --->" + e);
                         }
@@ -583,8 +592,23 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void writeScoreIntoFile() {
 
+        Toast.makeText(context, getResources().getString(R.string.request), Toast.LENGTH_LONG).show();
+
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST);
+            }
+        }
+
         ArrayList<Score> list = new ArrayList<Score>();
-        list = score.readScore();
+
+        if(score.readScore() != null)
+            list = score.readScore();
 
         try {
             OutputStream fOutputStream = new FileOutputStream(score.getPath());
@@ -599,6 +623,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("ERROR! SCORE WILL NOT BE SAVED IN FILE");
+
         }
     }
 

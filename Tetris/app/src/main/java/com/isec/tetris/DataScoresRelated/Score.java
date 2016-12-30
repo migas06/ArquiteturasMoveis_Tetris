@@ -24,7 +24,7 @@ import java.util.Comparator;
 public class Score implements Serializable, Comparable<Score> {
     int score;
     Calendar today;
-    String path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/scores.obj";
+    String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/scores.obj";
     ArrayList<Score> list = new ArrayList<>();
 
     public Score(int score){

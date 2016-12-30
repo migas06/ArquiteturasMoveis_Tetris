@@ -148,17 +148,27 @@ public class TetrisMap implements Serializable{
 
         for(int i=x; i<x+xVar;i++){
             if(tetromino instanceof Block_I){
-                if(map[2][i]!=0 && getNext(0, count)==tetromino.getId()) {
-                    if(map[2][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
-                        return true;
+                try {
+                    if (map[2][i] != 0 && getNext(0, count) == tetromino.getId()) {
+                        if (map[2][i] != tetromino.getId() && getNext(0, count) == tetromino.getId())
+                            return true;
+                    }
+                }catch (ArrayIndexOutOfBoundsException e){
+                    return true;
                 }
             }
-            if(map[1][i]!=0 && getNext(0, count)==tetromino.getId()) {
-                if(map[1][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
-                    return true;
+            try{
+
+                if(map[1][i]!=0 && getNext(0, count)==tetromino.getId()) {
+                    if(map[1][i] != tetromino.getId() && getNext(0, count)==tetromino.getId())
+                        return true;
+                }
+            }catch (ArrayIndexOutOfBoundsException e){
+                return true;
             }
             count++;
         }
+
         return gameOver;
     }
 
