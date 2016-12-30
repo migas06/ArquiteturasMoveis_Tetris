@@ -38,10 +38,7 @@ public class CreditsActivity extends Activity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intro.stop();
-                intro.release();
-                Toast.makeText(context, getResources().getString(R.string.lets_the_song_ends), Toast.LENGTH_SHORT).show();
-                finish();
+                stopDance();
             }
         });
 
@@ -59,6 +56,20 @@ public class CreditsActivity extends Activity {
     private void letsDance() {
         intro= MediaPlayer.create(this, R.raw.intro);
         intro.start();
+
+    }
+
+    private void stopDance(){
+        intro.stop();
+        intro.release();
+        Toast.makeText(context, getResources().getString(R.string.lets_the_song_ends), Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(intro != null)
+            stopDance();
 
     }
 }

@@ -56,23 +56,29 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:textSize="25sp"
             android:typeface="monospace"
             android:textColor="@android:color/white"
             android:text="@string/difficulty"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></LinearLayout>
+
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
-            android:layout_weight="2" />
+            android:buttonTint="@android:color/white"
+            android:layout_weight="0" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="10sp"
+            android:textSize="15sp"
             android:gravity="center"
             android:typeface="monospace"
             android:id="@+id/seek_hint"
@@ -127,6 +133,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:buttonTint="@android:color/white"
                 android:id="@+id/checkBox" />
 
         </LinearLayout>

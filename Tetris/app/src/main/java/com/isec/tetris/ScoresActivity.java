@@ -24,6 +24,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ScoresActivity extends Activity {
 
@@ -46,6 +47,7 @@ public class ScoresActivity extends Activity {
         if(list!=null) {
             ArrayAdapter<Score> arrayAdapter = new ScoreAdapter(this, list);
             listViewScores.setAdapter(arrayAdapter);
+            Collections.sort(list);
         }
 
         imageViewBack.setOnClickListener(new View.OnClickListener() {

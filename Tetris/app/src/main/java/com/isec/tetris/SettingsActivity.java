@@ -101,7 +101,7 @@ public class SettingsActivity extends Activity {
             hint = getResources().getString(R.string.asian);
         }
 
-        textView.setText("LEVEL: " + progress + ", "+ hint);
+        textView.setText(getResources().getString(R.string.level) +" "+ progress + ", "+ hint);
 
     }
 }

@@ -42,6 +42,7 @@
     <string name="ninja">Are you a f*cking ninja?</string>
     <string name="asian">Are you a Asian God?</string>
     <string name="sensor_error">No accelerometer avaliable</string>
+    <string name="level">Level: </string>
 
     <!-- MULTIPLAYER -->
     <string name="server">Host a game</string>

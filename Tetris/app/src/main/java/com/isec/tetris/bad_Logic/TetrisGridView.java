@@ -180,7 +180,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(level*150);
+                Thread.sleep(level*15);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -247,11 +247,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             canvas.drawText(context.getResources().getString(R.string.score)+": ", component-unit, unit*9 , paint);
             paint.setTextSize(unit);
             canvas.drawText(""+(playNr+tetrisMap.getScore()), component-unit, unit*10 , paint);
-
-            //DRAW NEXT PIECE
-            paint.setTextSize(unit);
-            canvas.drawText(context.getResources().getString(R.string.next), component-unit, unit*14 , paint);
-            //drawNext();
 
             //rotate
             canvas.drawBitmap(bitmapRotate, component, unit*21, null);
@@ -481,7 +476,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         tetrisMap.setNext(tetromino);
         tetrisMap.setTetromino(tetromino);
         tetrisMap.setY(0);
-        tetrisMap.setX(8);
+        tetrisMap.setX(7);
     }
 
     //I CHOOSE USE ::onTouchEvent FROM VIEW INSTEAD OF

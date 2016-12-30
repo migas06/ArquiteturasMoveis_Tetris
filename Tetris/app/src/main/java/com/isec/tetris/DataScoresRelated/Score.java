@@ -20,7 +20,8 @@ import java.util.Comparator;
  * Created by Miguel on 23-12-2016.
  */
 
-public class Score implements Serializable {
+//COMPARABLE TO ORDER ARRAY
+public class Score implements Serializable, Comparable<Score> {
     int score;
     Calendar today;
     String path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/scores.obj";
@@ -63,5 +64,10 @@ public class Score implements Serializable {
 
     public String getPath() {
         return path;
+    }
+
+    @Override
+    public int compareTo(Score score) {
+        return ( score.getScore()- this.score);
     }
 }
