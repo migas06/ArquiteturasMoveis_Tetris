@@ -26,6 +26,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SocketHandler app = (SocketHandler) getApplication();
+        app.setSocket(null);
+
         buttonPlay        = (Button) findViewById(R.id.button_play);
         buttonMultiplayer = (Button) findViewById(R.id.button_multiplayer);
         buttonSettings    = (Button) findViewById(R.id.button_settings);

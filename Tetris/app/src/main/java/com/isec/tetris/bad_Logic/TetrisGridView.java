@@ -3,7 +3,6 @@ package com.isec.tetris.bad_Logic;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,7 +17,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
@@ -27,7 +25,6 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.isec.tetris.DataScoresRelated.Score;
-import com.isec.tetris.MainActivity;
 import com.isec.tetris.Multiplayer.SocketHandler;
 import com.isec.tetris.R;
 import com.isec.tetris.Tetrominoes.Tetromino;
@@ -40,7 +37,6 @@ import com.isec.tetris.Tetrominoes.Block_T;
 import com.isec.tetris.Tetrominoes.Block_Z;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -50,7 +46,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeoutException;
+
 
 /**
  * Created by Miguel on 14-11-2016.
@@ -232,6 +228,12 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                     msgSocket = getResources().getString(R.string.lose);
                 else
                     msgSocket = getResources().getString(R.string.lost_connection);
+
+                try {
+                    app.getSocket().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             gameOver=true;
@@ -542,9 +544,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         }
                     } else {
                         try {
+                            app.getSocket().close();
+                            app.setSocket(null);
                             ((Activity) context).finish();
                         } catch (Exception e) {
-                            System.out.println("e --->" + e);
+                            System.out.println("" + e);
                         }
                     }
 
@@ -594,7 +598,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         Toast.makeText(context, getResources().getString(R.string.request), Toast.LENGTH_LONG).show();
 
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

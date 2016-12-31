@@ -307,7 +307,7 @@ public class TetrisMap implements Serializable{
         Random random = new Random();
 
         for(int i=0; i< delete; i++){
-            int y = random.nextInt(23);
+            int y = random.nextInt(21);
             int x = 3 + (int)(Math.random() * 12);
 
             map[y][x] = 0;

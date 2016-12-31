@@ -41,7 +41,6 @@ public class ServerFragment extends Fragment {
 
     String ip;
 
-    Context context = getActivity();
     TextView textView;
     Button buttonshare;
     Button buttonWifi;
@@ -123,7 +122,7 @@ public class ServerFragment extends Fragment {
                     app.setUser("Server");
 
                     getActivity().finish();
-                    startActivity(new Intent(context, GameActivity.class));
+                    startActivity(new Intent(getActivity(), GameActivity.class));
 
                 } catch(Exception e) {
                     e.printStackTrace();

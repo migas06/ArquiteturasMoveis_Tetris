@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:gravity="center"
+            android:singleLine="true"
             android:backgroundTint="@android:color/white"
             android:id="@+id/editTextIpServer"
             android:typeface="monospace"
