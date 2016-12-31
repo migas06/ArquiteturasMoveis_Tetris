@@ -1,11 +1,13 @@
 package com.isec.tetris.Multiplayer;
 
 
+import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,9 @@ public class ClientFragment extends Fragment {
 
     Socket socketGame = null;
     private static final int PORT = 10100;;
+
+    ClientFragment clientFragment = this;
+    Handler handler = new Handler();
 
     TextView textView;
 
@@ -110,5 +115,19 @@ public class ClientFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(clientFragment).attach(clientFragment).commit();
+
+                presentViewByNetworkState();
+            }
+        }, 5000);
     }
 }

@@ -3,6 +3,7 @@ package com.isec.tetris.Multiplayer;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,8 @@ public class ServerFragment extends Fragment {
     private static final int PORT = 10100;;
 
     String ip;
+
+    ServerFragment serverFragment = this;
 
     TextView textView;
     Button buttonshare;
@@ -163,5 +166,20 @@ public class ServerFragment extends Fragment {
         }
 
         return null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(serverFragment).attach(serverFragment).commit();
+
+                presentViewByNetworkState();
+            }
+        }, 2500);
     }
 }

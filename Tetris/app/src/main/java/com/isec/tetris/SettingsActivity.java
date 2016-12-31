@@ -51,7 +51,13 @@ public class SettingsActivity extends Activity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
                 progressSeekBar = i;
+
+                if (i == 0)
+                    progressSeekBar = 1;
+
+
                 progress(progressSeekBar);
             }
 

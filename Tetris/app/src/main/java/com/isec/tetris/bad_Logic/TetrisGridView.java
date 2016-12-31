@@ -188,7 +188,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(level*15);
+                Thread.sleep(level*25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -544,7 +544,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         }
                     } else {
                         try {
-                            app.getSocket().close();
                             app.setSocket(null);
                             ((Activity) context).finish();
                         } catch (Exception e) {
@@ -596,7 +595,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void writeScoreIntoFile() {
 
-        Toast.makeText(context, getResources().getString(R.string.request), Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, getResources().getString(R.string.request), Toast.LENGTH_LONG).show();
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
 
