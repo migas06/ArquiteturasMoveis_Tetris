@@ -167,19 +167,4 @@ public class ServerFragment extends Fragment {
 
         return null;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(serverFragment).attach(serverFragment).commit();
-
-                presentViewByNetworkState();
-            }
-        }, 2500);
-    }
 }

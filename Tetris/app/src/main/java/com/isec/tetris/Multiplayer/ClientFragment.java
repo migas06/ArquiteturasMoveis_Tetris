@@ -116,18 +116,4 @@ public class ClientFragment extends Fragment {
             });
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(clientFragment).attach(clientFragment).commit();
-
-                presentViewByNetworkState();
-            }
-        }, 5000);
-    }
 }
