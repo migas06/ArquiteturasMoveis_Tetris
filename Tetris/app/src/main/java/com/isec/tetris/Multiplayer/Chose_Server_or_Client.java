@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.isec.tetris.R;
 
@@ -15,8 +16,9 @@ public class Chose_Server_or_Client extends Fragment {
 
     Button buttonClient;
     Button buttonServer;
-
     Context context;
+
+    boolean network;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,13 +27,14 @@ public class Chose_Server_or_Client extends Fragment {
         buttonClient = (Button) view.findViewById(R.id.button_client);
         buttonServer = (Button) view.findViewById(R.id.button_server);
 
+
         context = getActivity();
 
         buttonServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final FragmentTransaction  fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment, new ServerFragment());
+                                final FragmentTransaction  fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,  new ServerFragment());
                 fragmentTransaction.commit();
             }
         });

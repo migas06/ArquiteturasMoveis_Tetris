@@ -59,5 +59,10 @@
     <string name="next">Próximo</string>
     <string name="invalid_address">Introduza um endereço válido</string>
     <string name="lost_connection">Interrumpido</string>
+    <string name="share_button">Partilha</string>
+    <string name="share">Partilhar o endereço</string>
+    <string name="come_play_with_me">Vem jogar TETRISEC comigo no endereço: </string>
+    <string name="no_internet">Sem conexão a uma rede.</string>
+    <string name="connect">Ligar-se</string>
 
 </resources>

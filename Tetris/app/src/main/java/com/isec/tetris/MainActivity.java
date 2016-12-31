@@ -37,6 +37,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(context, GameActivity.class);
+
                 startActivity(intent);
             }
         });

@@ -45,7 +45,31 @@
             android:layout_height="wrap_content"
             android:id="@+id/progressBar" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+        </LinearLayout>
 
+        <Button
+
+            android:drawableLeft="@drawable/share"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:text="@string/share_button"
+            android:textColor="@android:color/white"
+            android:typeface="monospace"
+            android:id="@+id/button_share"
+            android:layout_height="wrap_content" />
+        <Button
+
+            android:drawableLeft="@drawable/wifi"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:text="@string/connect"
+            android:textColor="@android:color/white"
+            android:typeface="monospace"
+            android:id="@+id/button_open_wifi"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
