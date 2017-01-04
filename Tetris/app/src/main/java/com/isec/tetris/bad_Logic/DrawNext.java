@@ -66,9 +66,9 @@ public class DrawNext {
             }
         }
         if(nextTetromino == 1){
-            for(int i = 0; i< bo.getSize().get(0).getY(); i++){
-                for(int j = 0; j< bo.getSize().get(0).getX(); j++) {
-                    if(bo.getLogic().get(0)[i][j]!=0){
+            for(int i = 0; i< bj.getSize().get(0).getY(); i++){
+                for(int j = 0; j< bj.getSize().get(0).getX(); j++) {
+                    if(bj.getLogic().get(0)[i][j]!=0){
                         canvas.drawBitmap(bitmaplist.get(1), left, top, null);
                     }
                     left+=unit;
@@ -102,9 +102,9 @@ public class DrawNext {
             }
         }
         if(nextTetromino == 4){
-            for(int i = 0; i< bj.getSize().get(0).getY(); i++){
-                for(int j = 0; j< bj.getSize().get(0).getX(); j++) {
-                    if(bj.getLogic().get(0)[i][j]!=0){
+            for(int i = 0; i< bs.getSize().get(0).getY(); i++){
+                for(int j = 0; j< bs.getSize().get(0).getX(); j++) {
+                    if(bs.getLogic().get(0)[i][j]!=0){
                         canvas.drawBitmap(bitmaplist.get(4), left, top, null);
                     }
                     left+=unit;

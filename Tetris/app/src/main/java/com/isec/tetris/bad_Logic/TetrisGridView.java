@@ -186,7 +186,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         component =  (int) (((screenX-unit*10)/2) + unit*10);
 
         //RECTANGLES FOR INTERSECT
-        rotate = new RectF(component, unit*21, screenX, unit*22);
+        rotate = new RectF(component-unit/2, unit*20, screenX, unit*23);
     }
 
     @Override
@@ -516,15 +516,15 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         if(idBlock==0) {
             return new Block_I(screenX, screenY, playNr, unit);
-        }if(idBlock==1) {
+        }if(idBlock==3) {
             return new Block_O(screenX, screenY, playNr, unit);
         }if(idBlock==2) {
             return new Block_L(screenX, screenY, playNr, unit);
-        }if(idBlock==3) {
+        }if(idBlock==1) {
             return new Block_J(screenX, screenY, playNr, unit);
-        }if(idBlock==4) {
-            return new Block_T(screenX, screenY, playNr, unit);
         }if(idBlock==5) {
+            return new Block_T(screenX, screenY, playNr, unit);
+        }if(idBlock==4) {
             return new Block_S(screenX, screenY, playNr, unit);
         }if(idBlock==6) {
             return new Block_Z(screenX, screenY, playNr, unit);
