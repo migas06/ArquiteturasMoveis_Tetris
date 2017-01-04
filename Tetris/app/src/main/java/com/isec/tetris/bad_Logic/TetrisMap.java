@@ -327,12 +327,23 @@ public class TetrisMap implements Serializable{
         for (int i = 0; i < tetromino.getSize().get(wannabe+1).getY(); i++) {
             for (int j = 0; j < tetromino.getSize().get(wannabe+1).getX(); j++) {
                 try {
-                    if ((map[y+i][j+x] > 0 && map[y+i][j+x] < 7 && map[y+i][j+x] != -1)) {
+                    if ((map[y+i][j+x] > 0 && map[y+i][j+x] < 8 && map[y+i][j+x] != -1)) {
                         return;
                     }
-                    if (map[y+i][j+x] == -1) {
-                        return;
+
+                    //LEFT SIDE IT BACKS A UNIT BACK
+                    while(true) {
+                        if (map[y+i][j+x] == -1) {
+                            if (x > 5) {
+                                setX(x-1);
+                            } else {
+                                setX(x+1);
+                            }
+                        }
+                        else
+                            break;
                     }
+
                 } catch (ArrayIndexOutOfBoundsException e) {
                     return;
                 }
@@ -343,8 +354,10 @@ public class TetrisMap implements Serializable{
         for (int i = -1; i < tetromino.getSize().get(rotation).getY(); i++) {
             for (int j = 0; j < tetromino.getSize().get(rotation).getX(); j++) {
                 try {
-                    map[y+i][j+x] = 0;
+                    if (map[y+i][j+x] > 8)
+                        map[y+i][j+x] = 0;
                 }catch (ArrayIndexOutOfBoundsException e){
+                    rotation=wannabe+1;
                     return;
                 }
             }

@@ -42,7 +42,7 @@ public class ServerFragment extends Fragment {
 
     String ip;
 
-    ServerFragment serverFragment = this;
+    Thread thread;
 
     TextView textView;
     Button buttonshare;
@@ -88,6 +88,13 @@ public class ServerFragment extends Fragment {
 
         waiting();
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return view;
     }
 
@@ -110,11 +117,13 @@ public class ServerFragment extends Fragment {
     }
 
     private void waiting() {
-        Thread thread = new Thread (new Runnable() {
+        thread = new Thread (new Runnable() {
             @Override
             public void run() {
                 try{
-                    serverSocket = new ServerSocket(PORT);
+                    serverSocket = new ServerSocket();
+                    serverSocket.setReuseAddress(true);
+                    serverSocket.bind(new InetSocketAddress(PORT));
                     socketGame = serverSocket.accept();
                     serverSocket.close();
                     serverSocket=null;

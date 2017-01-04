@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.isec.tetris.Multiplayer.SocketHandler;
+
 import java.io.IOException;
 
 public class CreditsActivity extends Activity {

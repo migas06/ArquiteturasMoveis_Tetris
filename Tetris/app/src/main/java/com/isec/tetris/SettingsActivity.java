@@ -18,6 +18,7 @@ import com.isec.tetris.R;
 public class SettingsActivity extends Activity {
 
     CheckBox checkBox;
+    CheckBox checkBoxSound;
     ImageView imageView;
 
     TextView textView;
@@ -36,17 +37,23 @@ public class SettingsActivity extends Activity {
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shared_preference), Context.MODE_PRIVATE);
 
         boolean isChecked  = sharedPreferences.getBoolean("accelerometer", false);
+        boolean isCheckedSound  = sharedPreferences.getBoolean("song", false);
         int actualProgress = sharedPreferences.getInt("level", 1);
 
         textView  = (TextView)  findViewById(R.id.seek_hint);
         seekBar   = (SeekBar)   findViewById(R.id.seekBar);
         checkBox  = (CheckBox)  findViewById(R.id.checkBox);
         imageView = (ImageView) findViewById(R.id.save_and_back);
+        checkBoxSound = (CheckBox)  findViewById(R.id.checkBoxSound);
 
         seekBar.setProgress(actualProgress);
         seekBar.setMax(10);
 
+
         progress(seekBar.getProgress());
+
+        checkBox.setChecked(isChecked);
+        checkBoxSound.setChecked(isCheckedSound);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -68,7 +75,6 @@ public class SettingsActivity extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        checkBox.setChecked(isChecked);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +82,8 @@ public class SettingsActivity extends Activity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 editor.putBoolean("accelerometer", checkBox.isChecked());
-                editor.putInt("level", progressSeekBar);
+                editor.putBoolean("song", checkBoxSound.isChecked());
+                editor.putInt("level", seekBar.getProgress());
                 editor.commit();
 
                 Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show();

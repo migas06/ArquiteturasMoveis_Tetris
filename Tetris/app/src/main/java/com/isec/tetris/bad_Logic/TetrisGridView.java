@@ -114,6 +114,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     //MESURE CREATED FOR LATERAL COMPONENTS
     int component;
+    int progress;
 
     SocketHandler app;
     String msgSocket = "nothing";
@@ -188,7 +189,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(level*25);
+                Thread.sleep(level*100*1,5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -239,7 +240,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             gameOver=true;
             running=false;
             draw();
-            score = new Score((level*playNr)+tetrisMap.getScore());
+            score = new Score((progress*playNr)+tetrisMap.getScore());
             if(app.getSocket()==null)
                 writeScoreIntoFile();
         }
@@ -268,7 +269,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             paint.setStrokeMiter(25);
             canvas.drawText(context.getResources().getString(R.string.score)+": ", component-unit, unit*9 , paint);
             paint.setTextSize(unit);
-            canvas.drawText(""+((level*playNr)+tetrisMap.getScore()), component-unit, unit*10 , paint);
+            canvas.drawText(""+((progress*playNr)+tetrisMap.getScore()), component-unit, unit*10 , paint);
 
             //rotate
             canvas.drawBitmap(bitmapRotate, component, unit*21, null);
@@ -581,12 +582,16 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                 getResources().getString(R.string.shared_preference), Context.MODE_PRIVATE);
 
         accelerometer = sharedPreferences.getBoolean("accelerometer", false);
-        int progress = sharedPreferences.getInt("level", 1);
+        progress = sharedPreferences.getInt("level", 1);
 
         int c=1;
         for(int i=10; i>0; i--){
             if(c==progress) {
-                c = i;
+                if (i != 10) {
+                    c = i * i;
+                }else {
+                    c = i;
+                }
                 break;
             }
         }

@@ -2,8 +2,11 @@ package com.isec.tetris.Multiplayer;
 
 import android.app.Application;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.isec.tetris.R;
 
 import java.io.Serializable;
 import java.net.Socket;
@@ -19,7 +22,7 @@ public class SocketHandler extends Application implements Serializable{
     Socket socket;
     String User;
 
-    Boolean network;
+    MediaPlayer backgroundSong;
 
     public SocketHandler(){
         this.socket = null;
