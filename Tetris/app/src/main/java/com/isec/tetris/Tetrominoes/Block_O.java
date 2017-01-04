@@ -17,12 +17,9 @@ public class Block_O extends Tetromino implements Serializable {
     int finalId = 4;
     int myId;
 
-    /*RectF rect;*/
-
     public final int STOP   = 0;
     public final int LEFT   = 1;
     public final int RIGHT  = 2;
-    public final int ROTATE = 3;
 
     //MOVEMENT
     int tetrominoMove;
@@ -63,10 +60,6 @@ public class Block_O extends Tetromino implements Serializable {
 
             //IFSTATE IS RIGHT
             if (tetrominoMove == RIGHT) {
-                tetrisMap.setX(tetrisMap.getX() + 1);
-            }
-
-            if (tetrominoMove == ROTATE) {
                 tetrisMap.setX(tetrisMap.getX() + 1);
             }
 

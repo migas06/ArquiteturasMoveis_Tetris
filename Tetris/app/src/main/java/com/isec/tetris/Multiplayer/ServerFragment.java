@@ -38,7 +38,7 @@ public class ServerFragment extends Fragment {
 
     ServerSocket serverSocket;
     Socket socketGame;
-    private static final int PORT = 10100;;
+    private static final int PORT = 10101;;
 
     String ip;
 

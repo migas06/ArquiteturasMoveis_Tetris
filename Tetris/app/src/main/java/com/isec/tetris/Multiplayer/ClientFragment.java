@@ -27,7 +27,7 @@ public class ClientFragment extends Fragment {
     EditText ip;
 
     Socket socketGame = null;
-    private static final int PORT = 10100;;
+    private static final int PORT = 10101;;
 
     ClientFragment clientFragment = this;
     Handler handler = new Handler();

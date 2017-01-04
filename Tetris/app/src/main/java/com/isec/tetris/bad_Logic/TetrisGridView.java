@@ -320,6 +320,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                     canvas.drawText(context.getString(R.string.game_over), unit*2, screenY/2, paint);
                 else {
                     canvas.drawText(msgSocket, unit * 2, screenY / 2, paint);
+                    running = false;
                 }
             }
 

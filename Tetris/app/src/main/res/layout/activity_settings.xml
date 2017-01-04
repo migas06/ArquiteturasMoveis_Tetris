@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
             android:buttonTint="@android:color/white"
+            android:progress="1"
 
             android:layout_weight="0" />
 
@@ -188,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:buttonTint="@android:color/white"
+                android:checked="true"
                 android:id="@+id/checkBoxSound" />
 
         </LinearLayout>
