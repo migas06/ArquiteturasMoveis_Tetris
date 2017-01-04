@@ -136,7 +136,7 @@ public class TetrisMap implements Serializable{
     private void clearTrail() {
         for(int i=y-1; i<(y-1)+yVar; i++){
             for (int j=x; j<x+xVar; j++){
-                if(!(map[i][j] >0 && map[i][j]<7))
+                if(!(map[i][j] >0 && map[i][j]<8))
                     map[i][j] = 0;
             }
         }
