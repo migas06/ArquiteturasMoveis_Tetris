@@ -92,6 +92,8 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     int MY_PERMISSIONS_REQUEST = 0;
 
+    DrawNext drawNext;
+
     //ALL PAST TETROMINOES
     ArrayList<Tetromino> pastTetrominos = new ArrayList<>();
 
@@ -140,12 +142,12 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         playNr=0;
 
-        randomTetromino();
-
-
         bitmapRotate = BitmapFactory.decodeResource(context.getResources(), R.drawable.rotate);
         bitmapBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_app);
         bitmapGrid  = BitmapFactory.decodeResource(context.getResources(), R.drawable.grid_background);
+
+
+        ArrayList<Bitmap> bitmapsList = new ArrayList<>();
 
         bitmapOne   = BitmapFactory.decodeResource(context.getResources(), R.drawable.one);
         bitmapTwo   = BitmapFactory.decodeResource(context.getResources(), R.drawable.two);
@@ -154,6 +156,23 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         bitmapFive  = BitmapFactory.decodeResource(context.getResources(), R.drawable.five);
         bitmapSix   = BitmapFactory.decodeResource(context.getResources(), R.drawable.six);
         bitmapSeven = BitmapFactory.decodeResource(context.getResources(), R.drawable.seven);
+
+        bitmapsList.add(bitmapOne);
+        bitmapsList.add(bitmapTwo);
+        bitmapsList.add(bitmapThree);
+        bitmapsList.add(bitmapFour);
+        bitmapsList.add(bitmapFive);
+        bitmapsList.add(bitmapSix);
+        bitmapsList.add(bitmapSeven);
+
+        drawNext = new DrawNext(bitmapsList, unit*2/3);
+
+        pastTetrominos.add(randomTetromino(tetrisMap.getActualTetromino()));
+        tetrisMap.setRotation(0);
+        tetrisMap.setNext(randomTetromino(tetrisMap.getActualTetromino()));
+        tetrisMap.setTetromino(randomTetromino(tetrisMap.getActualTetromino()));
+        tetrisMap.setY(0);
+        tetrisMap.setX(7);
 
         createBit();
         sharedPreferenceValues();
@@ -213,7 +232,16 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
             }
 
             tetrisMap.verifyLines();
-            randomTetromino();
+
+            tetrisMap.setActualTetromino(tetrisMap.getNextTetromino());
+            tetrisMap.setNextTetromino(tetrisMap.random());
+
+            pastTetrominos.add(randomTetromino(tetrisMap.getActualTetromino()));
+            tetrisMap.setRotation(0);
+            tetrisMap.setNext(randomTetromino(tetrisMap.getActualTetromino()));
+            tetrisMap.setTetromino(randomTetromino(tetrisMap.getActualTetromino()));
+            tetrisMap.setY(0);
+            tetrisMap.setX(7);
         }
 
         if(tetrisMap.isGameOver() || lostConnection){
@@ -259,6 +287,12 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             //Draw the Grid
             drawGrid(canvas);
+
+            //Draw Next Tetrominó
+            paint.setTextSize(unit/2);
+            canvas.drawText(context.getResources().getString(R.string.next)+": ", component-unit, unit*14 , paint);
+            drawNext.drawNextTetromino(canvas, tetrisMap.getNextTetromino(),  component- (int) unit/2, (int) unit*15);
+
 
             if(app.getSocket()!=null)
                 drawOponnentGrid(canvas);
@@ -476,35 +510,25 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     }
 
     //METHOD THAT RANDOMS THE TETROMINO
-    public void randomTetromino(){
+    public Tetromino randomTetromino(int idBlock){
         playNr++;
-        Random random = new Random();
-        int idBlock = random.nextInt(7);
-
-        Tetromino tetromino = null;
 
         if(idBlock==0) {
-            tetromino= new Block_I(screenX, screenY, playNr, unit);
+            return new Block_I(screenX, screenY, playNr, unit);
         }if(idBlock==1) {
-            tetromino= new Block_O(screenX, screenY, playNr, unit);
+            return new Block_O(screenX, screenY, playNr, unit);
         }if(idBlock==2) {
-            tetromino= new Block_L(screenX, screenY, playNr, unit);
+            return new Block_L(screenX, screenY, playNr, unit);
         }if(idBlock==3) {
-            tetromino= new Block_J(screenX, screenY, playNr, unit);
+            return new Block_J(screenX, screenY, playNr, unit);
         }if(idBlock==4) {
-            tetromino= new Block_T(screenX, screenY, playNr, unit);
+            return new Block_T(screenX, screenY, playNr, unit);
         }if(idBlock==5) {
-            tetromino= new Block_S(screenX, screenY, playNr, unit);
+            return new Block_S(screenX, screenY, playNr, unit);
         }if(idBlock==6) {
-            tetromino= new Block_Z(screenX, screenY, playNr, unit);
+            return new Block_Z(screenX, screenY, playNr, unit);
         }
-
-        pastTetrominos.add(tetromino);
-        tetrisMap.setRotation(0);
-        tetrisMap.setNext(tetromino);
-        tetrisMap.setTetromino(tetromino);
-        tetrisMap.setY(0);
-        tetrisMap.setX(7);
+        return null;
     }
 
     //I CHOOSE USE ::onTouchEvent FROM VIEW INSTEAD OF

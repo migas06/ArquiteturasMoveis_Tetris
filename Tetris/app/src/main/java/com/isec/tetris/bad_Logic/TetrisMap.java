@@ -37,6 +37,9 @@ public class TetrisMap implements Serializable{
 
     boolean gameOver = false;
 
+    int nextTetromino;
+    int actualTetromino;
+
     //CREATE MAP
     //0  - DEFINE THE EMPTY ZONE
     //-1 - DEFINES THE SPACE SORROUNDING THE EMPTY SPACE
@@ -53,6 +56,9 @@ public class TetrisMap implements Serializable{
         }
 
         this.rotation = 0;
+
+        nextTetromino = random();
+        actualTetromino = random();
     }
 
     //EVERY TETROMINO HAVE A DIFERENTE SIZE OF BOOLEAN THEN
@@ -207,7 +213,8 @@ public class TetrisMap implements Serializable{
         for(int i=y-1; i<y-1+yVar; i++){
             for (int j=getX(); j<getX()+xVar; j++){
                 try{
-                    map[i][j] = 0;
+                    if(map[i][j] > 8)
+                        map[i][j] = 0;
                 }catch (ArrayIndexOutOfBoundsException e){
                     continue;}
             }
@@ -364,5 +371,28 @@ public class TetrisMap implements Serializable{
         }
 
         rotation=wannabe+1;
+    }
+
+    public int random(){
+        Random random = new Random();
+        int idBlock = random.nextInt(7);
+
+        return idBlock;
+    }
+
+    public int getNextTetromino() {
+        return nextTetromino;
+    }
+
+    public void setNextTetromino(int nextTetromino) {
+        this.nextTetromino = nextTetromino;
+    }
+
+    public int getActualTetromino() {
+        return actualTetromino;
+    }
+
+    public void setActualTetromino(int actualTetromino) {
+        this.actualTetromino = actualTetromino;
     }
 }

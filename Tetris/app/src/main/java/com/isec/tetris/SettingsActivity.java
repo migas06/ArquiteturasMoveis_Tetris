@@ -88,6 +88,7 @@ public class SettingsActivity extends Activity {
 
                 Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(context, MainActivity.class));
+                finish();
             }
         });
 
