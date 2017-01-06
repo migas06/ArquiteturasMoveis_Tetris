@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/save_and_back"
-            android:src="@drawable/back"/>
+            android:src="@drawable/buttonback"/>
 
         <TextView
             android:gravity="center"

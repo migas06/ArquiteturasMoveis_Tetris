@@ -53,7 +53,7 @@ public class ScoresActivity extends Activity {
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(context, MainActivity.class));
+                finish();
             }
         });
 

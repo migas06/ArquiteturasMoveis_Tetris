@@ -64,7 +64,6 @@ public class GameActivity extends Activity {
         Point point = new Point();
         display.getSize(point);
 
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (sensor == null) {

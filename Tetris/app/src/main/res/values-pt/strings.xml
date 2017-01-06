@@ -73,7 +73,7 @@
     <string name="clear">Linha Tetris:</string>
     <string name="time">Duração:</string>
     <string name="secs">segundos</string>
-    <string name="best_score">Olha-me este resultado incrivel de</string>
+    <string name="best_score">Olha-me este resultado increvel de %1$d pontos %2$d segundos</string>
 
     <!-- Learning -->
     <string name="line">Linha</string>
@@ -81,7 +81,7 @@
     <string name="text_one">"Tetrominos são formas geometrica composta por quatro quadrados cada. Uma sequência aleatória de Tetrominos caí pelo tabuleiro de jogo no chamado poço. O objetivo do jogo é manipular esses tetrominos, movendo-os de um lado para o outro</string>
     <string name="text_two">O objectivo é criar linhas horizontais sem buracos de dez unidades. Quando uma linha é criada a mesma desaparece, e tudo o que está para cima caí. </string>
 
-    <string name="text_four">O controlo padrão define que ao clicar numa das metades do ecrã, o tetrominó seguirá a mesma rota. Para rodar a peça basta clicar no botão de rodar</string>
+    <string name="text_four">O controlo padrão define que ao pressionar (um pressionar longo) numa das metades do ecrã, o tetrominó seguirá a mesma rota. Para rodar a peça basta pressionar e manter o botão de rodar</string>
     <string name="text_three"> Ativando a opção do acelerómetro, o jogo vai usar essa funcionalidade. Inclinado o dispositivo ligeiramente para a equerda fará com que o tetromino faça o mesmo movimento. O contrário também se sucessede. Para rodar é necessário inclinar o dispositivo para o utilizador</string>
 
 </resources>

@@ -39,7 +39,7 @@ public class Statistic extends Activity {
 
         score = (Score) getIntent().getSerializableExtra("score");
 
-        imageView = (ImageView) findViewById(R.id.back);
+        imageView = (ImageView) findViewById(R.id.button_back);
         simple  = (TextView) findViewById(R.id.simple);
         doubleL = (TextView) findViewById(R.id.double_line);
         triple  = (TextView) findViewById(R.id.triple);
@@ -65,7 +65,6 @@ public class Statistic extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
-                startActivity(new Intent(context, MainActivity.class));
             }
         });
 
@@ -73,7 +72,7 @@ public class Statistic extends Activity {
 
     private void share(){
 
-        String message = getResources().getString(R.string.best_score)+" " + score.getScore() + " " +score.getTime() +" "+ getResources().getString(R.string.secs) ;
+        String message = String.format(getResources().getString(R.string.best_score),score.getScore() , score.getTime()) ;
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, message);

@@ -74,14 +74,14 @@
     <string name="clear">Tetris Clear Lines:</string>
     <string name="time">Game Duration:</string>
     <string name="secs">seconds</string>
-    <string name="best_score">OHOH Look this my amazing score</string>
+    <string name="best_score">OHOH Look this my amazing score %1$d points %2$d seconds</string>
 
     <!-- Learning -->
     <string name="tetromino">Tetromino</string>
     <string name="line">Line</string>
     <string name="controller">Controller</string>
-    <string name="text_one">"Tetriminos" are game pieces shaped like tetrominoes, geometric shapes composed of four square blocks each. A random sequence of Tetriminos fall down the playing field (a rectangular vertical shaft, called the "well" or "matrix"). The objective of the game is to manipulate these Tetriminos, by moving each one sideways</string>
+    <string name="text_one">"Tetriminos" are game pieces shaped like tetrominoes, geometric shapes composed of four square blocks each. A random sequence of Tetriminos fall down the playing field. The objective of the game is to manipulate these Tetriminos, by moving each one sideways</string>
     <string name="text_two">The aim of creating a horizontal line of ten units without gaps. When such a line is created, it disappears, and any block above the deleted line will fall. </string>
     <string name="text_three">Activate the accelerometer option and the game will be played with this functionality you have rotate the phone through left and right, for moving the tetromino, and get it into you to rotate the tetromino </string>
-    <string name="text_four">For a default controller, u click on the half of the screen and the side pressed is the same side that tetromino fall. By press rotate button, tetromino will rotate.</string>
+    <string name="text_four">For a default controller, you need long press on the half of the screen and the side pressed is the same side that tetromino fall. By long pressing rotate button, tetromino will rotate.</string>
 </resources>

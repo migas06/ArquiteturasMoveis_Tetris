@@ -2,6 +2,7 @@ package com.isec.tetris.bad_Logic;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,6 +21,8 @@ import android.hardware.SensorManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GestureDetectorCompat;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -56,7 +59,7 @@ import java.util.Random;
  * Created by Miguel on 14-11-2016.
  */
 
-public class TetrisGridView extends SurfaceView implements Runnable, SensorEventListener {
+public class TetrisGridView extends SurfaceView implements Runnable, SensorEventListener{
 
     Thread gameThread = null;
 
@@ -86,8 +89,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     ///FPS FOR ANIMATIONS
     long fps;
 
-    //NEXT TETROMINO
-    Tetromino next;
 
     //(bad) Logic for the game
     TetrisMap tetrisMap;
@@ -113,6 +114,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     Bitmap bitmapSeven;
 
     int level;
+    int updateLevel = 100;
     Score score;
 
     long start;
@@ -145,6 +147,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         tetrisMap = new TetrisMap();
         oponnentMap=new TetrisMap();
+
 
         playNr=0;
         start = System.currentTimeMillis();
@@ -198,6 +201,27 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     @Override
     public void run() {
+
+        Thread levelThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (updateLevel!=0) {
+                    if (updateLevel - 10 < 0)
+                        updateLevel = 0;
+                    else
+                        updateLevel -= 10;
+
+                    System.out.println("updateLevel: " + updateLevel);
+                    try {
+                        Thread.sleep(60000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        levelThread.start();
+
         while(running){
 
             long startFrame = System.currentTimeMillis();
@@ -215,7 +239,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
             //GAVE THE DOWN INTERRUPTION ANIMATION
             try {
-                Thread.sleep(level*100*1,5);
+                Thread.sleep(level*updateLevel+100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -556,9 +580,12 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                         if (rectF.intersect(rotate)) {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(3);
                         }
-                        //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
-                        //'2' REPRESENTS RIGHT ON CLASS
-                        else if (event.getX() > screenX / 2) {
+                        //ALL DOWN
+                        else if (event.getY() > unit*21) {
+                            pastTetrominos.get(pastTetrominos.size() - 1).setMovement(4);
+                            //IF THE USER PRESS RIGHT SIDE OF THE SCREEN
+                            //'2' REPRESENTS RIGHT ON CLASS
+                        }else if (event.getX() > screenX / 2) {
                             pastTetrominos.get(pastTetrominos.size() - 1).setMovement(2);
                             //IF THE USER PRESS LEFT SIDE OF THE SCREEN
                             //'1' REPRESENTS LEFT ON CLASS
@@ -590,7 +617,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
                     pastTetrominos.get(pastTetrominos.size() - 1).setMovement(0);
                     break;
             }
-
         }
         else
             Toast.makeText(context, getResources().getString(R.string.control_error), Toast.LENGTH_SHORT).show();
@@ -633,7 +659,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
         score.setSimpleLine(tetrisMap.getSimpleLine());
         score.setDoubleLine(tetrisMap.getDoubleLine());
-        score.setTripleLine(tetrisMap.getSimpleLine());
+        score.setTripleLine(tetrisMap.getTripleLine());
         score.setClear(tetrisMap.getClear());
         score.setTime( (System.currentTimeMillis() - start) / 1000);
 

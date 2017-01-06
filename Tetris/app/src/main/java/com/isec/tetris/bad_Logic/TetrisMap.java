@@ -334,9 +334,15 @@ public class TetrisMap implements Serializable{
         Random random = new Random();
 
         for(int i=0; i< delete; i++){
-            int y = random.nextInt(21);
-            int x = 3 + (int)(Math.random() * 12);
 
+            while(true) {
+                int y = random.nextInt(21);
+                int x = 3 + (int) (Math.random() * 12);
+
+                if(map[y][x] != 0){
+                    break;
+                }
+            }
             map[y][x] = 0;
         }
     }
@@ -428,5 +434,13 @@ public class TetrisMap implements Serializable{
 
     public int getClear() {
         return clear;
+    }
+
+    public void allDown() {
+        while(true){
+            if(!update()){
+                break;
+            }
+        }
     }
 }

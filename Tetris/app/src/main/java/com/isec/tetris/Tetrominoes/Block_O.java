@@ -20,6 +20,7 @@ public class Block_O extends Tetromino implements Serializable {
     public final int STOP   = 0;
     public final int LEFT   = 1;
     public final int RIGHT  = 2;
+    public final int DOWN   = 4;
 
     //MOVEMENT
     int tetrominoMove;
@@ -62,8 +63,12 @@ public class Block_O extends Tetromino implements Serializable {
             if (tetrominoMove == RIGHT) {
                 tetrisMap.setX(tetrisMap.getX() + 1);
             }
+            if (tetrominoMove ==DOWN){
+                tetrisMap.allDown();
+            }
 
-            return true;
+
+        return true;
 
     }
 

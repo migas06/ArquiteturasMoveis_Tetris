@@ -21,6 +21,7 @@ public class Block_J extends Tetromino implements Serializable {
     public final int LEFT   = 1;
     public final int RIGHT  = 2;
     public final int ROTATE = 3;
+    public final int DOWN   = 4;
 
     int tetrominoMove;
 
@@ -97,8 +98,12 @@ public class Block_J extends Tetromino implements Serializable {
             if(tetrominoMove == ROTATE){
                 tetrisMap.rotate();
             }
+            if (tetrominoMove ==DOWN){
+                tetrisMap.allDown();
+            }
 
-            return true;
+
+        return true;
     }
 
 

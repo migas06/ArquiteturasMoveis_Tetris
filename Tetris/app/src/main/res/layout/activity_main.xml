@@ -110,19 +110,6 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:text="@string/credits"
-            android:drawableTop="@drawable/credits"
-            android:layout_width="match_parent"
-            android:id="@+id/button_credits"
-            android:typeface="monospace"
-            android:textSize="15dp"
-            android:textColor="@android:color/white">
-
-        </Button>
-        <Button
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
             android:text="@string/how_to_play"
             android:drawableTop="@drawable/learn"
             android:layout_width="match_parent"
@@ -130,7 +117,18 @@
             android:typeface="monospace"
             android:textSize="15dp"
             android:textColor="@android:color/white">
-
+        </Button>
+        <Button
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/credits"
+            android:drawableTop="@drawable/credits"
+            android:layout_width="match_parent"
+            android:id="@+id/button_credits"
+            android:typeface="monospace"
+            android:textSize="15dp"
+            android:textColor="@android:color/white">
         </Button>
 
     </LinearLayout>

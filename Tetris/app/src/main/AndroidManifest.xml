@@ -28,20 +28,25 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CreditsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SettingsActivity" />
+
+        <activity android:name=".SettingsActivity"
+                  android:screenOrientation="portrait"/>
+
         <activity android:name=".ScoresActivity" />
-        <activity
-            android:name=".MultiplayerActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".LearningActivity" />
-        <activity android:name=".DataScoresRelated.Statistic"></activity>
+
+        <activity android:name=".MultiplayerActivity"
+                  android:screenOrientation="portrait" />
+        <activity android:name=".LearningActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".DataScoresRelated.Statistic"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -31,6 +31,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.Enumeration;
 
 
@@ -120,6 +121,8 @@ public class ServerFragment extends Fragment {
         thread = new Thread (new Runnable() {
             @Override
             public void run() {
+
+            while (true) {
                 try {
                     serverSocket = new ServerSocket();
                     serverSocket.setReuseAddress(true);
@@ -135,13 +138,15 @@ public class ServerFragment extends Fragment {
 
                     getActivity().finish();
                     startActivity(new Intent(getActivity(), GameActivity.class));
-
-                } catch (Exception e) {
+                }catch (SocketTimeoutException e){
+                        System.out.println("timeout");
+                }
+                catch(Exception e){
                     e.printStackTrace();
                     serverSocket = null;
                     socketGame = null;
                 }
-
+            }
             }
         });
         thread.start();
