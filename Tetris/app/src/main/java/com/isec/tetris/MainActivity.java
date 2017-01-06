@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     Button buttonSettings;
     Button buttonScores;
     Button buttonCredits;
-    //Button buttonLearn;
+    Button buttonLearn;
 
     Intent intent;
     Context context = this;
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
         buttonSettings    = (Button) findViewById(R.id.button_settings);
         buttonScores      = (Button) findViewById(R.id.button_scores);
         buttonCredits     = (Button) findViewById(R.id.button_credits);
-        //buttonLearn       = (Button) findViewById(R.id.button_learning);
+        buttonLearn       = (Button) findViewById(R.id.button_learning);
 
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +73,14 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(context, MultiplayerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLearn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(context, LearningActivity.class);
                 startActivity(intent);
             }
         });

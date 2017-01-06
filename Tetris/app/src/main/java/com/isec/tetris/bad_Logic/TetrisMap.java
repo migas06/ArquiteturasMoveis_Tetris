@@ -31,7 +31,13 @@ public class TetrisMap implements Serializable{
     int rotation;
 
     int linesDelete;
-    int spacesdelete;
+
+
+    //STATISTIC
+    int simpleLine;
+    int doubleLine;
+    int tripleLine;
+    int clear;
 
     Tetromino tetromino;
 
@@ -46,6 +52,10 @@ public class TetrisMap implements Serializable{
     //     TETROMINOES CANNOT PASS THAT ZONE
     public TetrisMap() {
         this.score = 0;
+        simpleLine = 0;
+        doubleLine = 0;
+        tripleLine = 0;
+        clear = 0;
 
         for(int i = 0; i<22; i++){
             for(int j = 0; j<16; j++){
@@ -275,14 +285,24 @@ public class TetrisMap implements Serializable{
             }
         }
 
-        if(linesDelete==1)
-            score+=100;
-        if(linesDelete==2)
+        if(linesDelete==1) {
+            simpleLine++;
+            score += 100;
+        }
+        if(linesDelete==2){
+            doubleLine++;
             score+=300;
-        if(linesDelete==3)
+        }
+
+        if(linesDelete==3){
+            tripleLine++;
             score+=500;
-        if(linesDelete==4)
+        }
+
+        if(linesDelete==4){
+            clear++;
             score+=800;
+        }
     }
 
     private void deleteLine(int lineNumber) {
@@ -394,5 +414,19 @@ public class TetrisMap implements Serializable{
 
     public void setActualTetromino(int actualTetromino) {
         this.actualTetromino = actualTetromino;
+    }
+
+    public int getSimpleLine() { return simpleLine; }
+
+    public int getDoubleLine() {
+        return doubleLine;
+    }
+
+    public int getTripleLine() {
+        return tripleLine;
+    }
+
+    public int getClear() {
+        return clear;
     }
 }

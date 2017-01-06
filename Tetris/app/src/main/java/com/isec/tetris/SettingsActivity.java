@@ -118,4 +118,9 @@ public class SettingsActivity extends Activity {
         textView.setText(getResources().getString(R.string.level) +" "+ progress + ", "+ hint);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_statistic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@drawable/background_app"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.isec.tetris.DataScoresRelated.Statistic"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/back"
+            android:id="@+id/back"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_weight="50"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="40sp"
+            android:textColor="@android:color/white"
+            android:typeface="monospace"
+            android:gravity="center"
+            android:text="@string/statistic"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"></LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:typeface="monospace"
+        android:gravity="center"
+        android:text="@string/time"
+        android:textSize="20sp"
+        android:background="@drawable/trans_back_for_words"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"></LinearLayout>
+
+    <TextView
+        android:background="@drawable/trans_back_for_words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/simple"
+        android:typeface="monospace"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="@string/simple"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:background="@drawable/trans_back_for_words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/double_line"
+        android:typeface="monospace"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="@string/double_line"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:background="@drawable/trans_back_for_words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/triple"
+        android:typeface="monospace"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="@string/triple"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:background="@drawable/trans_back_for_words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clear"
+        android:typeface="monospace"
+        android:gravity="center"
+        android:text="@string/clear"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"></LinearLayout>
+
+    <Button
+        android:drawableLeft="@drawable/share"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:background="@drawable/button_game"
+        android:text="@string/share_button"
+        android:textColor="@android:color/white"
+        android:typeface="monospace"
+        android:id="@+id/button_share"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"></LinearLayout>
+
+</LinearLayout>

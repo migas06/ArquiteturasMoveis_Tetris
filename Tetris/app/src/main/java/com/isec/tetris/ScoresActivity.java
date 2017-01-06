@@ -2,18 +2,19 @@ package com.isec.tetris;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.isec.tetris.DataScoresRelated.Score;
 import com.isec.tetris.DataScoresRelated.ScoreAdapter;
+import com.isec.tetris.DataScoresRelated.Statistic;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -23,7 +24,6 @@ import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class ScoresActivity extends Activity {
@@ -56,6 +56,16 @@ public class ScoresActivity extends Activity {
                 startActivity(new Intent(context, MainActivity.class));
             }
         });
+
+        listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(context, Statistic.class);
+                        intent.putExtra("score", list.get(i));
+                        startActivity(intent);
+
+            }
+        });
     }
 
     public ArrayList<Score> readScore()  {
@@ -76,5 +86,10 @@ public class ScoresActivity extends Activity {
         }
 
         return list;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

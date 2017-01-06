@@ -17,11 +17,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.isec.tetris.DataScoresRelated.Score;
@@ -37,6 +39,7 @@ import com.isec.tetris.Tetrominoes.Block_T;
 import com.isec.tetris.Tetrominoes.Block_Z;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -45,6 +48,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -111,6 +115,8 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
     int level;
     Score score;
 
+    long start;
+
     SensorManager sensorManager;
     Sensor sensor;
 
@@ -141,6 +147,7 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         oponnentMap=new TetrisMap();
 
         playNr=0;
+        start = System.currentTimeMillis();
 
         bitmapRotate = BitmapFactory.decodeResource(context.getResources(), R.drawable.rotate);
         bitmapBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_app);
@@ -388,7 +395,6 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     }
 
-
     //DEPENDING ON USER _ CLIENT OR SERVER
     //SERVER ALWAYS START SENDING TETRISMAP (FROM LOGIC)
     //NEXT SERVER AWAITS FOR CLIENT MAP
@@ -625,7 +631,11 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
 
     private void writeScoreIntoFile() {
 
-        //Toast.makeText(context, getResources().getString(R.string.request), Toast.LENGTH_LONG).show();
+        score.setSimpleLine(tetrisMap.getSimpleLine());
+        score.setDoubleLine(tetrisMap.getDoubleLine());
+        score.setTripleLine(tetrisMap.getSimpleLine());
+        score.setClear(tetrisMap.getClear());
+        score.setTime( (System.currentTimeMillis() - start) / 1000);
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
 
@@ -643,12 +653,21 @@ public class TetrisGridView extends SurfaceView implements Runnable, SensorEvent
         if(score.readScore() != null)
             list = score.readScore();
 
+        if(list.size()>=10){
+            for(int i=0; i<list.size(); i++){
+                if (score.getScore() >= list.get(i).getScore()){
+                    list.remove(list.size()-1);
+                    list.add(score);
+                }
+            }
+        }else {
+            list.add(score);
+        }
+
         try {
             OutputStream fOutputStream = new FileOutputStream(score.getPath());
             OutputStream outputStream = new BufferedOutputStream(fOutputStream);
             ObjectOutput objectOutput = new ObjectOutputStream(outputStream);
-
-            list.add(score);
 
             objectOutput.writeObject(list);
             objectOutput.close();

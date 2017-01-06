@@ -71,6 +71,6 @@ public class CreditsActivity extends Activity {
     public void onBackPressed() {
         if(intro != null)
             stopDance();
-
+        finish();
     }
 }

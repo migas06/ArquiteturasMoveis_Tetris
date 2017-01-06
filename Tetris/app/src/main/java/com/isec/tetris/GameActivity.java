@@ -3,22 +3,37 @@ package com.isec.tetris;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Display;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.isec.tetris.Multiplayer.SocketHandler;
 import com.isec.tetris.bad_Logic.TetrisGridView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
+import java.util.Random;
 
 public class GameActivity extends Activity {
 
@@ -30,10 +45,14 @@ public class GameActivity extends Activity {
 
     boolean song;
 
+    final int REQUEST_CODE_CAPTURE_PERM = 1234;
+    MediaProjectionManager mMediaProjectionManager;
+    MediaProjection mMediaProjection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+
 
         SharedPreferences sharedPreferences = getSharedPreferences(getResources().getString(R.string.shared_preference), Context.MODE_PRIVATE);
         song = sharedPreferences.getBoolean("song", false);
@@ -55,7 +74,7 @@ public class GameActivity extends Activity {
             return;
         }
 
-        tetrisGrid = new TetrisGridView(this, point.x, point.y, sensor, sensorManager );
+        tetrisGrid = new TetrisGridView(this, point.x, point.y, sensor, sensorManager);
 
         //KEEP THE SCREEN ALWAYS ON
         tetrisGrid.setKeepScreenOn(true);
@@ -89,6 +108,9 @@ public class GameActivity extends Activity {
             stopDance();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
 }

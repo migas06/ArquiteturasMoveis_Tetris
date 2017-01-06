@@ -15,7 +15,7 @@
     <string name="multiplayer">Multijogador</string>
     <string name="settings">Opções</string>
     <string name="scores">Pontos</string>
-    <string name="how_to_play">aprender</string>
+    <string name="how_to_play">Aprender</string>
 
     <!--Credits-->
     <string name="presents">Apresenta:</string>
@@ -64,5 +64,24 @@
     <string name="come_play_with_me">Vem jogar TETRISEC comigo no endereço: </string>
     <string name="no_internet">Sem conexão a uma rede.</string>
     <string name="connect">Ligar-se</string>
+
+    <!-- statistic -->
+    <string name="statistic">Estatística</string>
+    <string name="simple">Linhas Simples:</string>
+    <string name="double_line">Linhas Duplas:</string>
+    <string name="triple">Linhas Triplas:</string>
+    <string name="clear">Linha Tetris:</string>
+    <string name="time">Duração:</string>
+    <string name="secs">segundos</string>
+    <string name="best_score">Olha-me este resultado incrivel de</string>
+
+    <!-- Learning -->
+    <string name="line">Linha</string>
+    <string name="controller">Controlador</string>
+    <string name="text_one">"Tetrominos são formas geometrica composta por quatro quadrados cada. Uma sequência aleatória de Tetrominos caí pelo tabuleiro de jogo no chamado poço. O objetivo do jogo é manipular esses tetrominos, movendo-os de um lado para o outro</string>
+    <string name="text_two">O objectivo é criar linhas horizontais sem buracos de dez unidades. Quando uma linha é criada a mesma desaparece, e tudo o que está para cima caí. </string>
+
+    <string name="text_four">O controlo padrão define que ao clicar numa das metades do ecrã, o tetrominó seguirá a mesma rota. Para rodar a peça basta clicar no botão de rodar</string>
+    <string name="text_three"> Ativando a opção do acelerómetro, o jogo vai usar essa funcionalidade. Inclinado o dispositivo ligeiramente para a equerda fará com que o tetromino faça o mesmo movimento. O contrário também se sucessede. Para rodar é necessário inclinar o dispositivo para o utilizador</string>
 
 </resources>

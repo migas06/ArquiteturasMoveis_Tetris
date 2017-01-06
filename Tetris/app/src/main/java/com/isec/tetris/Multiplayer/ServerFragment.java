@@ -120,13 +120,13 @@ public class ServerFragment extends Fragment {
         thread = new Thread (new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     serverSocket = new ServerSocket();
                     serverSocket.setReuseAddress(true);
                     serverSocket.bind(new InetSocketAddress(PORT));
                     socketGame = serverSocket.accept();
                     serverSocket.close();
-                    serverSocket=null;
+                    serverSocket = null;
                     socketGame.setSoTimeout(10000);
 
                     SocketHandler app = (SocketHandler) getActivity().getApplication();
@@ -136,11 +136,12 @@ public class ServerFragment extends Fragment {
                     getActivity().finish();
                     startActivity(new Intent(getActivity(), GameActivity.class));
 
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     serverSocket = null;
                     socketGame = null;
                 }
+
             }
         });
         thread.start();

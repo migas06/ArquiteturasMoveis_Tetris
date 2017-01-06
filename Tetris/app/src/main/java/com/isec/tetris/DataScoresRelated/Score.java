@@ -27,6 +27,13 @@ public class Score implements Serializable, Comparable<Score> {
     String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/scores.obj";
     ArrayList<Score> list = new ArrayList<>();
 
+    int simpleLine;
+    int doubleLine;
+    int tripleLine;
+    int clear;
+
+    long time;
+
     public Score(int score){
         this.score = score;
         this.today = Calendar.getInstance();
@@ -69,5 +76,45 @@ public class Score implements Serializable, Comparable<Score> {
     @Override
     public int compareTo(Score score) {
         return ( score.getScore()- this.score);
+    }
+
+    public void setSimpleLine(int simpleLine) {
+        this.simpleLine = simpleLine;
+    }
+
+    public void setDoubleLine(int doubleLine) {
+        this.doubleLine = doubleLine;
+    }
+
+    public void setTripleLine(int tripleLine) {
+        this.tripleLine = tripleLine;
+    }
+
+    public void setClear(int clear) {
+        this.clear = clear;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public int getSimpleLine() {
+        return simpleLine;
+    }
+
+    public int getDoubleLine() {
+        return doubleLine;
+    }
+
+    public int getTripleLine() {
+        return tripleLine;
+    }
+
+    public int getClear() {
+        return clear;
+    }
+
+    public long getTime() {
+        return time;
     }
 }
